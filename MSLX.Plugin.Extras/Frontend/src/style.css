@@ -1,0 +1,20 @@
+/* 插件全局样式：随 mslx-plugin-entry.js 注入宿主页面，类名统一 extras- 前缀避免污染 */
+
+.extras-card {
+  background: var(--td-bg-color-container);
+  border: 1px solid var(--td-component-border);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.extras-title {
+  color: var(--td-text-color-primary);
+}
+
+.extras-muted {
+  color: var(--td-text-color-secondary);
+}
+
+.extras-placeholder {
+  color: var(--td-text-color-placeholder);
+}

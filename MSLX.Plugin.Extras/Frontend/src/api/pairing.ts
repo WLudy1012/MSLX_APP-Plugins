@@ -1,0 +1,33 @@
+import request from 'mslx-request';
+
+import type { CreatePairCodeParams, PairCodeModel, PairedDeviceModel } from './model/pairing';
+
+// 扫码配对端点（由本插件后端提供，需 admin 会话；鉴权头/解包由宿主 request 拦截器自动完成）
+
+/** 生成一次性配对码（TTL 120s，仅服务端内存保存） */
+export async function postPairCode(params: CreatePairCodeParams): Promise<PairCodeModel> {
+  return await request.post({
+    url: '/api/plugins/pair/codes',
+    data: params,
+  });
+}
+
+/** 已配对设备列表（脱敏） */
+export async function getPairedDevices(): Promise<PairedDeviceModel[]> {
+  return await request.get({
+    url: '/api/plugins/pair/devices',
+  });
+}
+
+/** 撤销设备（删除对应配对用户，API Key 立即失效，不可逆） */
+export async function revokePairDevice(deviceId: string) {
+  return await request.post({
+    url: `/api/plugins/pair/devices/${encodeURIComponent(deviceId)}/revoke`,
+  });
+}
+
+/** 实例资源多选器数据源：复用 Daemon 既有实例列表接口，映射为后端要求的 server:xx 资源标识 */
+export async function getInstanceOptions(): Promise<{ label: string; value: string }[]> {
+  const list = await request.get({ url: '/api/instance/list' });
+  return (list || []).map((i: any) => ({ label: `${i.name} (#${i.id})`, value: `server:${i.id}` }));
+}

@@ -1,8 +1,9 @@
 ﻿# Build and package the MSLX unified extras plugin (pairing + server-icon) into an installable single-file DLL.
 # Usage: powershell -ExecutionPolicy Bypass -File pack.ps1 [-SdkDir <MSLX.SDK dir>] [-Version <x.y.z>]
 param(
-    [string]$SdkDir = '',   # 覆盖 MSLX.SDK 源码位置（默认自动探测，见 csproj）
-    [string]$Version = ''   # 覆盖版本号（发布时由 tag 注入）
+    [string]$SdkDir = '',      # 覆盖 MSLX.SDK 源码位置（默认自动探测，见 csproj）
+    [string]$Version = '',     # 覆盖版本号（发布时由 tag 注入）
+    [switch]$BuildFrontend     # 打包前重建面板页面前端（需要 pnpm；dist 已入库，常规发版无需）
 )
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
@@ -10,7 +11,31 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $proj = Join-Path $root 'MSLX.Plugin.Extras.csproj'
 $dist = Join-Path $root 'dist'
 
-Write-Host '[1/3] Building plugin (Release)...'
+# 面板页面前端产物（随 DLL 内嵌分发）：entry 与插件图标（图标源：Frontend/public/icon.png，构建自动拷贝到 dist）
+$feDir = Join-Path $root 'Frontend'
+$feEntry = Join-Path $feDir 'dist\mslx-plugin-entry.js'
+$feIcon = Join-Path $feDir 'dist\icon.png'
+
+if ($BuildFrontend) {
+    Write-Host '[0/3] Building frontend (pnpm install + build)...'
+    Push-Location $feDir
+    try {
+        pnpm install
+        if ($LASTEXITCODE -ne 0) { throw 'pnpm install failed' }
+        pnpm build
+        if ($LASTEXITCODE -ne 0) { throw 'pnpm build failed' }
+    }
+    finally { Pop-Location }
+}
+
+if (-not (Test-Path $feEntry)) {
+    throw "前端产物缺失: $feEntry。请先执行: cd Frontend; pnpm install; pnpm build（或以 -BuildFrontend 运行本脚本）"
+}
+if (-not (Test-Path $feIcon)) {
+    throw "插件图标缺失: $feIcon（由 Frontend/public/icon.png 在 pnpm build 时自动拷贝）"
+}
+
+Write-Host '[1/3] Building plugin (Release; 内嵌 Frontend/dist)...'
 $buildArgs = @($proj, '-c', 'Release', '--nologo')
 if ($SdkDir) { $buildArgs += "-p:MSLX_SDK_DIR=$SdkDir" }
 if ($Version) { $buildArgs += "-p:Version=$Version" }
@@ -37,6 +62,9 @@ Write-Host ''
 Write-Host 'Done. Install artifacts:'
 Write-Host "  dll : $(Join-Path $dist 'MSLX.Plugin.Extras.dll')"
 Write-Host "  zip : $zip"
+Write-Host ''
+Write-Host "Embedded frontend: $feEntry"
+Write-Host "Embedded icon    : $feIcon"
 Write-Host ''
 Write-Host 'Install: copy the dll into <Daemon AppData>/Plugins/ and restart the daemon,'
 Write-Host 'or use the plugin manager download/install API with a public URL to the dll.'

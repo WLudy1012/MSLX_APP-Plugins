@@ -6,8 +6,10 @@
     <Nullable>enable</Nullable>
     <AssemblyName>MSLX.Plugin.Extras</AssemblyName>
     <RootNamespace>MSLX.Plugin.Extras</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <IsPackable>false</IsPackable>
+    <!-- 生成内嵌文件清单：Daemon 面板用 ManifestEmbeddedFileProvider(assembly, "Frontend/dist") 下发插件前端 -->
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -34,11 +36,25 @@
   <ItemGroup>
     <!-- 与 Daemon 主程序同版本：插件内 ALC 把依赖委托回主程序已加载的 Newtonsoft.Json -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <!-- 提供 GenerateEmbeddedFilesManifest 构建目标（清单随程序集内嵌，运行时由 Daemon 侧读取） -->
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- 插件图标（硫磺史莱姆）作为程序集内嵌资源打包进 DLL，运行时读取为 data URI 供面板渲染 -->
-    <EmbeddedResource Include="Assets\sulfur.png" />
+    <!-- 插件前端工程（源码 + 构建产物），除 dist 外不参与编译/输出 -->
+    <Content Remove="Frontend\**" />
+    <None Remove="Frontend\**" />
+    <None Include="Frontend\**">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- 前端构建产物（Frontend/dist/mslx-plugin-entry.js 等）内嵌进 DLL，面板经 /plugins/{id}/{version}/ 动态加载 -->
+    <EmbeddedResource Include="Frontend\dist\**\*" />
+  </ItemGroup>
+
+  <!-- 插件图标（硫磺史莱姆）源文件保留在 Assets/sulfur.png（隐式 None 项，无需配置）；
+       运行期由 Frontend/dist/icon.png 经插件静态资源管线下发（Frontend\dist\** 已整体内嵌）。 -->
 
 </Project>

@@ -1,0 +1,30 @@
+{
+  "name": "mslx-plugin-extras-frontend",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview --port 5001 --strictPort"
+  },
+  "dependencies": {
+    "qrcode.vue": "^3.4.1",
+    "vue": "^3.5.32"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "@vue/tsconfig": "^0.9.1",
+    "tdesign-icons-vue-next": "^0.4.4",
+    "tdesign-vue-next": "^1.19.1",
+    "typescript": "~6.0.2",
+    "unocss": "^66.6.8",
+    "vite": "^7.3.2",
+    "vite-plugin-css-injected-by-js": "^5.0.1",
+    "vite-plugin-external": "^6.2.2",
+    "vue-tsc": "^3.2.7"
+  }
+}

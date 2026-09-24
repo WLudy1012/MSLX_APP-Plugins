@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Routing;
 using MSLX.Plugin.Pairing;
 using MSLX.Plugin.ServerIcon;
@@ -13,7 +12,8 @@ namespace MSLX.Plugin.Extras;
 /// 在 OnRegisterEndpoints 中同时挂载两组端点（路由前缀 <c>/api/plugins/pair</c> 与
 /// <c>/api/plugins/icon</c> 互不冲突）。两组服务各自保持原有鉴权口径与生命周期。
 ///
-/// 插件图标为内嵌在程序集内的硫磺史莱姆 PNG，运行时转换为 data URI 供面板 <c>&lt;img&gt;</c> 渲染。
+/// 插件图标为硫磺史莱姆 PNG（Frontend/dist/icon.png，随前端产物内嵌）；Icon 返回相对文件名，
+/// Daemon 插件列表接口会拼成 <c>/plugins/{id}/{version}/icon.png</c> 由静态资源管线匿名下发。
 /// </summary>
 public sealed class ExtrasPlugin : IPlugin
 {
@@ -22,10 +22,10 @@ public sealed class ExtrasPlugin : IPlugin
     public string Name => "MSLX 增强插件";
 
     public string Description =>
-        "扫码配对（一次性二维码、设备独立可撤销/可过期）+ 服务端图标（本地 server-icon.png 优先、" +
-        "第三方状态 API 回退并 24 小时缓存），两组能力合并在单个插件内提供。";
+        "扫码配对（一次性二维码、设备独立可撤销/可过期，面板内置可视化页面）+ 服务端图标" +
+        "（本地 server-icon.png 优先、第三方状态 API 回退并 24 小时缓存），两组能力合并在单个插件内提供。";
 
-    public string Version => "1.0.0";
+    public string Version => "1.1.0";
 
     public string MinSDKVersion => "1.5.10.2";
 
@@ -35,13 +35,12 @@ public sealed class ExtrasPlugin : IPlugin
 
     public string PluginUrl => "https://github.com/WLudy1012/MSLX_APP-Android";
 
-    /// <summary>插件图标：内嵌硫磺史莱姆 PNG 转 data URI（懒加载并缓存）。</summary>
-    public string Icon => _icon ??= LoadIconDataUri();
+    /// <summary>插件图标：相对文件名（Daemon 会拼成 /plugins/{id}/{version}/icon.png 下发 Frontend/dist/icon.png）。</summary>
+    public string Icon => "icon.png";
 
     private PairingService? _pairing;
     private ServerIconService? _serverIcon;
     private bool _pairingInitialized;
-    private static string? _icon;
 
     public void OnLoad()
     {
@@ -73,29 +72,4 @@ public sealed class ExtrasPlugin : IPlugin
 
         global::MSLX.SDK.MSLX.Logger.Info("[Extras] 增强插件已挂载 /api/plugins/pair 与 /api/plugins/icon");
     }
-
-    private static string LoadIconDataUri()
-    {
-        try
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            // 资源逻辑名形如 MSLX.Plugin.Extras.Assets.sulfur.png，按后缀匹配更稳妥
-            var resourceName = Array.Find(assembly.GetManifestResourceNames(),
-                n => n.EndsWith("sulfur.png", StringComparison.OrdinalIgnoreCase));
-            if (resourceName == null) return DefaultIconUrl;
-
-            using var stream = assembly.GetManifestResourceStream(resourceName);
-            if (stream == null) return DefaultIconUrl;
-
-            using var ms = new MemoryStream();
-            stream.CopyTo(ms);
-            return $"data:image/png;base64,{Convert.ToBase64String(ms.ToArray())}";
-        }
-        catch
-        {
-            return DefaultIconUrl;
-        }
-    }
-
-    private const string DefaultIconUrl = "https://www.mslmc.cn/logo.png";
 }
