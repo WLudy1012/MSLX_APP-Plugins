@@ -6,7 +6,7 @@
 main:
   push:
     - docker:
-        image: dotnet/sdk:10.0
+        image: mcr.microsoft.com/dotnet/sdk:10.0
         volumes:
           - /root/.nuget:cow
       stages:
@@ -48,7 +48,7 @@ main:
 $:
   tag_push:
     - docker:
-        image: dotnet/sdk:10.0
+        image: mcr.microsoft.com/dotnet/sdk:10.0
         volumes:
           - /root/.nuget:cow
       stages:
