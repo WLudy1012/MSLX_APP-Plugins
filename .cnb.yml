@@ -1,0 +1,141 @@
+# CNB（cnb.cool）云构建：main push 构建校验；v* tag 构建并发布 CNB Release（dll + zip）。
+# 本仓库为 GitHub WLudy1012/MSLX_APP-Plugins 的 CNB 直推镜像；
+# MSLX.SDK 源码需从 GitHub（MSLTeam/MSLX dev）检出（本仓库 csproj 以 ProjectReference 引用），
+# 插件面板前端产物 Frontend/dist 已入库，构建无需 Node。
+
+main:
+  push:
+    - docker:
+        image: dotnet/sdk:10.0
+        volumes:
+          - /root/.nuget:cow
+      stages:
+        - name: fetch MSLX SDK source
+          script: |
+            set -eu
+            clone_sdk() {
+              for url in \
+                https://github.com/MSLTeam/MSLX.git \
+                https://gh-proxy.com/https://github.com/MSLTeam/MSLX.git \
+                https://ghfast.top/https://github.com/MSLTeam/MSLX.git; do
+                echo "==> try clone: $url"
+                if git clone --depth 1 -b dev "$url" MSLX-dev 2>/dev/null; then
+                  return 0
+                fi
+                rm -rf MSLX-dev
+              done
+              return 1
+            }
+            clone_sdk || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 不可达？）" >&2; exit 1; }
+            ls MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
+
+        - name: build plugin (release)
+          script: |
+            set -eu
+            dotnet build MSLX.Plugin.Extras/MSLX.Plugin.Extras.csproj \
+              -c Release --nologo \
+              -p:MSLX_SDK_DIR="$PWD/MSLX-dev/MSLX.SDK"
+
+        - name: verify embedded frontend
+          script: |
+            set -eu
+            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.Extras.dll
+            [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
+            grep -aq 'mslx-plugin-entry.js' "$DLL"
+            grep -aq 'icon.png' "$DLL"
+            ls -lh "$DLL"
+
+$:
+  tag_push:
+    - docker:
+        image: dotnet/sdk:10.0
+        volumes:
+          - /root/.nuget:cow
+      stages:
+        - name: fetch MSLX SDK source
+          script: |
+            set -eu
+            clone_sdk() {
+              for url in \
+                https://github.com/MSLTeam/MSLX.git \
+                https://gh-proxy.com/https://github.com/MSLTeam/MSLX.git \
+                https://ghfast.top/https://github.com/MSLTeam/MSLX.git; do
+                echo "==> try clone: $url"
+                if git clone --depth 1 -b dev "$url" MSLX-dev 2>/dev/null; then
+                  return 0
+                fi
+                rm -rf MSLX-dev
+              done
+              return 1
+            }
+            clone_sdk || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 不可达？）" >&2; exit 1; }
+            ls MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
+
+        - name: build plugin (tag version)
+          script: |
+            set -eu
+            CUR_TAG=$(git describe --tags --exact-match 2>/dev/null || echo "")
+            [ -n "$CUR_TAG" ] || { echo "ERROR: 无法确定当前 tag（构建需要精确 tag）" >&2; exit 1; }
+            VER=${CUR_TAG#v}
+            echo "tag=$CUR_TAG version=$VER"
+            dotnet build MSLX.Plugin.Extras/MSLX.Plugin.Extras.csproj \
+              -c Release --nologo \
+              -p:MSLX_SDK_DIR="$PWD/MSLX-dev/MSLX.SDK" \
+              -p:Version="$VER"
+
+        - name: collect artifacts
+          script: |
+            set -eu
+            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.Extras.dll
+            [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
+            grep -aq 'mslx-plugin-entry.js' "$DLL"
+            grep -aq 'icon.png' "$DLL"
+            cp "$DLL" MSLX.Plugin.Extras.dll
+            if ! command -v zip >/dev/null 2>&1; then
+              apt-get update -qq && apt-get install -y -qq zip
+            fi
+            zip -q MSLX.Plugin.Extras.zip MSLX.Plugin.Extras.dll MSLX.Plugin.Extras/README.md
+            ls -lh MSLX.Plugin.Extras.dll MSLX.Plugin.Extras.zip
+
+        - name: prepare release notes
+          script: |
+            set -eu
+            CUR_TAG=$(git describe --tags --exact-match 2>/dev/null || echo "$CNB_BRANCH")
+            git fetch --tags --force --quiet 2>/dev/null || true
+            PREV_TAG=$(git tag --list 'v*' | grep -v "^${CUR_TAG}$" | sort -V | tail -1 || true)
+            echo "当前 tag=$CUR_TAG 上一版本=${PREV_TAG:-<无>}"
+            {
+              echo "# MSLX.Plugin.Extras $CUR_TAG"
+              echo ""
+              if [ -n "$PREV_TAG" ]; then
+                echo "自 \`$PREV_TAG\` 以来的提交："
+                echo ""
+                git log --no-merges --pretty=format:"- %s" "${PREV_TAG}..${CUR_TAG}"
+              else
+                echo "> 未能确定上一版本 tag，列出最近 15 条提交。"
+                echo ""
+                git log -n 15 --no-merges --pretty=format:"- %s" "${CUR_TAG}"
+              fi
+              echo ""
+              echo ""
+              echo "## 产物"
+              echo ""
+              echo "| 文件 | 说明 | SHA-256 |"
+              echo "| --- | --- | --- |"
+              echo "| \`MSLX.Plugin.Extras.dll\` | 插件本体（含内嵌面板页面），放入 Daemon \`Plugins/\` 安装 | \`$(sha256sum MSLX.Plugin.Extras.dll | awk '{print $1}')\` |"
+              echo "| \`MSLX.Plugin.Extras.zip\` | DLL + README 压缩包 | \`$(sha256sum MSLX.Plugin.Extras.zip | awk '{print $1}')\` |"
+            } > CNB_RELEASE.md
+            cat CNB_RELEASE.md
+
+        - name: create cnb release
+          type: git:release
+          options:
+            descriptionFromFile: CNB_RELEASE.md
+            latest: true
+
+        - name: upload release assets
+          image: cnbcool/attachments:latest
+          settings:
+            attachments:
+              - MSLX.Plugin.Extras.dll
+              - MSLX.Plugin.Extras.zip

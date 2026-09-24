@@ -62,3 +62,10 @@ pnpm build        # 产出 dist/mslx-plugin-entry.js（单文件 ESM，样式经
 
 推送 `v*` 标签触发 GitHub Actions：检出 `MSLTeam/MSLX`（dev）提供 SDK → 构建打包 → 发布
 Release（附 `dll` 与 `zip`）；另行 `workflow_dispatch` 可手动构建产物（不上 Release）。
+
+CNB（cnb.cool）镜像仓库 `WLudy/MSLX_APP-Plugins`（本仓库直推）：`.cnb.yml` 配置 `main` 推送做构建校验、
+`v*` 标签构建并发布 CNB Release（同名 `dll` + `zip`）。CNB 下载地址：
+
+```
+https://cnb.cool/WLudy/MSLX_APP-Plugins/-/releases/download/{tag}/MSLX.Plugin.Extras.dll
+```

@@ -1,4 +1,4 @@
-﻿# Build and package the MSLX unified extras plugin (pairing + server-icon) into an installable single-file DLL.
+# Build and package the MSLX unified extras plugin (pairing + server-icon) into an installable single-file DLL.
 # Usage: powershell -ExecutionPolicy Bypass -File pack.ps1 [-SdkDir <MSLX.SDK dir>] [-Version <x.y.z>]
 param(
     [string]$SdkDir = '',      # 覆盖 MSLX.SDK 源码位置（默认自动探测，见 csproj）
