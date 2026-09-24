@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>MSLX.Plugin.Extras</AssemblyName>
+    <RootNamespace>MSLX.Plugin.Extras</RootNamespace>
+    <Version>1.0.0</Version>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- MSLX.SDK 引用：按以下顺序自动探测（均不存在时报错，可用 -p:MSLX_SDK_DIR=... 覆盖）：
+         1) 本仓库根下的 MSLX-dev/MSLX.SDK（CI 检出位置）；
+         2) 与本仓库平级的 MSLX-dev/MSLX.SDK；
+         3) 与本仓库平级的 MSLX-Android/MSLX-dev/MSLX.SDK（App 工作区布局）。 -->
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)..\MSLX-dev\MSLX.SDK\MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)..\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)..\..\MSLX-dev\MSLX.SDK\MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)..\..\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)..\..\MSLX-Android\MSLX-dev\MSLX.SDK\MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)..\..\MSLX-Android\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == ''">$(MSBuildThisFileDirectory)..\..\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR>$([System.IO.Path]::GetFullPath('$(MSLX_SDK_DIR)'))</MSLX_SDK_DIR>
+  </PropertyGroup>
+
+  <Target Name="CheckSdkDir" BeforeTargets="ResolveProjectReferences">
+    <Error Condition="!Exists('$(MSLX_SDK_DIR)\MSLX.SDK.csproj')"
+           Text="未找到 MSLX.SDK 源码：$(MSLX_SDK_DIR)。请先检出 MSLTeam/MSLX（dev）并设置 -p:MSLX_SDK_DIR=...（或环境变量 MSLX_SDK_DIR）指向其 MSLX.SDK 目录，例如 -p:MSLX_SDK_DIR=D:\MSLX\MSLX.SDK。" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="$(MSLX_SDK_DIR)\MSLX.SDK.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 与 Daemon 主程序同版本：插件内 ALC 把依赖委托回主程序已加载的 Newtonsoft.Json -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 插件图标（硫磺史莱姆）作为程序集内嵌资源打包进 DLL，运行时读取为 data URI 供面板渲染 -->
+    <EmbeddedResource Include="Assets\sulfur.png" />
+  </ItemGroup>
+
+</Project>
