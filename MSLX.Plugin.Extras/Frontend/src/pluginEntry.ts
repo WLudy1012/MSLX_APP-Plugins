@@ -9,16 +9,16 @@ import PairingPage from './views/PairingPage.vue';
  * 依赖（vue / tdesign-vue-next / mslx-request 等）已外部化到宿主 window 全局，构建产物为单文件 ESM。
  */
 export const pluginConfig = {
-  // 与后端 IPlugin.Id、package.json.name 完全一致，标明两项实际功能。
-  name: 'mslx-plugin-pairing-server-icon',
-  version: '1.1.1',
+  // 与后端 IPlugin.Id、package.json.name 完全一致，作为 Android 客户端扩展能力的统一标识。
+  name: 'mslx-plugin-android-extensions',
+  version: '1.1.2',
 
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
   routes: [
     {
       parentName: 'settingsBase',
       path: 'pairing',
-      name: 'mslx-plugin-pairing-server-icon-pairing',
+      name: 'mslx-plugin-android-extensions-pairing',
       component: PairingPage,
       meta: { title: '扫码配对', icon: 'qrcode', roleCode: ['admin'] },
     },

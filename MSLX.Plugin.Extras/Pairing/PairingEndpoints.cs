@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Routing;
 namespace MSLX.Plugin.Pairing;
 
 /// <summary>
-/// 配对 API：规范前缀为 /api/plugin/mslx-plugin-pairing-server-icon/pair，自动经过 Daemon 的 AuthMiddleware。
+/// 配对 API：规范前缀为 /api/plugin/mslx-plugin-android-extensions/pair，自动经过 Daemon 的 AuthMiddleware。
 /// - POST /codes               生成一次性配对码（admin）
 /// - POST /redeem              兑换配对码（AllowAnonymous + 签名/时效/一次性/IP 限速）
 /// - GET  /devices             已配对设备列表（admin，脱敏）

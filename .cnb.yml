@@ -71,7 +71,7 @@ main:
         - name: verify embedded frontend
           script: |
             set -eu
-            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.PairingServerIcon.dll
+            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.AndroidExtensions.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
             grep -aq 'mslx-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
@@ -149,16 +149,16 @@ $:
         - name: collect artifacts
           script: |
             set -eu
-            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.PairingServerIcon.dll
+            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.AndroidExtensions.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
             grep -aq 'mslx-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
-            cp "$DLL" MSLX.Plugin.PairingServerIcon.dll
+            cp "$DLL" MSLX.Plugin.AndroidExtensions.dll
             if ! command -v zip >/dev/null 2>&1; then
               apt-get update -qq && apt-get install -y -qq zip
             fi
-            zip -q MSLX.Plugin.PairingServerIcon.zip MSLX.Plugin.PairingServerIcon.dll MSLX.Plugin.Extras/README.md
-            ls -lh MSLX.Plugin.PairingServerIcon.dll MSLX.Plugin.PairingServerIcon.zip
+            zip -q MSLX.Plugin.AndroidExtensions.zip MSLX.Plugin.AndroidExtensions.dll MSLX.Plugin.Extras/README.md
+            ls -lh MSLX.Plugin.AndroidExtensions.dll MSLX.Plugin.AndroidExtensions.zip
 
         - name: prepare release notes
           script: |
@@ -172,7 +172,7 @@ $:
             PREV_TAG=$(git tag --list 'v*' | grep -v "^${CUR_TAG}$" | sort -V | tail -1 || true)
             echo "当前 tag=$CUR_TAG 上一版本=${PREV_TAG:-<无>}"
             {
-              echo "# 扫码配对与服务端图标 $CUR_TAG"
+              echo "# MSLX Android 扩展插件 $CUR_TAG"
               echo ""
               if [ -n "$PREV_TAG" ]; then
                 echo "自 \`$PREV_TAG\` 以来的提交："
@@ -189,8 +189,8 @@ $:
               echo ""
               echo "| 文件 | 说明 | SHA-256 |"
               echo "| --- | --- | --- |"
-              echo "| \`MSLX.Plugin.PairingServerIcon.dll\` | 插件本体（含内嵌面板页面），放入 Daemon \`Plugins/\` 安装 | \`$(sha256sum MSLX.Plugin.PairingServerIcon.dll | awk '{print $1}')\` |"
-              echo "| \`MSLX.Plugin.PairingServerIcon.zip\` | DLL + README 压缩包 | \`$(sha256sum MSLX.Plugin.PairingServerIcon.zip | awk '{print $1}')\` |"
+              echo "| \`MSLX.Plugin.AndroidExtensions.dll\` | 插件本体（含内嵌面板页面），放入 Daemon \`Plugins/\` 安装 | \`$(sha256sum MSLX.Plugin.AndroidExtensions.dll | awk '{print $1}')\` |"
+              echo "| \`MSLX.Plugin.AndroidExtensions.zip\` | DLL + README 压缩包 | \`$(sha256sum MSLX.Plugin.AndroidExtensions.zip | awk '{print $1}')\` |"
             } > CNB_RELEASE.md
             cat CNB_RELEASE.md
 
@@ -204,5 +204,5 @@ $:
           image: cnbcool/attachments:latest
           settings:
             attachments:
-              - MSLX.Plugin.PairingServerIcon.dll
-              - MSLX.Plugin.PairingServerIcon.zip
+              - MSLX.Plugin.AndroidExtensions.dll
+              - MSLX.Plugin.AndroidExtensions.zip

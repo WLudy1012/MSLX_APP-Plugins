@@ -84,7 +84,7 @@ var X = (e) => {
 }, Ee = "t", Me = {
   classPrefix: Ee
 };
-function _e() {
+function xe() {
   var {
     classPrefix: e
   } = Me;
@@ -117,7 +117,7 @@ function _e() {
   };
 }
 function T(e) {
-  var s = _e().SIZE, l = t.computed(() => e.value in s ? s[e.value] : ""), a = t.computed(() => e.value === void 0 || e.value in s ? {} : {
+  var s = xe().SIZE, l = t.computed(() => e.value in s ? s[e.value] : ""), a = t.computed(() => e.value === void 0 || e.value in s ? {} : {
     fontSize: e.value
   });
   return {
@@ -146,7 +146,7 @@ function J(e) {
   }
   return e;
 }
-var xe = {
+var _e = {
   tag: "svg",
   attrs: {
     fill: "none",
@@ -273,7 +273,7 @@ var xe = {
       iconId: "copy",
       overlapMaskInstanceId: r
     }));
-    return () => L(xe, b.value);
+    return () => L(_e, b.value);
   }
 });
 function ee(e, s) {
@@ -786,11 +786,11 @@ var A;
           var m = b[y];
           v && g <= i.getNumDataCodewords(h, m) * 8 && (o = m);
         }
-        for (var p = [], w = 0, _ = r; w < _.length; w++) {
-          var M = _[w];
+        for (var p = [], w = 0, x = r; w < x.length; w++) {
+          var M = x[w];
           l(M.mode.modeBits, 4, p), l(M.numChars, M.mode.numCharCountBits(h), p);
-          for (var E = 0, x = M.getData(); E < x.length; E++) {
-            var H = x[E];
+          for (var E = 0, _ = M.getData(); E < _.length; E++) {
+            var H = _[E];
             p.push(H);
           }
         }
@@ -864,12 +864,12 @@ var A;
           var p = i.reedSolomonComputeRemainder(m, k);
           y < h && m.push(0), C.push(m.concat(p));
         }
-        for (var w = [], _ = function(M) {
-          C.forEach(function(E, x) {
-            (M != g - f || x >= h) && w.push(E[M]);
+        for (var w = [], x = function(M) {
+          C.forEach(function(E, _) {
+            (M != g - f || _ >= h) && w.push(E[M]);
           });
         }, y = 0; y < C[0].length; y++)
-          _(y);
+          x(y);
         return c(w.length == v), w;
       }, i.prototype.drawCodewords = function(r) {
         if (r.length != Math.floor(i.getNumRawDataModules(this.version) / 8))
@@ -937,8 +937,8 @@ var A;
           }
         for (var C = 0, k = 0, y = this.modules; k < y.length; k++) {
           var b = y[k];
-          C = b.reduce(function(w, _) {
-            return w + (_ ? 1 : 0);
+          C = b.reduce(function(w, x) {
+            return w + (x ? 1 : 0);
           }, C);
         }
         var m = this.size * this.size, p = Math.ceil(Math.abs(C * 20 - m * 10) / m) - 1;
@@ -1416,10 +1416,10 @@ var Z = {
       if (p) {
         var w = p.getContext("2d");
         if (w) {
-          var _ = u.value, M = typeof window < "u" && window.devicePixelRatio || 1, E = h / d.value * M;
+          var x = u.value, M = typeof window < "u" && window.devicePixelRatio || 1, E = h / d.value * M;
           if (p.height = p.width = h * M, w.setTransform(E, 0, 0, E, 0, 0), w.fillStyle = g, w.fillRect(0, 0, d.value, d.value), k) {
-            var x = void 0;
-            y === "linear" ? x = w.createLinearGradient(0, 0, d.value, d.value) : x = w.createRadialGradient(d.value / 2, d.value / 2, 0, d.value / 2, d.value / 2, d.value / 2), x.addColorStop(0, b), x.addColorStop(1, m), w.fillStyle = x;
+            var _ = void 0;
+            y === "linear" ? _ = w.createLinearGradient(0, 0, d.value, d.value) : _ = w.createRadialGradient(d.value / 2, d.value / 2, 0, d.value / 2, d.value / 2, d.value / 2), _.addColorStop(0, b), _.addColorStop(1, m), w.fillStyle = _;
           } else
             w.fillStyle = C;
           Te ? w.fill(new Path2D(i.value)) : c.value.forEach(function(V, B) {
@@ -1427,14 +1427,14 @@ var Z = {
               z && w.fillRect(Ce + a.value, B + a.value, 1, 1);
             });
           });
-          var H = e.imageSettings.src && _ && _.naturalWidth !== 0 && _.naturalHeight !== 0;
+          var H = e.imageSettings.src && x && x.naturalWidth !== 0 && x.naturalHeight !== 0;
           if (H && r.value) {
             if (o.value) {
               var N = o.value;
               w.fillStyle = e.background, f(w, N.x, N.y, N.width, N.height, N.borderRadius), w.fill();
             }
             var O = r.value.borderRadius;
-            O > 0 ? (w.save(), f(w, r.value.x, r.value.y, r.value.width, r.value.height, O), w.clip(), w.drawImage(_, r.value.x, r.value.y, r.value.width, r.value.height), w.restore()) : w.drawImage(_, r.value.x, r.value.y, r.value.width, r.value.height);
+            O > 0 ? (w.save(), f(w, r.value.x, r.value.y, r.value.width, r.value.height, O), w.clip(), w.drawImage(x, r.value.x, r.value.y, r.value.width, r.value.height), w.restore()) : w.drawImage(x, r.value.x, r.value.y, r.value.width, r.value.height);
           }
         }
       }
@@ -1500,7 +1500,7 @@ function Qe() {
   return ie || (ie = 1, F = mslxRequest), F;
 }
 var qe = Qe();
-const U = /* @__PURE__ */ pe(qe), W = "/api/plugin/mslx-plugin-pairing-server-icon/pair";
+const U = /* @__PURE__ */ pe(qe), W = "/api/plugin/mslx-plugin-android-extensions/pair";
 async function Ke(e) {
   return await U.post({
     url: `${W}/codes`,
@@ -1580,7 +1580,7 @@ const Je = /* @__PURE__ */ t.defineComponent({
         }
     }
     return t.onMounted(i), t.onUnmounted(h), (k, y) => {
-      const b = t.resolveComponent("t-radio-button"), m = t.resolveComponent("t-radio-group"), p = t.resolveComponent("t-select"), w = t.resolveComponent("t-input-number"), _ = t.resolveComponent("t-input"), M = t.resolveComponent("t-button");
+      const b = t.resolveComponent("t-radio-button"), m = t.resolveComponent("t-radio-group"), p = t.resolveComponent("t-select"), w = t.resolveComponent("t-input-number"), x = t.resolveComponent("t-input"), M = t.resolveComponent("t-button");
       return t.openBlock(), t.createElementBlock("div", { class: "extras-card flex flex-col gap-5 p-5" }, [
         t.createElementVNode("div", { class: "flex flex-col gap-2" }, [
           t.createElementVNode("h3", { class: "extras-title text-base font-bold m-0" }, "生成配对二维码"),
@@ -1641,7 +1641,7 @@ const Je = /* @__PURE__ */ t.defineComponent({
             ]),
             t.createElementVNode("div", { class: "flex flex-col gap-2" }, [
               t.createElementVNode("label", { class: "extras-title text-xs font-bold" }, "对外地址（可选，覆盖自动识别）"),
-              t.createVNode(_, {
+              t.createVNode(x, {
                 modelValue: a.publicUrl,
                 "onUpdate:modelValue": y[3] || (y[3] = (E) => a.publicUrl = E),
                 clearable: "",
@@ -1904,15 +1904,15 @@ const Je = /* @__PURE__ */ t.defineComponent({
     };
   }
 }), at = /* @__PURE__ */ Q(ot, [["__scopeId", "data-v-d7a1be8f"]]), nt = {
-  // 与后端 IPlugin.Id、package.json.name 完全一致，标明两项实际功能。
-  name: "mslx-plugin-pairing-server-icon",
-  version: "1.1.1",
+  // 与后端 IPlugin.Id、package.json.name 完全一致，作为 Android 客户端扩展能力的统一标识。
+  name: "mslx-plugin-android-extensions",
+  version: "1.1.2",
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
   routes: [
     {
       parentName: "settingsBase",
       path: "pairing",
-      name: "mslx-plugin-pairing-server-icon-pairing",
+      name: "mslx-plugin-android-extensions-pairing",
       component: at,
       meta: { title: "扫码配对", icon: "qrcode", roleCode: ["admin"] }
     }
