@@ -17,20 +17,20 @@
          1) 本仓库根下的 MSLX-dev/MSLX.SDK（CI 检出位置）；
          2) 与本仓库平级的 MSLX-dev/MSLX.SDK；
          3) 与本仓库平级的 MSLX-Android/MSLX-dev/MSLX.SDK（App 工作区布局）。 -->
-    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)..\MSLX-dev\MSLX.SDK\MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)..\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
-    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)..\..\MSLX-dev\MSLX.SDK\MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)..\..\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
-    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)..\..\MSLX-Android\MSLX-dev\MSLX.SDK\MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)..\..\MSLX-Android\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
-    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == ''">$(MSBuildThisFileDirectory)..\..\MSLX-dev\MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)../MSLX-dev/MSLX.SDK/MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)../MSLX-dev/MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)../../MSLX-dev/MSLX.SDK/MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)../../MSLX-dev/MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == '' AND Exists('$(MSBuildThisFileDirectory)../../MSLX-Android/MSLX-dev/MSLX.SDK/MSLX.SDK.csproj')">$(MSBuildThisFileDirectory)../../MSLX-Android/MSLX-dev/MSLX.SDK</MSLX_SDK_DIR>
+    <MSLX_SDK_DIR Condition="'$(MSLX_SDK_DIR)' == ''">$(MSBuildThisFileDirectory)../../MSLX-dev/MSLX.SDK</MSLX_SDK_DIR>
     <MSLX_SDK_DIR>$([System.IO.Path]::GetFullPath('$(MSLX_SDK_DIR)'))</MSLX_SDK_DIR>
   </PropertyGroup>
 
   <Target Name="CheckSdkDir" BeforeTargets="ResolveProjectReferences">
-    <Error Condition="!Exists('$(MSLX_SDK_DIR)\MSLX.SDK.csproj')"
+    <Error Condition="!Exists('$(MSLX_SDK_DIR)/MSLX.SDK.csproj')"
            Text="未找到 MSLX.SDK 源码：$(MSLX_SDK_DIR)。请先检出 MSLTeam/MSLX（dev）并设置 -p:MSLX_SDK_DIR=...（或环境变量 MSLX_SDK_DIR）指向其 MSLX.SDK 目录，例如 -p:MSLX_SDK_DIR=D:\MSLX\MSLX.SDK。" />
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="$(MSLX_SDK_DIR)\MSLX.SDK.csproj" />
+    <ProjectReference Include="$(MSLX_SDK_DIR)/MSLX.SDK.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,16 +42,16 @@
 
   <ItemGroup>
     <!-- 插件前端工程（源码 + 构建产物），除 dist 外不参与编译/输出 -->
-    <Content Remove="Frontend\**" />
-    <None Remove="Frontend\**" />
-    <None Include="Frontend\**">
+    <Content Remove="Frontend/**" />
+    <None Remove="Frontend/**" />
+    <None Include="Frontend/**">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <!-- 前端构建产物（Frontend/dist/mslx-plugin-entry.js 等）内嵌进 DLL，面板经 /plugins/{id}/{version}/ 动态加载 -->
-    <EmbeddedResource Include="Frontend\dist\**\*" />
+    <EmbeddedResource Include="Frontend/dist/**/*" />
   </ItemGroup>
 
   <!-- 插件图标（硫磺史莱姆）源文件保留在 Assets/sulfur.png（隐式 None 项，无需配置）；

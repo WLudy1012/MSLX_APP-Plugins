@@ -10,6 +10,21 @@ main:
         volumes:
           - /root/.nuget:cow
       stages:
+        # dotnet/sdk 镜像只保证 SDK 本身。git 用于检出 MSLX.SDK 源码，zip 用于打包附件；
+        # 两者缺失时先尝试补装（失败不阻断，后续步骤会给出更明确的报错）。
+        - name: install build tools
+          script: |
+            set -eu
+            if ! command -v git > /dev/null 2>&1; then
+              apt-get update -qq || true
+              DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends git ca-certificates || true
+            fi
+            if ! command -v zip > /dev/null 2>&1; then
+              apt-get update -qq || true
+              DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends zip || true
+            fi
+            git --version || { echo "ERROR: 缺少 git，无法检出 MSLX.SDK 源码" >&2; exit 1; }
+            command -v zip > /dev/null 2>&1 && zip -v | head -n 1 || echo "警告：缺少 zip，将在打包阶段重试安装" >&2
         - name: fetch MSLX SDK source
           script: |
             set -eu
@@ -26,8 +41,25 @@ main:
               done
               return 1
             }
-            clone_sdk || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 不可达？）" >&2; exit 1; }
-            ls MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
+            # 兜底：git 协议被阻断时改用 codeload 归档（镜像站对 codeload 支持不完整，故放最后）
+            fetch_sdk_tarball() {
+              for url in \
+                https://codeload.github.com/MSLTeam/MSLX/tar.gz/refs/heads/dev \
+                https://ghfast.top/https://codeload.github.com/MSLTeam/MSLX/tar.gz/refs/heads/dev; do
+                echo "==> try tarball: $url"
+                mkdir -p MSLX-dev
+                if curl -fL --retry 2 --connect-timeout 20 --max-time 900 -o /tmp/mslx-sdk.tar.gz "$url" \
+                  && tar -xzf /tmp/mslx-sdk.tar.gz -C MSLX-dev --strip-components=1; then
+                  rm -f /tmp/mslx-sdk.tar.gz
+                  return 0
+                fi
+                rm -rf MSLX-dev /tmp/mslx-sdk.tar.gz
+              done
+              return 1
+            }
+            clone_sdk || fetch_sdk_tarball \
+              || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 与镜像站均不可达？）" >&2; exit 1; }
+            test -f MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
 
         - name: build plugin (release)
           script: |
@@ -52,6 +84,19 @@ $:
         volumes:
           - /root/.nuget:cow
       stages:
+        - name: install build tools
+          script: |
+            set -eu
+            if ! command -v git > /dev/null 2>&1; then
+              apt-get update -qq || true
+              DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends git ca-certificates || true
+            fi
+            if ! command -v zip > /dev/null 2>&1; then
+              apt-get update -qq || true
+              DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends zip || true
+            fi
+            git --version || { echo "ERROR: 缺少 git，无法检出 MSLX.SDK 源码" >&2; exit 1; }
+            command -v zip > /dev/null 2>&1 && zip -v | head -n 1 || echo "警告：缺少 zip，将在打包阶段重试安装" >&2
         - name: fetch MSLX SDK source
           script: |
             set -eu
@@ -68,13 +113,31 @@ $:
               done
               return 1
             }
-            clone_sdk || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 不可达？）" >&2; exit 1; }
-            ls MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
+            # 兜底：git 协议被阻断时改用 codeload 归档（镜像站对 codeload 支持不完整，故放最后）
+            fetch_sdk_tarball() {
+              for url in \
+                https://codeload.github.com/MSLTeam/MSLX/tar.gz/refs/heads/dev \
+                https://ghfast.top/https://codeload.github.com/MSLTeam/MSLX/tar.gz/refs/heads/dev; do
+                echo "==> try tarball: $url"
+                mkdir -p MSLX-dev
+                if curl -fL --retry 2 --connect-timeout 20 --max-time 900 -o /tmp/mslx-sdk.tar.gz "$url" \
+                  && tar -xzf /tmp/mslx-sdk.tar.gz -C MSLX-dev --strip-components=1; then
+                  rm -f /tmp/mslx-sdk.tar.gz
+                  return 0
+                fi
+                rm -rf MSLX-dev /tmp/mslx-sdk.tar.gz
+              done
+              return 1
+            }
+            clone_sdk || fetch_sdk_tarball \
+              || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 与镜像站均不可达？）" >&2; exit 1; }
+            test -f MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
 
         - name: build plugin (tag version)
           script: |
             set -eu
-            CUR_TAG=$(git describe --tags --exact-match 2>/dev/null || echo "")
+            CUR_TAG=$(git tag --points-at HEAD | grep -E '^v[0-9]' | sort -V | tail -1 || true)
+            [ -n "$CUR_TAG" ] || CUR_TAG="${CNB_BRANCH:-}"
             [ -n "$CUR_TAG" ] || { echo "ERROR: 无法确定当前 tag（构建需要精确 tag）" >&2; exit 1; }
             VER=${CUR_TAG#v}
             echo "tag=$CUR_TAG version=$VER"
@@ -100,8 +163,12 @@ $:
         - name: prepare release notes
           script: |
             set -eu
-            CUR_TAG=$(git describe --tags --exact-match 2>/dev/null || echo "$CNB_BRANCH")
+            CUR_TAG=$(git tag --points-at HEAD | grep -E '^v[0-9]' | sort -V | tail -1 || true)
+            [ -n "$CUR_TAG" ] || CUR_TAG="${CNB_BRANCH:-unknown}"
             git fetch --tags --force --quiet 2>/dev/null || true
+            # 兜底：tag 未同步到本地时用 HEAD，保证 git log 不会因"未知修订号"整段失败
+            REV="$CUR_TAG"
+            git rev-parse --verify --quiet "${CUR_TAG}^{commit}" > /dev/null || REV=HEAD
             PREV_TAG=$(git tag --list 'v*' | grep -v "^${CUR_TAG}$" | sort -V | tail -1 || true)
             echo "当前 tag=$CUR_TAG 上一版本=${PREV_TAG:-<无>}"
             {
@@ -110,11 +177,11 @@ $:
               if [ -n "$PREV_TAG" ]; then
                 echo "自 \`$PREV_TAG\` 以来的提交："
                 echo ""
-                git log --no-merges --pretty=format:"- %s" "${PREV_TAG}..${CUR_TAG}"
+                git log --no-merges --pretty=format:"- %s" "${PREV_TAG}..${REV}"
               else
                 echo "> 未能确定上一版本 tag，列出最近 15 条提交。"
                 echo ""
-                git log -n 15 --no-merges --pretty=format:"- %s" "${CUR_TAG}"
+                git log -n 15 --no-merges --pretty=format:"- %s" "${REV}"
               fi
               echo ""
               echo ""
