@@ -4,9 +4,12 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>MSLX.Plugin.Extras</AssemblyName>
-    <RootNamespace>MSLX.Plugin.Extras</RootNamespace>
-    <Version>1.1.0</Version>
+    <!-- 程序集名描述实际功能；插件 ID 由 IPlugin.Id 声明，与 DLL 文件名是不同概念。 -->
+    <AssemblyName>MSLX.Plugin.PairingServerIcon</AssemblyName>
+    <RootNamespace>MSLX.Plugin.PairingServerIcon</RootNamespace>
+    <Product>扫码配对与服务端图标</Product>
+    <Description>为 MSLX Daemon 提供 Android 客户端扫码配对、设备授权管理与服务端图标的第三方插件。</Description>
+    <Version>1.1.1</Version>
     <IsPackable>false</IsPackable>
     <!-- 生成内嵌文件清单：Daemon 面板用 ManifestEmbeddedFileProvider(assembly, "Frontend/dist") 下发插件前端 -->
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>

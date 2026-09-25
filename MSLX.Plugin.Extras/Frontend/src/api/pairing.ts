@@ -3,11 +3,13 @@ import request from 'mslx-request';
 import type { CreatePairCodeParams, PairCodeModel, PairedDeviceModel } from './model/pairing';
 
 // 扫码配对端点（由本插件后端提供，需 admin 会话；鉴权头/解包由宿主 request 拦截器自动完成）
+// 使用包含插件 ID 的规范路径；后端另为旧版 Android 客户端保留兼容入口。
+const pairingApi = '/api/plugin/mslx-plugin-pairing-server-icon/pair';
 
 /** 生成一次性配对码（TTL 120s，仅服务端内存保存） */
 export async function postPairCode(params: CreatePairCodeParams): Promise<PairCodeModel> {
   return await request.post({
-    url: '/api/plugins/pair/codes',
+    url: `${pairingApi}/codes`,
     data: params,
   });
 }
@@ -15,14 +17,14 @@ export async function postPairCode(params: CreatePairCodeParams): Promise<PairCo
 /** 已配对设备列表（脱敏） */
 export async function getPairedDevices(): Promise<PairedDeviceModel[]> {
   return await request.get({
-    url: '/api/plugins/pair/devices',
+    url: `${pairingApi}/devices`,
   });
 }
 
 /** 撤销设备（删除对应配对用户，API Key 立即失效，不可逆） */
 export async function revokePairDevice(deviceId: string) {
   return await request.post({
-    url: `/api/plugins/pair/devices/${encodeURIComponent(deviceId)}/revoke`,
+    url: `${pairingApi}/devices/${encodeURIComponent(deviceId)}/revoke`,
   });
 }
 

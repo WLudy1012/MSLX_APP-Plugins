@@ -1,28 +1,34 @@
-# MSLX.Plugin.Extras —— 统一增强插件（扫码配对 + 服务端图标）
+# 扫码配对与服务端图标
 
-MSLX Daemon 插件：把原先两个独立插件（`MSLX.Plugin.Pairing` 扫码配对、`MSLX.Plugin.ServerIcon`
-服务端图标）合并进**单个 DLL**，由一个 `IPlugin` 入口（`ExtrasPlugin`，Id `mslx-plugin-extras`）同时挂载
-两组端点。插件图标为内嵌的硫磺史莱姆 PNG（运行时转 data URI，无需公网地址）。
+由 **WLudy1012** 开发的 MSLX Daemon 第三方插件，将扫码配对、设备授权管理和服务端图标打包为**单个 DLL**。
+统一入口为 `PairingServerIconPlugin`，ID 为 `mslx-plugin-pairing-server-icon`，前端包名与此一致。
+插件版本 **1.1.1**，声明的最低 **MSLX Daemon 版本为 1.5.10.2**。
+插件图标为内嵌的硫磺史莱姆 PNG，由 `/plugins/{id}/{version}/icon.png` 下发。
 
 > Daemon 的 PluginManager 对每个程序集只识别第一个 `IPlugin` 实现，因此合并采用单一入口，
-> 两组端点前缀互不冲突：`/api/plugins/pair`、`/api/plugins/icon`。
+> 两组规范端点前缀为 `/api/plugin/mslx-plugin-pairing-server-icon/pair`、`/api/plugin/mslx-plugin-pairing-server-icon/icon`。
+> 旧版 App 的 `/api/plugins/pair`、`/api/plugins/icon` 作为兼容入口，复用相同服务、权限校验与限流。
 
 ## 安装
 
 1. 运行 `pack.ps1`（需 .NET 10 SDK；`MSLX.SDK` 自动探测：仓库内 `MSLX-dev`、
    平级 `MSLX-dev`、平级 `MSLX-Android/MSLX-dev`，也可用 `-SdkDir` 或
-   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/MSLX.Plugin.Extras.dll`；
-2. 将 `MSLX.Plugin.Extras.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
+   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/MSLX.Plugin.PairingServerIcon.dll`；
+2. 将 `MSLX.Plugin.PairingServerIcon.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
    - Windows：`%APPDATA%\MSLX\MSLXData\DaemonData\Plugins\`
    - macOS：`~/Library/Application Support/MSLX/MSLXData/DaemonData/Plugins/`
 3. 重启 Daemon，或在面板插件管理中热加载；
-4. 日志出现 `[Extras] 增强插件已挂载 /api/plugins/pair 与 /api/plugins/icon` 即成功。
+4. 日志出现 `[mslx-plugin-pairing-server-icon] 扫码配对与服务端图标已挂载`，再确认面板出现「设置 → 扫码配对」。
 
-> 若此前安装过旧的 `MSLX.Plugin.Pairing.dll` / `MSLX.Plugin.ServerIcon.dll`，请先删除，避免端点重复注册。
+### 从旧版本升级
+
+1. 停止 Daemon，移出旧 `MSLX.Plugin.Extras.dll`（旧 ID：`mslx-extras` / `mslx-plugin-extras`），以及更早的 `MSLX.Plugin.Pairing.dll` / `MSLX.Plugin.ServerIcon.dll`，避免端点重复注册。
+2. 保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据；改名继续读取原数据位置，不要求重新配对。
+3. 放入新的 `MSLX.Plugin.PairingServerIcon.dll`，启动 Daemon 并刷新面板。旧版 Android App 可继续使用兼容接口。
 
 ---
 
-## 一、扫码配对（`/api/plugins/pair`）
+## 一、扫码配对（`/api/plugin/mslx-plugin-pairing-server-icon/pair`）
 
 在已授权的客户端（App / 面板 / curl）生成**一次性配对二维码**，手机 App 扫码后自动换取一枚
 **独立受限**的 API Key，免去手输长 Key。每台配对设备对应一个独立的 Daemon 用户：可撤销、可过期
@@ -41,7 +47,7 @@ MSLX Daemon 插件：把原先两个独立插件（`MSLX.Plugin.Pairing` 扫码�
 **不自行拼装或验签**（客户端无安装密钥）。配对码 120 秒过期、单次使用、仅内存保存；同 IP 每分钟
 最多 10 次兑换、连续失败 5 次临时锁定 15 分钟。
 
-## 二、服务端图标（`/api/plugins/icon`）
+## 二、服务端图标（`/api/plugin/mslx-plugin-pairing-server-icon/icon`）
 
 为实例统一提供图标，供 App / 面板实例卡片展示。**来源优先级**（结果带 24 小时磁盘缓存）：
 实例目录 `server-icon.png` → 插件磁盘缓存 → 第三方状态 API（`mcsrvstat.us` → `mcstatus.io`，

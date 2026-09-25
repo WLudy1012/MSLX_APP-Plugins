@@ -1,12 +1,12 @@
 (function(){"use strict";try{if(typeof document<"u"){var a=document.createElement("style");a.appendChild(document.createTextNode(".extras-card{background:var(--td-bg-color-container);border:1px solid var(--td-component-border);border-radius:16px;box-shadow:0 1px 2px #00000008}.extras-title{color:var(--td-text-color-primary)}.extras-muted{color:var(--td-text-color-secondary)}.extras-placeholder{color:var(--td-text-color-placeholder)}@keyframes t-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.t-icon{display:inline-block;vertical-align:middle;width:1em;height:1em}.t-icon:before{font-family:unset}.t-icon-loading{animation:t-spin 1s linear infinite}.t-icon.t-size-s,i.t-size-s{font-size:14px}.t-icon.t-size-m,i.t-size-m{font-size:16px}.t-icon.t-size-l,i.t-size-l{font-size:18px}.extras-qr-col[data-v-86d4bcdb]{width:100%}.extras-qr-box[data-v-86d4bcdb]{display:flex;width:240px;height:240px;background:#fff}.extras-qr-mask[data-v-86d4bcdb]{position:absolute;inset:0;background:#000000b3;color:#fff}.extras-expired[data-v-86d4bcdb]{color:var(--td-error-color)}@media(min-width:768px){.extras-qr-col[data-v-86d4bcdb]{width:280px}}.absolute[data-v-86d4bcdb]{position:absolute}.relative[data-v-86d4bcdb]{position:relative}.m-0[data-v-86d4bcdb]{margin:0}.min-w-0[data-v-86d4bcdb]{min-width:0}.w-full[data-v-86d4bcdb]{width:100%}.flex[data-v-86d4bcdb]{display:flex}.flex-1[data-v-86d4bcdb]{flex:1 1 0%}.shrink-0[data-v-86d4bcdb]{flex-shrink:0}.flex-col[data-v-86d4bcdb]{flex-direction:column}.items-center[data-v-86d4bcdb]{align-items:center}.self-start[data-v-86d4bcdb]{align-self:flex-start}.justify-center[data-v-86d4bcdb]{justify-content:center}.gap-2[data-v-86d4bcdb]{gap:.5rem}.gap-3[data-v-86d4bcdb]{gap:.75rem}.gap-4[data-v-86d4bcdb]{gap:1rem}.gap-5[data-v-86d4bcdb]{gap:1.25rem}.gap-6[data-v-86d4bcdb]{gap:1.5rem}.overflow-hidden[data-v-86d4bcdb]{overflow:hidden}.p-5[data-v-86d4bcdb]{padding:1.25rem}.px-6[data-v-86d4bcdb]{padding-left:1.5rem;padding-right:1.5rem}.text-center[data-v-86d4bcdb]{text-align:center}.text-base[data-v-86d4bcdb]{font-size:1rem;line-height:1.5rem}.text-sm[data-v-86d4bcdb]{font-size:.875rem;line-height:1.25rem}.text-xs[data-v-86d4bcdb]{font-size:.75rem;line-height:1rem}.font-bold[data-v-86d4bcdb]{font-weight:700}.tracking-widest[data-v-86d4bcdb]{letter-spacing:.1em}.font-mono[data-v-86d4bcdb]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}@media(min-width:768px){.md\\:flex-row[data-v-86d4bcdb]{flex-direction:row}}.fixed[data-v-35143171]{position:fixed}.m-0[data-v-35143171]{margin:0}.flex[data-v-35143171]{display:flex}.flex-col[data-v-35143171]{flex-direction:column}.flex-wrap[data-v-35143171]{flex-wrap:wrap}.items-center[data-v-35143171]{align-items:center}.justify-between[data-v-35143171]{justify-content:space-between}.gap-2[data-v-35143171]{gap:.5rem}.gap-4[data-v-35143171]{gap:1rem}.p-5[data-v-35143171]{padding:1.25rem}.text-base[data-v-35143171]{font-size:1rem;line-height:1.5rem}.text-sm[data-v-35143171]{font-size:.875rem;line-height:1.25rem}.font-bold[data-v-35143171]{font-weight:700}@unocss;.extras-page[data-v-d7a1be8f]{color:var(--td-text-color-primary);padding-bottom:8px}.extras-fade-enter-active[data-v-d7a1be8f],.extras-fade-leave-active[data-v-d7a1be8f]{transition:opacity .2s ease,transform .2s ease}.extras-fade-enter-from[data-v-d7a1be8f],.extras-fade-leave-to[data-v-d7a1be8f]{opacity:0;transform:translateY(10px)}.m-0[data-v-d7a1be8f]{margin:0}.flex[data-v-d7a1be8f]{display:flex}.flex-col[data-v-d7a1be8f]{flex-direction:column}.transform[data-v-d7a1be8f]{transform:translate(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotate(var(--un-rotate-z)) skew(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z))}.items-center[data-v-d7a1be8f]{align-items:center}.self-start[data-v-d7a1be8f]{align-self:flex-start}.justify-between[data-v-d7a1be8f]{justify-content:space-between}.gap-1[data-v-d7a1be8f]{gap:.25rem}.gap-2[data-v-d7a1be8f]{gap:.5rem}.gap-5[data-v-d7a1be8f]{gap:1.25rem}.p-5[data-v-d7a1be8f]{padding:1.25rem}.text-lg[data-v-d7a1be8f]{font-size:1.125rem;line-height:1.75rem}.text-sm[data-v-d7a1be8f]{font-size:.875rem;line-height:1.25rem}.font-bold[data-v-d7a1be8f]{font-weight:700}.transition[data-v-d7a1be8f]{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.ease[data-v-d7a1be8f]{transition-timing-function:cubic-bezier(.4,0,.2,1)}@media(min-width:1280px){.xl\\:flex-row[data-v-d7a1be8f]{flex-direction:row}.xl\\:items-center[data-v-d7a1be8f]{align-items:center}.xl\\:self-auto[data-v-d7a1be8f]{align-self:auto}}")),document.head.appendChild(a)}}catch(e){console.error("vite-plugin-css-injected-by-js",e)}})();
-function Ce(e) {
+function pe(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-var j, Q;
-function pe() {
-  return Q || (Q = 1, j = Vue), j;
+var j, q;
+function ye() {
+  return q || (q = 1, j = Vue), j;
 }
-var t = pe();
+var t = ye();
 function R(e) {
   "@babel/helpers - typeof";
   return R = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(s) {
@@ -15,7 +15,7 @@ function R(e) {
     return s && typeof Symbol == "function" && s.constructor === Symbol && s !== Symbol.prototype ? "symbol" : typeof s;
   }, R(e);
 }
-function ye(e, s) {
+function ke(e, s) {
   if (R(e) != "object" || !e) return e;
   var l = e[Symbol.toPrimitive];
   if (l !== void 0) {
@@ -25,19 +25,19 @@ function ye(e, s) {
   }
   return (s === "string" ? String : Number)(e);
 }
-function ke(e) {
-  var s = ye(e, "string");
+function we(e) {
+  var s = ke(e, "string");
   return R(s) == "symbol" ? s : s + "";
 }
 function D(e, s, l) {
-  return (s = ke(s)) in e ? Object.defineProperty(e, s, {
+  return (s = we(s)) in e ? Object.defineProperty(e, s, {
     value: l,
     enumerable: !0,
     configurable: !0,
     writable: !0
   }) : e[s] = l, e;
 }
-function q(e, s) {
+function K(e, s) {
   var l = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
     var a = Object.getOwnPropertySymbols(e);
@@ -47,47 +47,47 @@ function q(e, s) {
   }
   return l;
 }
-function K(e) {
+function G(e) {
   for (var s = 1; s < arguments.length; s++) {
     var l = arguments[s] != null ? arguments[s] : {};
-    s % 2 ? q(Object(l), !0).forEach(function(a) {
+    s % 2 ? K(Object(l), !0).forEach(function(a) {
       D(e, a, l[a]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : q(Object(l)).forEach(function(a) {
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : K(Object(l)).forEach(function(a) {
       Object.defineProperty(e, a, Object.getOwnPropertyDescriptor(l, a));
     });
   }
   return e;
 }
-var G = (e) => {
+var X = (e) => {
   var s = ["clipRule", "fillRule", "maskType", "strokeLinecap", "strokeWidth"];
   return s.includes(e) ? e.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase() : e;
-}, we = (e, s) => {
+}, be = (e, s) => {
   var l = e.split(".")[1], a = /^overlapMask(Id|Url)_(.+)$/.exec(l);
   if (a) {
     var c = "".concat(s.overlapMaskPrefix, "-overlap-").concat(a[2]);
     return a[1] === "Url" ? "url(#".concat(c, ")") : c;
   }
   return s[l];
-}, ie = (e, s) => {
+}, se = (e, s) => {
   var l = {};
   if (e.attrs)
     for (var [a, c] of Object.entries(e.attrs))
-      typeof c == "string" && c.startsWith("props.") ? l[G(a)] = we(c, s) : l[G(a)] = c;
+      typeof c == "string" && c.startsWith("props.") ? l[X(a)] = be(c, s) : l[X(a)] = c;
   e.tag === "svg" && (l.class = s.class, l.style = s.style, l.onClick = s.onClick);
-  var d = e.children ? e.children.map((i) => ie(i, s)) : [];
+  var d = e.children ? e.children.map((i) => se(i, s)) : [];
   return t.h(e.tag, l, d);
 }, L = (e, s) => {
   var l = "t-icon-".concat(s.iconId, "-instance-").concat(s.overlapMaskInstanceId);
-  return ie(e, K(K({}, s), {}, {
+  return se(e, G(G({}, s), {}, {
     overlapMaskPrefix: l
   }));
-}, be = "t", Ee = {
-  classPrefix: be
+}, Ee = "t", Me = {
+  classPrefix: Ee
 };
-function Me() {
+function _e() {
   var {
     classPrefix: e
-  } = Ee;
+  } = Me;
   return {
     SIZE: {
       default: "",
@@ -117,7 +117,7 @@ function Me() {
   };
 }
 function T(e) {
-  var s = Me().SIZE, l = t.computed(() => e.value in s ? s[e.value] : ""), a = t.computed(() => e.value === void 0 || e.value in s ? {} : {
+  var s = _e().SIZE, l = t.computed(() => e.value in s ? s[e.value] : ""), a = t.computed(() => e.value === void 0 || e.value in s ? {} : {
     fontSize: e.value
   });
   return {
@@ -125,7 +125,7 @@ function T(e) {
     className: l
   };
 }
-function X(e, s) {
+function Y(e, s) {
   var l = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
     var a = Object.getOwnPropertySymbols(e);
@@ -135,18 +135,18 @@ function X(e, s) {
   }
   return l;
 }
-function Y(e) {
+function J(e) {
   for (var s = 1; s < arguments.length; s++) {
     var l = arguments[s] != null ? arguments[s] : {};
-    s % 2 ? X(Object(l), !0).forEach(function(a) {
+    s % 2 ? Y(Object(l), !0).forEach(function(a) {
       D(e, a, l[a]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : X(Object(l)).forEach(function(a) {
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : Y(Object(l)).forEach(function(a) {
       Object.defineProperty(e, a, Object.getOwnPropertyDescriptor(l, a));
     });
   }
   return e;
 }
-var _e = {
+var xe = {
   tag: "svg",
   attrs: {
     fill: "none",
@@ -222,7 +222,7 @@ var _e = {
       }
     }]
   }]
-}, xe = t.defineComponent({
+}, Pe = t.defineComponent({
   name: "CopyIcon",
   props: {
     size: {
@@ -253,7 +253,7 @@ var _e = {
     }), h = t.computed(() => e.fillColor ? Array.isArray(e.fillColor) ? e.fillColor[0] : e.fillColor : "currentColor"), {
       className: g,
       style: C
-    } = T(o), k = t.computed(() => ["t-icon", "t-icon-copy", g.value]), y = t.computed(() => Y(Y({
+    } = T(o), k = t.computed(() => ["t-icon", "t-icon-copy", g.value]), y = t.computed(() => J(J({
       fill: "none"
     }, C.value), c.style)), b = t.computed(() => ({
       class: k.value,
@@ -273,10 +273,10 @@ var _e = {
       iconId: "copy",
       overlapMaskInstanceId: r
     }));
-    return () => L(_e, b.value);
+    return () => L(xe, b.value);
   }
 });
-function J(e, s) {
+function ee(e, s) {
   var l = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
     var a = Object.getOwnPropertySymbols(e);
@@ -286,18 +286,18 @@ function J(e, s) {
   }
   return l;
 }
-function ee(e) {
+function te(e) {
   for (var s = 1; s < arguments.length; s++) {
     var l = arguments[s] != null ? arguments[s] : {};
-    s % 2 ? J(Object(l), !0).forEach(function(a) {
+    s % 2 ? ee(Object(l), !0).forEach(function(a) {
       D(e, a, l[a]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : J(Object(l)).forEach(function(a) {
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : ee(Object(l)).forEach(function(a) {
       Object.defineProperty(e, a, Object.getOwnPropertyDescriptor(l, a));
     });
   }
   return e;
 }
-var Pe = {
+var Ne = {
   tag: "svg",
   attrs: {
     fill: "none",
@@ -401,7 +401,7 @@ var Pe = {
       }]
     }]
   }]
-}, se = t.defineComponent({
+}, ue = t.defineComponent({
   name: "QrcodeIcon",
   props: {
     size: {
@@ -432,7 +432,7 @@ var Pe = {
     }), h = t.computed(() => e.fillColor ? Array.isArray(e.fillColor) ? e.fillColor[0] : e.fillColor : "currentColor"), {
       className: g,
       style: C
-    } = T(o), k = t.computed(() => ["t-icon", "t-icon-qrcode", g.value]), y = t.computed(() => ee(ee({
+    } = T(o), k = t.computed(() => ["t-icon", "t-icon-qrcode", g.value]), y = t.computed(() => te(te({
       fill: "none"
     }, C.value), c.style)), b = t.computed(() => ({
       class: k.value,
@@ -452,10 +452,10 @@ var Pe = {
       iconId: "qrcode",
       overlapMaskInstanceId: r
     }));
-    return () => L(Pe, b.value);
+    return () => L(Ne, b.value);
   }
 });
-function te(e, s) {
+function re(e, s) {
   var l = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
     var a = Object.getOwnPropertySymbols(e);
@@ -465,18 +465,18 @@ function te(e, s) {
   }
   return l;
 }
-function re(e) {
+function oe(e) {
   for (var s = 1; s < arguments.length; s++) {
     var l = arguments[s] != null ? arguments[s] : {};
-    s % 2 ? te(Object(l), !0).forEach(function(a) {
+    s % 2 ? re(Object(l), !0).forEach(function(a) {
       D(e, a, l[a]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : te(Object(l)).forEach(function(a) {
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : re(Object(l)).forEach(function(a) {
       Object.defineProperty(e, a, Object.getOwnPropertyDescriptor(l, a));
     });
   }
   return e;
 }
-var Ne = {
+var Se = {
   tag: "svg",
   attrs: {
     fill: "none",
@@ -500,7 +500,7 @@ var Ne = {
       }
     }]
   }]
-}, ue = t.defineComponent({
+}, ce = t.defineComponent({
   name: "RefreshIcon",
   props: {
     size: {
@@ -531,7 +531,7 @@ var Ne = {
     }), h = t.computed(() => e.fillColor ? Array.isArray(e.fillColor) ? e.fillColor[0] : e.fillColor : "currentColor"), {
       className: g,
       style: C
-    } = T(o), k = t.computed(() => ["t-icon", "t-icon-refresh", g.value]), y = t.computed(() => re(re({
+    } = T(o), k = t.computed(() => ["t-icon", "t-icon-refresh", g.value]), y = t.computed(() => oe(oe({
       fill: "none"
     }, C.value), c.style)), b = t.computed(() => ({
       class: k.value,
@@ -551,10 +551,10 @@ var Ne = {
       iconId: "refresh",
       overlapMaskInstanceId: r
     }));
-    return () => L(Ne, b.value);
+    return () => L(Se, b.value);
   }
 });
-function oe(e, s) {
+function ae(e, s) {
   var l = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
     var a = Object.getOwnPropertySymbols(e);
@@ -564,18 +564,18 @@ function oe(e, s) {
   }
   return l;
 }
-function ae(e) {
+function ne(e) {
   for (var s = 1; s < arguments.length; s++) {
     var l = arguments[s] != null ? arguments[s] : {};
-    s % 2 ? oe(Object(l), !0).forEach(function(a) {
+    s % 2 ? ae(Object(l), !0).forEach(function(a) {
       D(e, a, l[a]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : oe(Object(l)).forEach(function(a) {
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(l)) : ae(Object(l)).forEach(function(a) {
       Object.defineProperty(e, a, Object.getOwnPropertyDescriptor(l, a));
     });
   }
   return e;
 }
-var Se = {
+var Ae = {
   tag: "svg",
   attrs: {
     fill: "none",
@@ -671,7 +671,7 @@ var Se = {
       }
     }]
   }]
-}, Ae = t.defineComponent({
+}, Ve = t.defineComponent({
   name: "UsergroupIcon",
   props: {
     size: {
@@ -702,7 +702,7 @@ var Se = {
     }), h = t.computed(() => e.fillColor ? Array.isArray(e.fillColor) ? e.fillColor[0] : e.fillColor : "currentColor"), {
       className: g,
       style: C
-    } = T(o), k = t.computed(() => ["t-icon", "t-icon-usergroup", g.value]), y = t.computed(() => ae(ae({
+    } = T(o), k = t.computed(() => ["t-icon", "t-icon-usergroup", g.value]), y = t.computed(() => ne(ne({
       fill: "none"
     }, C.value), c.style)), b = t.computed(() => ({
       class: k.value,
@@ -722,13 +722,13 @@ var Se = {
       iconId: "usergroup",
       overlapMaskInstanceId: r
     }));
-    return () => L(Se, b.value);
+    return () => L(Ae, b.value);
   }
-}), $, ne;
-function Ve() {
-  return ne || (ne = 1, $ = TDesign), $;
+}), $, le;
+function Oe() {
+  return le || (le = 1, $ = TDesign), $;
 }
-var S = Ve();
+var S = Oe();
 var P = function() {
   return P = Object.assign || function(s) {
     for (var l, a = 1, c = arguments.length; a < c; a++) {
@@ -1139,16 +1139,16 @@ var A;
     s.Mode = l;
   })(e.QrSegment || (e.QrSegment = {}));
 })(A || (A = {}));
-var I = A, Oe = 0;
-function Ie(e) {
-  return e || "v-".concat(Oe++);
+var I = A, Ie = 0;
+function Re(e) {
+  return e || "v-".concat(Ie++);
 }
-var ce = "L", Re = 100, de = 0, De = 0.1, ze = 2, fe = {
+var de = "L", De = 100, fe = 0, ze = 0.1, Le = 2, ve = {
   L: I.QrCode.Ecc.LOW,
   M: I.QrCode.Ecc.MEDIUM,
   Q: I.QrCode.Ecc.QUARTILE,
   H: I.QrCode.Ecc.HIGH
-}, Le = (function() {
+}, Te = (function() {
   try {
     new Path2D().addPath(new Path2D());
   } catch {
@@ -1156,10 +1156,10 @@ var ce = "L", Re = 100, de = 0, De = 0.1, ze = 2, fe = {
   }
   return !0;
 })();
-function ve(e) {
-  return e in fe;
+function he(e) {
+  return e in ve;
 }
-function Te(e, s, l) {
+function Ue(e, s, l) {
   var a = s > 0 ? e[s - 1][l] : !1, c = s < e.length - 1 ? e[s + 1][l] : !1, d = l > 0 ? e[s][l - 1] : !1, i = l < e[s].length - 1 ? e[s][l + 1] : !1;
   return {
     nw: !a && !d,
@@ -1168,17 +1168,17 @@ function Te(e, s, l) {
     sw: !c && !d
   };
 }
-function Ue(e, s, l) {
+function He(e, s, l) {
   s === void 0 && (s = 0), l === void 0 && (l = 0);
   for (var a = [], c = Math.min(l, 0.5), d = 0; d < e.length; d++)
     for (var i = 0; i < e[d].length; i++)
       if (e[d][i]) {
-        var r = Te(e, d, i), o = r.nw, n = r.ne, u = r.se, f = r.sw, v = i + s, h = d + s;
+        var r = Ue(e, d, i), o = r.nw, n = r.ne, u = r.se, f = r.sw, v = i + s, h = d + s;
         a.push("M".concat(v + (o ? c : 0), " ").concat(h), "L".concat(v + 1 - (n ? c : 0), " ").concat(h)), n && a.push("A".concat(c, " ").concat(c, " 0 0 1 ").concat(v + 1, " ").concat(h + c)), a.push("L".concat(v + 1, " ").concat(h + 1 - (u ? c : 0))), u && a.push("A".concat(c, " ").concat(c, " 0 0 1 ").concat(v + 1 - c, " ").concat(h + 1)), a.push("L".concat(v + (f ? c : 0), " ").concat(h + 1)), f && a.push("A".concat(c, " ").concat(c, " 0 0 1 ").concat(v, " ").concat(h + 1 - c)), a.push("L".concat(v, " ").concat(h + (o ? c : 0))), o && a.push("A".concat(c, " ").concat(c, " 0 0 1 ").concat(v + c, " ").concat(h)), a.push("z");
       }
   return a.join("");
 }
-function He(e, s) {
+function Be(e, s) {
   s === void 0 && (s = 0);
   for (var l = [], a = 0; a < e.length; a++)
     for (var c = e[a], d = null, i = 0; i < c.length; i++) {
@@ -1197,25 +1197,25 @@ function He(e, s) {
     }
   return l.join("");
 }
-function Be(e, s, l, a) {
-  var c = a.width, d = a.height, i = a.x, r = a.y, o = e.length + l * 2, n = Math.floor(s * De), u = o / s, f = (c || n) * u, v = (d || n) * u, h = i == null ? e.length / 2 - f / 2 : i * u, g = r == null ? e.length / 2 - v / 2 : r * u, C = (a.borderRadius || 0) * u;
+function je(e, s, l, a) {
+  var c = a.width, d = a.height, i = a.x, r = a.y, o = e.length + l * 2, n = Math.floor(s * ze), u = o / s, f = (c || n) * u, v = (d || n) * u, h = i == null ? e.length / 2 - f / 2 : i * u, g = r == null ? e.length / 2 - v / 2 : r * u, C = (a.borderRadius || 0) * u;
   return { x: h, y: g, h: v, w: f, borderRadius: C };
 }
-function he(e) {
+function ge(e) {
   var s = t.computed(function() {
     var r;
-    return ((r = e.margin) !== null && r !== void 0 ? r : de) >>> 0;
+    return ((r = e.margin) !== null && r !== void 0 ? r : fe) >>> 0;
   }), l = t.computed(function() {
-    var r = ve(e.level) ? e.level : ce;
-    return I.QrCode.encodeText(e.value, fe[r]).getModules();
+    var r = he(e.level) ? e.level : de;
+    return I.QrCode.encodeText(e.value, ve[r]).getModules();
   }), a = t.computed(function() {
     return l.value.length + s.value * 2;
   }), c = t.computed(function() {
-    return e.radius > 0 ? Ue(l.value, s.value, e.radius) : He(l.value, s.value);
+    return e.radius > 0 ? He(l.value, s.value, e.radius) : Be(l.value, s.value);
   }), d = t.computed(function() {
     if (!e.imageSettings.src)
       return null;
-    var r = Be(l.value, e.size, s.value, e.imageSettings);
+    var r = je(l.value, e.size, s.value, e.imageSettings);
     return {
       x: r.x + s.value,
       y: r.y + s.value,
@@ -1226,7 +1226,7 @@ function he(e) {
   }), i = t.computed(function() {
     if (!e.imageSettings.excavate || !d.value)
       return null;
-    var r = ze / (e.size / a.value);
+    var r = Le / (e.size / a.value);
     return {
       x: d.value.x - r,
       y: d.value.y - r,
@@ -1237,7 +1237,7 @@ function he(e) {
   });
   return { margin: s, numCells: a, cells: l, fgPath: c, imageProps: d, imageBorderProps: i };
 }
-function ge(e, s) {
+function me(e, s) {
   var l = document.createElement("a");
   l.download = s, l.href = e, document.body.appendChild(l), l.click(), document.body.removeChild(l);
 }
@@ -1249,13 +1249,13 @@ var Z = {
   },
   size: {
     type: Number,
-    default: Re
+    default: De
   },
   level: {
     type: String,
-    default: ce,
+    default: de,
     validator: function(e) {
-      return ve(e);
+      return he(e);
     }
   },
   background: {
@@ -1268,7 +1268,7 @@ var Z = {
   },
   margin: {
     type: Number,
-    default: de,
+    default: fe,
     validator: function(e) {
       return e >= 0;
     }
@@ -1309,18 +1309,18 @@ var Z = {
     type: String,
     required: !1
   }
-}, je = P(P({}, Z), { renderAs: {
+}, $e = P(P({}, Z), { renderAs: {
   type: String,
   required: !1,
   default: "canvas",
   validator: function(e) {
     return ["canvas", "svg"].indexOf(e) > -1;
   }
-} }), $e = t.defineComponent({
+} }), Fe = t.defineComponent({
   name: "QRCodeSvg",
   props: Z,
   setup: function(e, s) {
-    var l = he(e), a = l.numCells, c = l.fgPath, d = l.imageProps, i = l.imageBorderProps, r = t.ref(), o = Ie(e.id), n = "qrcode.vue-gradient-".concat(o), u = "qrcode.vue-logo-clip-path-".concat(o), f = t.computed(function() {
+    var l = ge(e), a = l.numCells, c = l.fgPath, d = l.imageProps, i = l.imageBorderProps, r = t.ref(), o = Re(e.id), n = "qrcode.vue-gradient-".concat(o), u = "qrcode.vue-logo-clip-path-".concat(o), f = t.computed(function() {
       if (!e.gradient)
         return null;
       var g = e.gradientType === "linear" ? {
@@ -1371,7 +1371,7 @@ var Z = {
       download: function(g) {
         g === void 0 && (g = "qrcode.svg");
         var C = r.value;
-        C && ge(h(C), g);
+        C && me(h(C), g);
       }
     }), function() {
       return t.h("svg", {
@@ -1405,11 +1405,11 @@ var Z = {
       ]);
     };
   }
-}), Fe = t.defineComponent({
+}), Ze = t.defineComponent({
   name: "QRCodeCanvas",
   props: Z,
   setup: function(e, s) {
-    var l = he(e), a = l.margin, c = l.cells, d = l.numCells, i = l.fgPath, r = l.imageProps, o = l.imageBorderProps, n = t.ref(null), u = t.ref(null), f = function(h, g, C, k, y, b) {
+    var l = ge(e), a = l.margin, c = l.cells, d = l.numCells, i = l.fgPath, r = l.imageProps, o = l.imageBorderProps, n = t.ref(null), u = t.ref(null), f = function(h, g, C, k, y, b) {
       h.beginPath(), h.roundRect ? h.roundRect(g, C, k, y, b) : h.rect(g, C, k, y);
     }, v = function() {
       var h = e.size, g = e.background, C = e.foreground, k = e.gradient, y = e.gradientType, b = e.gradientStartColor, m = e.gradientEndColor, p = n.value;
@@ -1422,9 +1422,9 @@ var Z = {
             y === "linear" ? x = w.createLinearGradient(0, 0, d.value, d.value) : x = w.createRadialGradient(d.value / 2, d.value / 2, 0, d.value / 2, d.value / 2, d.value / 2), x.addColorStop(0, b), x.addColorStop(1, m), w.fillStyle = x;
           } else
             w.fillStyle = C;
-          Le ? w.fill(new Path2D(i.value)) : c.value.forEach(function(V, B) {
-            V.forEach(function(z, me) {
-              z && w.fillRect(me + a.value, B + a.value, 1, 1);
+          Te ? w.fill(new Path2D(i.value)) : c.value.forEach(function(V, B) {
+            V.forEach(function(z, Ce) {
+              z && w.fillRect(Ce + a.value, B + a.value, 1, 1);
             });
           });
           var H = e.imageSettings.src && _ && _.naturalWidth !== 0 && _.naturalHeight !== 0;
@@ -1447,7 +1447,7 @@ var Z = {
       download: function(h) {
         h === void 0 && (h = "qrcode.png");
         var g = n.value;
-        g && ge(g.toDataURL("image/png"), h);
+        g && me(g.toDataURL("image/png"), h);
       }
     }), function() {
       return t.h(t.Fragment, [
@@ -1462,9 +1462,9 @@ var Z = {
       ]);
     };
   }
-}), Ze = t.defineComponent({
+}), We = t.defineComponent({
   name: "Qrcode",
-  props: je,
+  props: $e,
   setup: function(e, s) {
     var l = t.ref();
     return s.expose({
@@ -1477,7 +1477,7 @@ var Z = {
         return (d = (c = l.value) === null || c === void 0 ? void 0 : c.download) === null || d === void 0 ? void 0 : d.call(c, a);
       }
     }), function() {
-      return t.h(e.renderAs === "svg" ? $e : Fe, {
+      return t.h(e.renderAs === "svg" ? Fe : Ze, {
         ref: l,
         value: e.value,
         size: e.size,
@@ -1495,32 +1495,32 @@ var Z = {
       });
     };
   }
-}), F, le;
-function We() {
-  return le || (le = 1, F = mslxRequest), F;
+}), F, ie;
+function Qe() {
+  return ie || (ie = 1, F = mslxRequest), F;
 }
-var Qe = We();
-const U = /* @__PURE__ */ Ce(Qe);
-async function qe(e) {
+var qe = Qe();
+const U = /* @__PURE__ */ pe(qe), W = "/api/plugin/mslx-plugin-pairing-server-icon/pair";
+async function Ke(e) {
   return await U.post({
-    url: "/api/plugins/pair/codes",
+    url: `${W}/codes`,
     data: e
   });
 }
-async function Ke() {
+async function Ge() {
   return await U.get({
-    url: "/api/plugins/pair/devices"
+    url: `${W}/devices`
   });
 }
-async function Ge(e) {
+async function Xe(e) {
   return await U.post({
-    url: `/api/plugins/pair/devices/${encodeURIComponent(e)}/revoke`
+    url: `${W}/devices/${encodeURIComponent(e)}/revoke`
   });
 }
-async function Xe() {
+async function Ye() {
   return (await U.get({ url: "/api/instance/list" }) || []).map((s) => ({ label: `${s.name} (#${s.id})`, value: `server:${s.id}` }));
 }
-const Ye = /* @__PURE__ */ t.defineComponent({
+const Je = /* @__PURE__ */ t.defineComponent({
   __name: "GeneratePairCode",
   setup(e) {
     const s = window.MSLX_Stores?.getUserStore?.(), l = t.computed(() => s?.baseUrl || "https://your-daemon.example.com:1027"), a = t.reactive({
@@ -1531,7 +1531,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
     }), c = t.ref([]), d = t.ref(!1);
     async function i() {
       try {
-        d.value = !0, c.value = await Xe();
+        d.value = !0, c.value = await Ye();
       } catch (k) {
         S.MessagePlugin.error("加载实例列表失败: " + (k?.message || k));
       } finally {
@@ -1548,7 +1548,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
         }
         try {
           r.value = !0;
-          const k = await qe({
+          const k = await Ke({
             scope: a.scope,
             resources: a.scope === "limited" ? a.resources : [],
             deviceTtlDays: a.deviceTtlDays,
@@ -1656,7 +1656,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
               onClick: f
             }, {
               icon: t.withCtx(() => [
-                t.createVNode(t.unref(se))
+                t.createVNode(t.unref(ue))
               ]),
               default: t.withCtx(() => [
                 t.createTextVNode(" 生成配对二维码 ")
@@ -1667,7 +1667,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
           t.createElementVNode("div", { class: "extras-qr-col shrink-0 flex flex-col items-center gap-3" }, [
             t.createElementVNode("div", { class: "extras-qr-box extras-card items-center justify-center relative overflow-hidden" }, [
               o.value ? (t.openBlock(), t.createElementBlock(t.Fragment, { key: 0 }, [
-                t.createVNode(Ze, {
+                t.createVNode(We, {
                   value: o.value.payload,
                   size: 220,
                   level: "M",
@@ -1709,7 +1709,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
                   onClick: C
                 }, {
                   icon: t.withCtx(() => [
-                    t.createVNode(t.unref(xe))
+                    t.createVNode(t.unref(Pe))
                   ]),
                   default: t.withCtx(() => [
                     t.createTextVNode(" 复制原文 ")
@@ -1722,7 +1722,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
                   onClick: f
                 }, {
                   icon: t.withCtx(() => [
-                    t.createVNode(t.unref(ue))
+                    t.createVNode(t.unref(ce))
                   ]),
                   default: t.withCtx(() => [
                     t.createTextVNode(" 刷新 ")
@@ -1736,18 +1736,18 @@ const Ye = /* @__PURE__ */ t.defineComponent({
       ]);
     };
   }
-}), W = (e, s) => {
+}), Q = (e, s) => {
   const l = e.__vccOpts || e;
   for (const [a, c] of s)
     l[a] = c;
   return l;
-}, Je = /* @__PURE__ */ W(Ye, [["__scopeId", "data-v-86d4bcdb"]]), et = /* @__PURE__ */ t.defineComponent({
+}, et = /* @__PURE__ */ Q(Je, [["__scopeId", "data-v-86d4bcdb"]]), tt = /* @__PURE__ */ t.defineComponent({
   __name: "DeviceList",
   setup(e, { expose: s }) {
     const l = t.ref(!1), a = t.ref([]);
     async function c() {
       try {
-        l.value = !0, a.value = await Ke() || [];
+        l.value = !0, a.value = await Ge() || [];
       } catch (u) {
         S.MessagePlugin.error("获取设备列表失败: " + (u?.message || u));
       } finally {
@@ -1781,7 +1781,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
     ], o = t.ref("");
     async function n(u) {
       try {
-        o.value = u.deviceId, await Ge(u.deviceId), S.MessagePlugin.success("已撤销，该设备凭据立即失效"), await c();
+        o.value = u.deviceId, await Xe(u.deviceId), S.MessagePlugin.success("已撤销，该设备凭据立即失效"), await c();
       } catch (f) {
         S.MessagePlugin.error("撤销失败: " + (f?.message || f));
       } finally {
@@ -1802,7 +1802,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
             onClick: c
           }, {
             icon: t.withCtx(() => [
-              t.createVNode(t.unref(ue))
+              t.createVNode(t.unref(ce))
             ]),
             default: t.withCtx(() => [
               t.createTextVNode(" 刷新 ")
@@ -1848,7 +1848,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
       ]);
     };
   }
-}), tt = /* @__PURE__ */ W(et, [["__scopeId", "data-v-35143171"]]), rt = /* @__PURE__ */ t.defineComponent({
+}), rt = /* @__PURE__ */ Q(tt, [["__scopeId", "data-v-35143171"]]), ot = /* @__PURE__ */ t.defineComponent({
   __name: "PairingPage",
   setup(e) {
     const s = t.ref("generate");
@@ -1870,7 +1870,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
               t.createVNode(c, { value: "generate" }, {
                 default: t.withCtx(() => [
                   t.createElementVNode("span", { class: "flex items-center gap-1" }, [
-                    t.createVNode(t.unref(se)),
+                    t.createVNode(t.unref(ue)),
                     t.createTextVNode("生成配对码")
                   ])
                 ]),
@@ -1879,7 +1879,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
               t.createVNode(c, { value: "devices" }, {
                 default: t.withCtx(() => [
                   t.createElementVNode("span", { class: "flex items-center gap-1" }, [
-                    t.createVNode(t.unref(Ae)),
+                    t.createVNode(t.unref(Ve)),
                     t.createTextVNode("已配对设备")
                   ])
                 ]),
@@ -1895,7 +1895,7 @@ const Ye = /* @__PURE__ */ t.defineComponent({
         }, {
           default: t.withCtx(() => [
             (t.openBlock(), t.createBlock(t.KeepAlive, null, [
-              s.value === "generate" ? (t.openBlock(), t.createBlock(Je, { key: 0 })) : (t.openBlock(), t.createBlock(tt, { key: 1 }))
+              s.value === "generate" ? (t.openBlock(), t.createBlock(et, { key: 0 })) : (t.openBlock(), t.createBlock(rt, { key: 1 }))
             ], 1024))
           ]),
           _: 1
@@ -1903,21 +1903,21 @@ const Ye = /* @__PURE__ */ t.defineComponent({
       ]);
     };
   }
-}), ot = /* @__PURE__ */ W(rt, [["__scopeId", "data-v-d7a1be8f"]]), at = {
-  // 与插件 DLL 的 IPlugin.Id 保持一致（mslx-plugin-extras），宿主按此名注册/匹配插件
-  name: "mslx-plugin-extras",
-  version: "1.1.0",
+}), at = /* @__PURE__ */ Q(ot, [["__scopeId", "data-v-d7a1be8f"]]), nt = {
+  // 与后端 IPlugin.Id、package.json.name 完全一致，标明两项实际功能。
+  name: "mslx-plugin-pairing-server-icon",
+  version: "1.1.1",
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
   routes: [
     {
       parentName: "settingsBase",
       path: "pairing",
-      name: "extrasPairing",
-      component: ot,
+      name: "mslx-plugin-pairing-server-icon-pairing",
+      component: at,
       meta: { title: "扫码配对", icon: "qrcode", roleCode: ["admin"] }
     }
   ]
 };
 export {
-  at as pluginConfig
+  nt as pluginConfig
 };

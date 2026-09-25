@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Routing;
 namespace MSLX.Plugin.Pairing;
 
 /// <summary>
-/// 配对插件 API（全部挂在 /api 前缀下，自动经过 Daemon 的 AuthMiddleware）：
-/// - POST /api/plugins/pair/codes           生成一次性配对码（admin）
-/// - POST /api/plugins/pair/redeem          兑换配对码（AllowAnonymous + 插件内部强校验：签名/时效/一次性/IP 限速）
-/// - GET  /api/plugins/pair/devices         已配对设备列表（admin，脱敏）
-/// - POST /api/plugins/pair/devices/{id}/revoke  撤销设备（admin，删除配对用户使 Key 立即失效）
+/// 配对 API：规范前缀为 /api/plugin/mslx-plugin-pairing-server-icon/pair，自动经过 Daemon 的 AuthMiddleware。
+/// - POST /codes               生成一次性配对码（admin）
+/// - POST /redeem              兑换配对码（AllowAnonymous + 签名/时效/一次性/IP 限速）
+/// - GET  /devices             已配对设备列表（admin，脱敏）
+/// - POST /devices/{id}/revoke  撤销设备（admin，删除配对用户使 Key 立即失效）
 /// </summary>
 public static class PairingEndpoints
 {
@@ -28,9 +28,10 @@ public static class PairingEndpoints
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
-    public static void Map(IEndpointRouteBuilder endpoints, PairingService service)
+    // 前缀由统一入口传入；规范路由与旧版 App 兼容路由复用相同处理和权限要求。
+    public static void Map(IEndpointRouteBuilder endpoints, PairingService service, string prefix)
     {
-        var group = endpoints.MapGroup("/api/plugins/pair");
+        var group = endpoints.MapGroup(prefix);
 
         group.MapPost("/codes", async (HttpContext ctx) =>
         {

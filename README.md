@@ -1,6 +1,6 @@
-# MSLX_APP-Plugins
+# 扫码配对与服务端图标
 
-[MSLX Daemon](https://github.com/MSLTeam/MSLX) 的插件集合，配合 **MSLX App（Android 控制台）** 与面板使用。
+由 **WLudy1012** 开发的 [MSLX Daemon](https://github.com/MSLTeam/MSLX) 第三方插件，提供 Android 客户端扫码配对、设备授权管理和服务端图标。
 插件以单个 DLL 形式分发，放入 Daemon 数据目录的 `Plugins/` 即可安装。
 
 > 本仓库为 [MSLX_APP-Android](https://github.com/WLudy1012/MSLX_APP-Android) 配套插件的独立源码仓库。
@@ -10,13 +10,17 @@
 
 | 插件 | Id | 说明 |
 | --- | --- | --- |
-| [MSLX.Plugin.Extras](MSLX.Plugin.Extras/) | `mslx-plugin-extras` | 统一增强：扫码配对（`/api/plugins/pair`）+ 服务端图标（`/api/plugins/icon`），单 DLL 双能力，自带面板页面 |
+| [扫码配对与服务端图标](MSLX.Plugin.Extras/) | `mslx-plugin-pairing-server-icon` | 一次性二维码配对、配对设备管理与服务端图标，单 DLL 分发，自带面板页面 |
 
-### MSLX.Plugin.Extras
+### 功能与兼容要求
+
+- 声明的最低 **MSLX Daemon 版本为 1.5.10.2**；这是插件的 `MinSDKVersion`，不是插件自身版本或 .NET SDK 版本。
+- 当前插件版本：**1.1.1**。后端 ID、前端 `package.json.name` 与 `pluginConfig.name` 均为 `mslx-plugin-pairing-server-icon`。
+- 命名与 API 前缀依据 [MSLX 插件开发规范](https://mslx.mslmc.cn/plugin-dev/init/start/)；源码目录暂沿用 `MSLX.Plugin.Extras/`，发布文件名已改为 `MSLX.Plugin.PairingServerIcon`。
 
 - **扫码配对**：生成一次性配对二维码（120s 有效、可撤销、可过期），App 扫码接入；
   - **面板内置页面**：安装插件后面板「设置 → 扫码配对」自动出现（生成配对码 / 已配对设备双页签，含撤销二次确认）；
-  - 页面前端随插件 DLL 内嵌分发（`Frontend/dist/mslx-plugin-entry.js` → Daemon 经 `/plugins/mslx-plugin-extras/{version}/` 下发），无需面板侧改动。
+  - 页面前端随插件 DLL 内嵌分发（`Frontend/dist/mslx-plugin-entry.js` → Daemon 经 `/plugins/mslx-plugin-pairing-server-icon/{version}/` 下发），无需面板侧改动。
 - **服务端图标**：本地 `server-icon.png` 优先，第三方状态 API 回退并 24 小时缓存。
 - 插件图标：硫磺史莱姆，源文件 `Frontend/public/icon.png`（`Assets/sulfur.png` 同源），构建时自动拷贝到 `Frontend/dist/icon.png`。按 Daemon 约定 `Icon => "icon.png"`，插件列表接口自动拼成 `/plugins/{id}/{version}/icon.png` 下发。
 
@@ -30,7 +34,7 @@
 powershell -ExecutionPolicy Bypass -File MSLX.Plugin.Extras/pack.ps1 -SdkDir D:\MSLX\MSLX-dev\MSLX.SDK
 ```
 
-产物在 `MSLX.Plugin.Extras/dist/`：`MSLX.Plugin.Extras.dll`（安装用）与 `MSLX.Plugin.Extras.zip`（DLL + README）。
+产物在 `MSLX.Plugin.Extras/dist/`：`MSLX.Plugin.PairingServerIcon.dll`（安装用）与 `MSLX.Plugin.PairingServerIcon.zip`（DLL + README）。
 
 ### 面板页面（前端）开发
 
@@ -52,7 +56,16 @@ pnpm build        # 产出 dist/mslx-plugin-entry.js（单文件 ESM，样式经
 
 ## 安装
 
-1. 从 [Releases](../../releases) 下载 `MSLX.Plugin.Extras.dll`（或 zip 解压）；
+### 从旧插件升级
+
+旧 ID `mslx-extras` / `mslx-plugin-extras` 与新 ID 不同，不能同时加载。请停止 Daemon，移出旧的 `MSLX.Plugin.Extras.dll`（以及更早的 `MSLX.Plugin.Pairing.dll`、`MSLX.Plugin.ServerIcon.dll`），再安装新 DLL 并启动 Daemon、刷新面板。
+保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据，以继续使用已有设备授权与缓存。不要删除这些数据目录。
+
+新接口统一位于 `/api/plugin/mslx-plugin-pairing-server-icon/pair/` 和 `/api/plugin/mslx-plugin-pairing-server-icon/icon/`；旧版 Android 客户端使用的 `/api/plugins/pair/`、`/api/plugins/icon/` 仍由相同处理逻辑提供兼容。
+
+### 安装步骤
+
+1. 从 [Releases](../../releases) 下载 `MSLX.Plugin.PairingServerIcon.dll`（或 zip 解压）；
 2. 复制到 Daemon 数据目录的 `Plugins/` 子目录：
    - Windows：`%APPDATA%\MSLX\MSLXData\DaemonData\Plugins\`
    - macOS：`~/Library/Application Support/MSLX/MSLXData/DaemonData/Plugins/`
@@ -67,5 +80,5 @@ CNB（cnb.cool）镜像仓库 `WLudy/MSLX_APP-Plugins`（本仓库直推）：`.
 `v*` 标签构建并发布 CNB Release（同名 `dll` + `zip`）。CNB 下载地址：
 
 ```
-https://cnb.cool/WLudy/MSLX_APP-Plugins/-/releases/download/{tag}/MSLX.Plugin.Extras.dll
+https://cnb.cool/WLudy/MSLX_APP-Plugins/-/releases/download/{tag}/MSLX.Plugin.PairingServerIcon.dll
 ```

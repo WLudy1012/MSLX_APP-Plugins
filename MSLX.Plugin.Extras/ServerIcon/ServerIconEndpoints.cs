@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Routing;
 namespace MSLX.Plugin.ServerIcon;
 
 /// <summary>
-/// 图标端点（全部挂在 <c>/api/plugins/icon</c> 前缀下，自动受 Daemon 认证管道保护）：
+/// 图标端点（规范前缀 <c>/api/plugin/mslx-plugin-pairing-server-icon/icon</c>，自动受 Daemon 认证管道保护）：
 /// <list type="bullet">
 /// <item>GET /server/{id} —— 返回实例图标 PNG 字节流；无可用图标时返回 JSON（code/message），App 侧回退占位图。</item>
 /// <item>POST /server/{id}/refresh —— 清除该实例的第三方图标磁盘缓存（下次请求重新拉取）。</item>
@@ -21,9 +21,10 @@ public static class ServerIconEndpoints
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
-    public static void Map(IEndpointRouteBuilder endpoints, ServerIconService service)
+    // 前缀由统一入口传入；兼容路由不会绕过原有的实例资源权限检查。
+    public static void Map(IEndpointRouteBuilder endpoints, ServerIconService service, string prefix)
     {
-        var group = endpoints.MapGroup("/api/plugins/icon");
+        var group = endpoints.MapGroup(prefix);
 
         group.MapGet("/server/{id:long}", async (long id, HttpContext ctx) =>
         {
