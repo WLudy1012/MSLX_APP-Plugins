@@ -34,8 +34,8 @@ jobs:
       - name: Build and pack
         shell: pwsh
         run: |
-          # tag 触发时用 tag 版本号（去掉 v 前缀）注入程序集版本，其余场景用占位版本
-          $ver = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '0.0.0-dev' }
+          # tag 触发时注入 tag 版本；手动构建沿用 csproj 版本，保持程序集与插件元数据一致。
+          $ver = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '' }
           ./MSLX.Plugin.Extras/pack.ps1 -SdkDir "$env:GITHUB_WORKSPACE/MSLX-dev/MSLX.SDK" -Version $ver
 
       - name: Upload build artifact
