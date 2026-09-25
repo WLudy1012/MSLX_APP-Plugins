@@ -41,7 +41,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mslx-plugin-android-extensions
+          name: mslx-plugin-android-thirdparty-addons
           path: |
             MSLX.Plugin.Extras/dist/MSLX.Plugin.AndroidExtensions.dll
             MSLX.Plugin.Extras/dist/MSLX.Plugin.AndroidExtensions.zip

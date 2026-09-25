@@ -10,7 +10,7 @@ import PairingPage from './views/PairingPage.vue';
  */
 export const pluginConfig = {
   // 与后端 IPlugin.Id、package.json.name 完全一致，作为 Android 客户端扩展能力的统一标识。
-  name: 'mslx-plugin-android-extensions',
+  name: 'mslx-plugin-android-thirdparty-addons',
   version: '1.1.2',
 
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
@@ -18,7 +18,7 @@ export const pluginConfig = {
     {
       parentName: 'settingsBase',
       path: 'pairing',
-      name: 'mslx-plugin-android-extensions-pairing',
+      name: 'mslx-plugin-android-thirdparty-addons-pairing',
       component: PairingPage,
       meta: { title: '扫码配对', icon: 'qrcode', roleCode: ['admin'] },
     },

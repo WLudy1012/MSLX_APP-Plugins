@@ -1500,7 +1500,7 @@ function Qe() {
   return ie || (ie = 1, F = mslxRequest), F;
 }
 var qe = Qe();
-const U = /* @__PURE__ */ pe(qe), W = "/api/plugin/mslx-plugin-android-extensions/pair";
+const U = /* @__PURE__ */ pe(qe), W = "/api/plugin/mslx-plugin-android-thirdparty-addons/pair";
 async function Ke(e) {
   return await U.post({
     url: `${W}/codes`,
@@ -1905,14 +1905,14 @@ const Je = /* @__PURE__ */ t.defineComponent({
   }
 }), at = /* @__PURE__ */ Q(ot, [["__scopeId", "data-v-d7a1be8f"]]), nt = {
   // 与后端 IPlugin.Id、package.json.name 完全一致，作为 Android 客户端扩展能力的统一标识。
-  name: "mslx-plugin-android-extensions",
+  name: "mslx-plugin-android-thirdparty-addons",
   version: "1.1.2",
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
   routes: [
     {
       parentName: "settingsBase",
       path: "pairing",
-      name: "mslx-plugin-android-extensions-pairing",
+      name: "mslx-plugin-android-thirdparty-addons-pairing",
       component: at,
       meta: { title: "扫码配对", icon: "qrcode", roleCode: ["admin"] }
     }

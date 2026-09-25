@@ -21,7 +21,7 @@ public sealed class AndroidExtensionsPlugin : IPlugin
     /// 插件唯一标识须与前端 package.json.name 和 pluginConfig.name 一致。
     /// DLL 文件名是程序集名称，不要求等于 ID；旧插件须先卸载，避免重复注册端点。
     /// </summary>
-    public const string PluginId = "mslx-plugin-android-extensions";
+    public const string PluginId = "mslx-plugin-android-thirdparty-addons";
 
     // 按官方规范将公开 API 放在 /api/plugin/{plugin-id}/ 下，防止插件之间路由冲突。
     public const string ApiPrefix = "/api/plugin/" + PluginId;

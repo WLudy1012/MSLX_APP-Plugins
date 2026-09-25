@@ -4,7 +4,7 @@ import type { CreatePairCodeParams, PairCodeModel, PairedDeviceModel } from './m
 
 // 扫码配对端点（由本插件后端提供，需 admin 会话；鉴权头/解包由宿主 request 拦截器自动完成）
 // 使用包含插件 ID 的规范路径；后端另为旧版 Android 客户端保留兼容入口。
-const pairingApi = '/api/plugin/mslx-plugin-android-extensions/pair';
+const pairingApi = '/api/plugin/mslx-plugin-android-thirdparty-addons/pair';
 
 /** 生成一次性配对码（TTL 120s，仅服务端内存保存） */
 export async function postPairCode(params: CreatePairCodeParams): Promise<PairCodeModel> {

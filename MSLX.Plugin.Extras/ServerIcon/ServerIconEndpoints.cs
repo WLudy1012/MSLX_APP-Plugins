@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Routing;
 namespace MSLX.Plugin.ServerIcon;
 
 /// <summary>
-/// 图标端点（规范前缀 <c>/api/plugin/mslx-plugin-android-extensions/icon</c>，自动受 Daemon 认证管道保护）：
+/// 图标端点（规范前缀 <c>/api/plugin/mslx-plugin-android-thirdparty-addons/icon</c>，自动受 Daemon 认证管道保护）：
 /// <list type="bullet">
 /// <item>GET /server/{id} —— 返回实例图标 PNG 字节流；无可用图标时返回 JSON（code/message），App 侧回退占位图。</item>
 /// <item>POST /server/{id}/refresh —— 清除该实例的第三方图标磁盘缓存（下次请求重新拉取）。</item>

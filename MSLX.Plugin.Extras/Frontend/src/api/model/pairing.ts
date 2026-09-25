@@ -1,4 +1,4 @@
-// 扫码配对（/api/plugin/mslx-plugin-android-extensions/pair 端点）相关类型
+// 扫码配对（/api/plugin/mslx-plugin-android-thirdparty-addons/pair 端点）相关类型
 // 字段与后端 PairingService.CreateCode / ListDevices 返回结构对齐（camelCase）。
 
 /** 生成配对码请求体 */
