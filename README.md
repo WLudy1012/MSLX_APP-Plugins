@@ -17,7 +17,7 @@
 
 - 声明的最低 **MSLX Daemon 版本为 1.5.10.2**；这是插件的 `MinSDKVersion`，不是插件自身版本或 .NET SDK 版本。
 - 当前插件版本：**1.1.3**。后端 ID、前端 `package.json.name` 与 `pluginConfig.name` 均为 `mslx-plugin-android-thirdparty-addons`。
-- 命名与 API 前缀依据 [MSLX 插件开发规范](https://mslx.mslmc.cn/plugin-dev/init/start/)；源码目录暂沿用 `MSLX.Plugin.Extras/`，发布文件名已改为 `MSLX.Plugin.AndroidExtensions`。
+- 命名与 API 前缀依据 [MSLX 插件开发规范](https://mslx.mslmc.cn/plugin-dev/init/start/)；源码目录暂沿用 `MSLX.Plugin.Extras/`，发布文件名已改为 `MSLX.Plugin.AndroidThirdpartyAddons`。
 
 - **扫码配对**：生成一次性配对二维码（120s 有效、可撤销、可过期），App 扫码接入；
   - **面板内置页面**：安装插件后面板「设置 → 扫码配对」自动出现（生成配对码 / 已配对设备双页签，含撤销二次确认）；
@@ -35,7 +35,7 @@
 powershell -ExecutionPolicy Bypass -File MSLX.Plugin.Extras/pack.ps1 -SdkDir D:\MSLX\MSLX-dev\MSLX.SDK
 ```
 
-产物在 `MSLX.Plugin.Extras/dist/`：`MSLX.Plugin.AndroidExtensions.dll`（安装用）与 `MSLX.Plugin.AndroidExtensions.zip`（DLL + README）。
+产物在 `MSLX.Plugin.Extras/dist/`：`MSLX.Plugin.AndroidThirdpartyAddons.dll`（安装用）与 `MSLX.Plugin.AndroidThirdpartyAddons.zip`（DLL + README）。
 
 ### 面板页面（前端）开发
 
@@ -59,14 +59,14 @@ pnpm build        # 产出 dist/mslx-plugin-entry.js（单文件 ESM，样式经
 
 ### 从旧插件升级
 
-旧 ID `mslx-plugin-android-extensions` / `mslx-extras` / `mslx-plugin-extras` / `mslx-plugin-pairing-server-icon` 与新 ID 不同，不能同时加载。若已装过 1.1.x，请停止 Daemon，用新 `MSLX.Plugin.AndroidExtensions.dll` 覆盖同名旧 DLL；同时移出旧的 `MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`（以及更早的 `MSLX.Plugin.Pairing.dll`、`MSLX.Plugin.ServerIcon.dll`），再启动 Daemon、刷新面板。
+旧 ID `mslx-plugin-android-extensions` / `mslx-extras` / `mslx-plugin-extras` / `mslx-plugin-pairing-server-icon` 与新 ID 不同，不能同时加载。若已装过 1.1.x，请停止 Daemon，移除旧 `MSLX.Plugin.AndroidExtensions.dll`，再放入新 `MSLX.Plugin.AndroidThirdpartyAddons.dll`；同时移出旧的 `MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`（以及更早的 `MSLX.Plugin.Pairing.dll`、`MSLX.Plugin.ServerIcon.dll`），再启动 Daemon、刷新面板。
 保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据，以继续使用已有设备授权与缓存。不要删除这些数据目录。
 
 新接口统一位于 `/api/plugin/mslx-plugin-android-thirdparty-addons/pair/` 和 `/api/plugin/mslx-plugin-android-thirdparty-addons/icon/`；1.1.1 的 `/api/plugin/mslx-plugin-pairing-server-icon/` 路径及旧版 Android 客户端使用的 `/api/plugins/pair/`、`/api/plugins/icon/` 仍由相同处理逻辑提供兼容。
 
 ### 安装步骤
 
-1. 从 [Releases](../../releases) 下载 `MSLX.Plugin.AndroidExtensions.dll`（或 zip 解压）；
+1. 从 [Releases](../../releases) 下载 `MSLX.Plugin.AndroidThirdpartyAddons.dll`（或 zip 解压）；
 2. 复制到 Daemon 数据目录的 `Plugins/` 子目录：
    - Windows：`%APPDATA%\MSLX\MSLXData\DaemonData\Plugins\`
    - macOS：`~/Library/Application Support/MSLX/MSLXData/DaemonData/Plugins/`
@@ -81,5 +81,5 @@ CNB（cnb.cool）镜像仓库 `WLudy/MSLX_APP-Plugins`（本仓库直推）：`.
 `v*` 标签构建并发布 CNB Release（同名 `dll` + `zip`）。CNB 下载地址：
 
 ```
-https://cnb.cool/WLudy/MSLX_APP-Plugins/-/releases/download/{tag}/MSLX.Plugin.AndroidExtensions.dll
+https://cnb.cool/WLudy/MSLX_APP-Plugins/-/releases/download/{tag}/MSLX.Plugin.AndroidThirdpartyAddons.dll
 ```

@@ -43,29 +43,29 @@ dotnet build @buildArgs
 if ($LASTEXITCODE -ne 0) { throw 'dotnet build failed' }
 
 $bin = Join-Path $root 'bin\Release\net10.0'
-$dll = Join-Path $bin 'MSLX.Plugin.AndroidExtensions.dll'
-$pdb = Join-Path $bin 'MSLX.Plugin.AndroidExtensions.pdb'
+$dll = Join-Path $bin 'MSLX.Plugin.AndroidThirdpartyAddons.dll'
+$pdb = Join-Path $bin 'MSLX.Plugin.AndroidThirdpartyAddons.pdb'
 if (-not (Test-Path $dll)) { throw "dll not found: $dll" }
 
 Write-Host '[2/3] Collecting artifacts...'
 New-Item -ItemType Directory -Force -Path $dist | Out-Null
 # 仅清理本工程旧名称的构建产物，避免 dist 中同时出现新旧安装包而误装。
-foreach ($legacyName in @('MSLX.Plugin.Extras.dll', 'MSLX.Plugin.Extras.pdb', 'MSLX.Plugin.Extras.zip', 'MSLX.Plugin.PairingServerIcon.dll', 'MSLX.Plugin.PairingServerIcon.pdb', 'MSLX.Plugin.PairingServerIcon.zip')) {
+foreach ($legacyName in @('MSLX.Plugin.Extras.dll', 'MSLX.Plugin.Extras.pdb', 'MSLX.Plugin.Extras.zip', 'MSLX.Plugin.PairingServerIcon.dll', 'MSLX.Plugin.PairingServerIcon.pdb', 'MSLX.Plugin.PairingServerIcon.zip', 'MSLX.Plugin.AndroidExtensions.dll', 'MSLX.Plugin.AndroidExtensions.pdb', 'MSLX.Plugin.AndroidExtensions.zip')) {
     $legacyPath = Join-Path $dist $legacyName
     if (Test-Path -LiteralPath $legacyPath) { Remove-Item -LiteralPath $legacyPath -Force }
 }
-Copy-Item $dll (Join-Path $dist 'MSLX.Plugin.AndroidExtensions.dll') -Force
-if (Test-Path $pdb) { Copy-Item $pdb (Join-Path $dist 'MSLX.Plugin.AndroidExtensions.pdb') -Force }
+Copy-Item $dll (Join-Path $dist 'MSLX.Plugin.AndroidThirdpartyAddons.dll') -Force
+if (Test-Path $pdb) { Copy-Item $pdb (Join-Path $dist 'MSLX.Plugin.AndroidThirdpartyAddons.pdb') -Force }
 Copy-Item (Join-Path $root 'README.md') (Join-Path $dist 'README.md') -Force
 
 Write-Host '[3/3] Creating zip package...'
-$zip = Join-Path $dist 'MSLX.Plugin.AndroidExtensions.zip'
+$zip = Join-Path $dist 'MSLX.Plugin.AndroidThirdpartyAddons.zip'
 if (Test-Path $zip) { Remove-Item $zip -Force }
-Compress-Archive -Path (Join-Path $dist 'MSLX.Plugin.AndroidExtensions.dll'), (Join-Path $dist 'README.md') -DestinationPath $zip
+Compress-Archive -Path (Join-Path $dist 'MSLX.Plugin.AndroidThirdpartyAddons.dll'), (Join-Path $dist 'README.md') -DestinationPath $zip
 
 Write-Host ''
 Write-Host 'Done. Install artifacts:'
-Write-Host "  dll : $(Join-Path $dist 'MSLX.Plugin.AndroidExtensions.dll')"
+Write-Host "  dll : $(Join-Path $dist 'MSLX.Plugin.AndroidThirdpartyAddons.dll')"
 Write-Host "  zip : $zip"
 Write-Host ''
 Write-Host "Embedded frontend: $feEntry"

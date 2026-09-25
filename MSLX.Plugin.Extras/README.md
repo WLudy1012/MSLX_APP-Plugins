@@ -2,7 +2,7 @@
 
 由 **WLudy1012** 开发的 MSLX Daemon 第三方插件，为 **MSLX Android** 提供统一的服务端扩展能力，集中承载客户端所需的整合与增强功能。
 当前包含扫码配对、设备授权管理和服务端图标，以**单个 DLL** 分发；后续增强功能可继续集成在此插件中。
-统一入口为 `AndroidExtensionsPlugin`，ID 为 `mslx-plugin-android-thirdparty-addons`，前端包名与此一致。
+统一入口为 `AndroidThirdpartyAddonsPlugin`，ID 为 `mslx-plugin-android-thirdparty-addons`，前端包名与此一致。
 插件版本 **1.1.3**，声明的最低 **MSLX Daemon 版本为 1.5.10.2**。
 插件图标为内嵌的硫磺史莱姆 PNG，由 `/plugins/{id}/{version}/icon.png` 下发。
 
@@ -14,8 +14,8 @@
 
 1. 运行 `pack.ps1`（需 .NET 10 SDK；`MSLX.SDK` 自动探测：仓库内 `MSLX-dev`、
    平级 `MSLX-dev`、平级 `MSLX-Android/MSLX-dev`，也可用 `-SdkDir` 或
-   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/MSLX.Plugin.AndroidExtensions.dll`；
-2. 将 `MSLX.Plugin.AndroidExtensions.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
+   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/MSLX.Plugin.AndroidThirdpartyAddons.dll`；
+2. 将 `MSLX.Plugin.AndroidThirdpartyAddons.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
    - Windows：`%APPDATA%\MSLX\MSLXData\DaemonData\Plugins\`
    - macOS：`~/Library/Application Support/MSLX/MSLXData/DaemonData/Plugins/`
 3. 重启 Daemon，或在面板插件管理中热加载；
@@ -23,9 +23,9 @@
 
 ### 从旧版本升级
 
-1. 停止 Daemon，用本版 `MSLX.Plugin.AndroidExtensions.dll` 覆盖同名旧 DLL（旧 ID `mslx-plugin-android-extensions`），并移出 `MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`（旧 ID：`mslx-extras` / `mslx-plugin-extras` / `mslx-plugin-pairing-server-icon`），以及更早的 `MSLX.Plugin.Pairing.dll` / `MSLX.Plugin.ServerIcon.dll`，避免端点重复注册。
+1. 停止 Daemon，移除旧 `MSLX.Plugin.AndroidExtensions.dll`（旧 ID `mslx-plugin-android-extensions`），再放入本版 `MSLX.Plugin.AndroidThirdpartyAddons.dll`，并移出 `MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`（旧 ID：`mslx-extras` / `mslx-plugin-extras` / `mslx-plugin-pairing-server-icon`），以及更早的 `MSLX.Plugin.Pairing.dll` / `MSLX.Plugin.ServerIcon.dll`，避免端点重复注册。
 2. 保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据；改名继续读取原数据位置，不要求重新配对。
-3. 放入新的 `MSLX.Plugin.AndroidExtensions.dll`，启动 Daemon 并刷新面板。旧版 Android App 可继续使用兼容接口。
+3. 放入新的 `MSLX.Plugin.AndroidThirdpartyAddons.dll`，启动 Daemon 并刷新面板。旧版 Android App 可继续使用兼容接口。
 
 ---
 

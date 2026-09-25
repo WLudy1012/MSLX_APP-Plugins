@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <!-- 程序集名描述实际功能；插件 ID 由 IPlugin.Id 声明，与 DLL 文件名是不同概念。 -->
-    <AssemblyName>MSLX.Plugin.AndroidExtensions</AssemblyName>
-    <RootNamespace>MSLX.Plugin.AndroidExtensions</RootNamespace>
+    <AssemblyName>MSLX.Plugin.AndroidThirdpartyAddons</AssemblyName>
+    <RootNamespace>MSLX.Plugin.AndroidThirdpartyAddons</RootNamespace>
     <Product>MSLX Android 扩展插件</Product>
     <Description>为 MSLX Android 提供统一服务端扩展能力的第三方插件，当前包含扫码配对、设备授权管理和服务端图标。</Description>
     <Version>1.1.3</Version>

@@ -71,7 +71,7 @@ main:
         - name: verify embedded frontend
           script: |
             set -eu
-            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.AndroidExtensions.dll
+            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.AndroidThirdpartyAddons.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
             grep -aq 'mslx-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
@@ -149,16 +149,16 @@ $:
         - name: collect artifacts
           script: |
             set -eu
-            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.AndroidExtensions.dll
+            DLL=MSLX.Plugin.Extras/bin/Release/net10.0/MSLX.Plugin.AndroidThirdpartyAddons.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
             grep -aq 'mslx-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
-            cp "$DLL" MSLX.Plugin.AndroidExtensions.dll
+            cp "$DLL" MSLX.Plugin.AndroidThirdpartyAddons.dll
             if ! command -v zip >/dev/null 2>&1; then
               apt-get update -qq && apt-get install -y -qq zip
             fi
-            zip -q MSLX.Plugin.AndroidExtensions.zip MSLX.Plugin.AndroidExtensions.dll MSLX.Plugin.Extras/README.md
-            ls -lh MSLX.Plugin.AndroidExtensions.dll MSLX.Plugin.AndroidExtensions.zip
+            zip -q MSLX.Plugin.AndroidThirdpartyAddons.zip MSLX.Plugin.AndroidThirdpartyAddons.dll MSLX.Plugin.Extras/README.md
+            ls -lh MSLX.Plugin.AndroidThirdpartyAddons.dll MSLX.Plugin.AndroidThirdpartyAddons.zip
 
         - name: prepare release notes
           script: |
@@ -189,8 +189,8 @@ $:
               echo ""
               echo "| 文件 | 说明 | SHA-256 |"
               echo "| --- | --- | --- |"
-              echo "| \`MSLX.Plugin.AndroidExtensions.dll\` | 插件本体（含内嵌面板页面），放入 Daemon \`Plugins/\` 安装 | \`$(sha256sum MSLX.Plugin.AndroidExtensions.dll | awk '{print $1}')\` |"
-              echo "| \`MSLX.Plugin.AndroidExtensions.zip\` | DLL + README 压缩包 | \`$(sha256sum MSLX.Plugin.AndroidExtensions.zip | awk '{print $1}')\` |"
+              echo "| \`MSLX.Plugin.AndroidThirdpartyAddons.dll\` | 插件本体（含内嵌面板页面），放入 Daemon \`Plugins/\` 安装 | \`$(sha256sum MSLX.Plugin.AndroidThirdpartyAddons.dll | awk '{print $1}')\` |"
+              echo "| \`MSLX.Plugin.AndroidThirdpartyAddons.zip\` | DLL + README 压缩包 | \`$(sha256sum MSLX.Plugin.AndroidThirdpartyAddons.zip | awk '{print $1}')\` |"
             } > CNB_RELEASE.md
             cat CNB_RELEASE.md
 
@@ -204,5 +204,5 @@ $:
           image: cnbcool/attachments:latest
           settings:
             attachments:
-              - MSLX.Plugin.AndroidExtensions.dll
-              - MSLX.Plugin.AndroidExtensions.zip
+              - MSLX.Plugin.AndroidThirdpartyAddons.dll
+              - MSLX.Plugin.AndroidThirdpartyAddons.zip

@@ -3,7 +3,7 @@ using MSLX.Plugin.Pairing;
 using MSLX.Plugin.ServerIcon;
 using MSLX.SDK;
 
-namespace MSLX.Plugin.AndroidExtensions;
+namespace MSLX.Plugin.AndroidThirdpartyAddons;
 
 /// <summary>
 /// MSLX Android 扩展插件：为 MSLX Android 提供统一服务端扩展能力的第三方插件。
@@ -15,7 +15,7 @@ namespace MSLX.Plugin.AndroidExtensions;
 /// 插件图标为硫磺史莱姆 PNG（Frontend/dist/icon.png，随前端产物内嵌）；Icon 返回相对文件名，
 /// Daemon 插件列表接口会拼成 <c>/plugins/{id}/{version}/icon.png</c> 由静态资源管线匿名下发。
 /// </summary>
-public sealed class AndroidExtensionsPlugin : IPlugin
+public sealed class AndroidThirdpartyAddonsPlugin : IPlugin
 {
     /// <summary>
     /// 插件唯一标识须与前端 package.json.name 和 pluginConfig.name 一致。
@@ -84,6 +84,10 @@ public sealed class AndroidExtensionsPlugin : IPlugin
         const string previousApiPrefix = "/api/plugin/mslx-plugin-pairing-server-icon";
         PairingEndpoints.Map(endpoints, _pairing, previousApiPrefix + "/pair");
         ServerIconEndpoints.Map(endpoints, _serverIcon, previousApiPrefix + "/icon");
+
+        const string previousAndroidExtensionsPrefix = "/api/plugin/mslx-plugin-android-extensions";
+        PairingEndpoints.Map(endpoints, _pairing, previousAndroidExtensionsPrefix + "/pair");
+        ServerIconEndpoints.Map(endpoints, _serverIcon, previousAndroidExtensionsPrefix + "/icon");
 
         // 旧版 Android App 仍调用这些地址；共用服务和鉴权处理，保留已有配对与图标功能。
         PairingEndpoints.Map(endpoints, _pairing, "/api/plugins/pair");
