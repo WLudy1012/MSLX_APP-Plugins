@@ -3,7 +3,7 @@
 由 **WLudy1012** 开发的 MSLX Daemon 第三方插件，为 **MSLX Android** 提供统一的服务端扩展能力，集中承载客户端所需的整合与增强功能。
 当前包含扫码配对、设备授权管理和服务端图标，以**单个 DLL** 分发；后续增强功能可继续集成在此插件中。
 统一入口为 `AndroidThirdpartyAddonsPlugin`，ID 为 `mslx-plugin-android-thirdparty-addons`，前端包名与此一致。
-插件版本 **1.1.3**，声明的最低 **MSLX Daemon 版本为 1.5.10.2**。
+插件版本 **1.1.4**，声明的最低 **MSLX Daemon 版本为 1.5.10.2**。
 插件图标为内嵌的硫磺史莱姆 PNG，由 `/plugins/{id}/{version}/icon.png` 下发。
 
 > Daemon 的 PluginManager 对每个程序集只识别第一个 `IPlugin` 实现，因此合并采用单一入口，
