@@ -1904,7 +1904,8 @@ const Ye = /* @__PURE__ */ t.defineComponent({
     };
   }
 }), ot = /* @__PURE__ */ W(rt, [["__scopeId", "data-v-d7a1be8f"]]), at = {
-  name: "mslx-extras",
+  // 与插件 DLL 的 IPlugin.Id 保持一致（mslx-plugin-extras），宿主按此名注册/匹配插件
+  name: "mslx-plugin-extras",
   version: "1.1.0",
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
   routes: [

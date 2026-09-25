@@ -9,7 +9,8 @@ import PairingPage from './views/PairingPage.vue';
  * 依赖（vue / tdesign-vue-next / mslx-request 等）已外部化到宿主 window 全局，构建产物为单文件 ESM。
  */
 export const pluginConfig = {
-  name: 'mslx-extras',
+  // 与插件 DLL 的 IPlugin.Id 保持一致（mslx-plugin-extras），宿主按此名注册/匹配插件
+  name: 'mslx-plugin-extras',
   version: '1.1.0',
 
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级

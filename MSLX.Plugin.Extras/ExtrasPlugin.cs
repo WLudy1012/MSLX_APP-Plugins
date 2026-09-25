@@ -17,7 +17,11 @@ namespace MSLX.Plugin.Extras;
 /// </summary>
 public sealed class ExtrasPlugin : IPlugin
 {
-    public string Id => "mslx-extras";
+    /// <summary>
+    /// 插件包名（Daemon 侧唯一标识）：DLL 名、面板静态资源路径 /plugins/{id}/{version}/ 与
+    /// 面板前端 pluginConfig.name 三处必须保持一致，改名后对 Daemon 而言即为另一个插件。
+    /// </summary>
+    public string Id => "mslx-plugin-extras";
 
     public string Name => "MSLX 增强插件";
 

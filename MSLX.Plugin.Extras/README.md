@@ -1,7 +1,7 @@
 # MSLX.Plugin.Extras —— 统一增强插件（扫码配对 + 服务端图标）
 
 MSLX Daemon 插件：把原先两个独立插件（`MSLX.Plugin.Pairing` 扫码配对、`MSLX.Plugin.ServerIcon`
-服务端图标）合并进**单个 DLL**，由一个 `IPlugin` 入口（`ExtrasPlugin`，Id `mslx-extras`）同时挂载
+服务端图标）合并进**单个 DLL**，由一个 `IPlugin` 入口（`ExtrasPlugin`，Id `mslx-plugin-extras`）同时挂载
 两组端点。插件图标为内嵌的硫磺史莱姆 PNG（运行时转 data URI，无需公网地址）。
 
 > Daemon 的 PluginManager 对每个程序集只识别第一个 `IPlugin` 实现，因此合并采用单一入口，

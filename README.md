@@ -10,13 +10,13 @@
 
 | 插件 | Id | 说明 |
 | --- | --- | --- |
-| [MSLX.Plugin.Extras](MSLX.Plugin.Extras/) | `mslx-extras` | 统一增强：扫码配对（`/api/plugins/pair`）+ 服务端图标（`/api/plugins/icon`），单 DLL 双能力，自带面板页面 |
+| [MSLX.Plugin.Extras](MSLX.Plugin.Extras/) | `mslx-plugin-extras` | 统一增强：扫码配对（`/api/plugins/pair`）+ 服务端图标（`/api/plugins/icon`），单 DLL 双能力，自带面板页面 |
 
 ### MSLX.Plugin.Extras
 
 - **扫码配对**：生成一次性配对二维码（120s 有效、可撤销、可过期），App 扫码接入；
   - **面板内置页面**：安装插件后面板「设置 → 扫码配对」自动出现（生成配对码 / 已配对设备双页签，含撤销二次确认）；
-  - 页面前端随插件 DLL 内嵌分发（`Frontend/dist/mslx-plugin-entry.js` → Daemon 经 `/plugins/mslx-extras/{version}/` 下发），无需面板侧改动。
+  - 页面前端随插件 DLL 内嵌分发（`Frontend/dist/mslx-plugin-entry.js` → Daemon 经 `/plugins/mslx-plugin-extras/{version}/` 下发），无需面板侧改动。
 - **服务端图标**：本地 `server-icon.png` 优先，第三方状态 API 回退并 24 小时缓存。
 - 插件图标：硫磺史莱姆，源文件 `Frontend/public/icon.png`（`Assets/sulfur.png` 同源），构建时自动拷贝到 `Frontend/dist/icon.png`。按 Daemon 约定 `Icon => "icon.png"`，插件列表接口自动拼成 `/plugins/{id}/{version}/icon.png` 下发。
 
