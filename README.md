@@ -16,7 +16,7 @@
 ### 功能与兼容要求
 
 - 声明的最低 **MSLX Daemon 版本为 1.5.10.2**；这是插件的 `MinSDKVersion`，不是插件自身版本或 .NET SDK 版本。
-- 当前插件版本：**1.1.4**。后端 ID、前端 `package.json.name` 与 `pluginConfig.name` 均为 `mslx-plugin-thirdparty-android-addons`。
+- 当前插件版本：**1.2.1**。后端 ID、前端 `package.json.name` 与 `pluginConfig.name` 均为 `mslx-plugin-thirdparty-android-addons`。
 - 命名与 API 前缀依据 [MSLX 插件开发规范](https://mslx.mslmc.cn/plugin-dev/init/start/)；程序集、根命名空间和源码目录统一为 `MSLX.Plugin.ThirdpartyAndroidAddons`。
 
 - **扫码配对**：生成一次性配对二维码（120s 有效、可撤销、可过期），App 扫码接入；

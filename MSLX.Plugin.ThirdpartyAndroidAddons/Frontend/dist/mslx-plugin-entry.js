@@ -1980,7 +1980,7 @@ const tt = /* @__PURE__ */ t.defineComponent({
 }), lt = /* @__PURE__ */ Q(nt, [["__scopeId", "data-v-633ca783"]]), it = {
   // 与后端 IPlugin.Id、package.json.name 完全一致，作为 Android 客户端扩展能力的统一标识。
   name: "mslx-plugin-thirdparty-android-addons",
-  version: "1.1.4",
+  version: "1.2.1",
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
   routes: [
     {
@@ -1988,7 +1988,7 @@ const tt = /* @__PURE__ */ t.defineComponent({
       path: "pairing",
       name: "mslx-plugin-thirdparty-android-addons-pairing",
       component: lt,
-      meta: { title: "扫码配对", icon: "qrcode" }
+      meta: { title: "扫码配对", icon: "qrcode", roleCode: ["admin", "user"] }
     }
   ]
 };

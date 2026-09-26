@@ -34,7 +34,7 @@ public sealed class ThirdpartyAndroidAddonsPlugin : IPlugin
         "MSLX Android 配套的第三方扩展插件，提供统一的服务端增强能力。" +
         "当前包含扫码配对、设备授权管理和服务端图标，并内置面板扫码配对页面。";
 
-    public string Version => "1.1.4";
+    public string Version => "1.2.1";
 
     public string MinSDKVersion => "1.5.10.2";
 
