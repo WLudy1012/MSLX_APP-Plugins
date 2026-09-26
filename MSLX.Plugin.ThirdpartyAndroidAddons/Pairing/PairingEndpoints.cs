@@ -4,12 +4,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using MSLX.SDK.Models;
 
-namespace MSLX.Plugin.Pairing;
+namespace MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
 
 /// <summary>
-/// 配对 API：规范前缀为 /api/plugin/mslx-plugin-android-thirdparty-addons/pair，自动经过 Daemon 的 AuthMiddleware。
-/// - POST /codes               生成一次性配对码（admin）
+/// 配对 API：规范前缀由插件入口传入，自动经过 Daemon 的 AuthMiddleware。
+/// - GET  /config              读取已保存的 Daemon 地址和当前权限
+/// - PUT  /config              保存 Daemon 地址（admin）
+/// - POST /codes               按当前用户权限生成一次性配对码
 /// - POST /redeem              兑换配对码（AllowAnonymous + 签名/时效/一次性/IP 限速）
 /// - GET  /devices             已配对设备列表（admin，脱敏）
 /// - POST /devices/{id}/revoke  撤销设备（admin，删除配对用户使 Key 立即失效）
@@ -28,21 +31,48 @@ public static class PairingEndpoints
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
-    // 前缀由统一入口传入；规范路由与旧版 App 兼容路由复用相同处理和权限要求。
     public static void Map(IEndpointRouteBuilder endpoints, PairingService service, string prefix)
     {
         var group = endpoints.MapGroup(prefix);
 
+        group.MapGet("/config", async (HttpContext ctx) =>
+        {
+            var user = GetCurrentUser(ctx);
+            if (user == null)
+            {
+                await WriteAsync(ctx, 401, "用户不存在或登录已过期");
+                return;
+            }
+
+            await WriteAsync(ctx, 200, "ok", service.GetConfig(IsAdmin(user)).Data);
+        }).RequireAuthorization();
+
+        group.MapPut("/config", async (HttpContext ctx) =>
+        {
+            var request = await ReadBodyAsync<DaemonAddressRequest>(ctx);
+            if (request == null)
+            {
+                await WriteAsync(ctx, 400, "请求体不合法");
+                return;
+            }
+
+            var result = service.SetPublicUrl(request.PublicUrl);
+            await WriteAsync(ctx, result.Code, result.Message, result.Data);
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "admin" });
+
         group.MapPost("/codes", async (HttpContext ctx) =>
         {
             var request = await ReadBodyAsync<CreateCodeRequest>(ctx) ?? new CreateCodeRequest();
-            var createdBy = ctx.User?.FindFirst("UserId")?.Value
-                ?? ctx.User?.Identity?.Name
-                ?? "unknown";
-            var baseUrl = $"{ctx.Request.Scheme}://{ctx.Request.Host}";
-            var (code, message, data) = service.CreateCode(request, createdBy, baseUrl);
+            var user = GetCurrentUser(ctx);
+            if (user == null)
+            {
+                await WriteAsync(ctx, 401, "用户不存在或登录已过期");
+                return;
+            }
+
+            var (code, message, data) = service.CreateCode(request, user);
             await WriteAsync(ctx, code, message, data);
-        }).RequireAuthorization(new AuthorizeAttribute { Roles = "admin" });
+        }).RequireAuthorization();
 
         group.MapPost("/redeem", async (HttpContext ctx) =>
         {
@@ -70,6 +100,17 @@ public static class PairingEndpoints
             await WriteAsync(ctx, code, message, data);
         }).RequireAuthorization(new AuthorizeAttribute { Roles = "admin" });
     }
+
+    private static UserInfo? GetCurrentUser(HttpContext ctx)
+    {
+        var userId = ctx.User?.FindFirst("UserId")?.Value;
+        return string.IsNullOrWhiteSpace(userId)
+            ? null
+            : global::MSLX.SDK.MSLX.Config.Users.GetUserById(userId);
+    }
+
+    private static bool IsAdmin(UserInfo user) =>
+        string.Equals(user.Role, "admin", StringComparison.OrdinalIgnoreCase);
 
     private static async Task<T?> ReadBodyAsync<T>(HttpContext ctx) where T : class
     {

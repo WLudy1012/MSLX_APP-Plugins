@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MSLX.Plugin.Pairing;
+namespace MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
 
 /// <summary>扫码配对载荷（二维码内容，前缀 mslxp1: + Base64Url(JSON)）。</summary>
 public sealed class PairingPayload
@@ -23,11 +23,15 @@ public sealed class PairingPayload
 /// <summary>生成配对码请求。</summary>
 public sealed class CreateCodeRequest
 {
-    public string? PublicUrl { get; set; }
     public string Scope { get; set; } = "full";
     public List<string> Resources { get; set; } = new();
     public int? DeviceTtlDays { get; set; }
     public string? DeviceNameHint { get; set; }
+}
+
+public sealed class DaemonAddressRequest
+{
+    public string? PublicUrl { get; set; }
 }
 
 /// <summary>兑换配对码请求。</summary>

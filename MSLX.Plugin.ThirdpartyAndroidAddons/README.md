@@ -2,44 +2,47 @@
 
 由 **WLudy1012** 开发的 MSLX Daemon 第三方插件，为 **MSLX Android** 提供统一的服务端扩展能力，集中承载客户端所需的整合与增强功能。
 当前包含扫码配对、设备授权管理和服务端图标，以**单个 DLL** 分发；后续增强功能可继续集成在此插件中。
-统一入口为 `AndroidThirdpartyAddonsPlugin`，ID 为 `mslx-plugin-android-thirdparty-addons`，前端包名与此一致。
+统一入口为 `ThirdpartyAndroidAddonsPlugin`，ID 为 `mslx-plugin-thirdparty-android-addons`，前端包名与此一致。
 插件版本 **1.1.4**，声明的最低 **MSLX Daemon 版本为 1.5.10.2**。
 插件图标为内嵌的硫磺史莱姆 PNG，由 `/plugins/{id}/{version}/icon.png` 下发。
 
 > Daemon 的 PluginManager 对每个程序集只识别第一个 `IPlugin` 实现，因此合并采用单一入口，
-> 两组规范端点前缀为 `/api/plugin/mslx-plugin-android-thirdparty-addons/pair`、`/api/plugin/mslx-plugin-android-thirdparty-addons/icon`。
-> 1.1.1 的 `/api/plugin/mslx-plugin-pairing-server-icon/` 路径及旧版 App 的 `/api/plugins/pair`、`/api/plugins/icon` 作为兼容入口，复用相同服务、权限校验与限流。
+> 两组规范端点前缀为 `/api/plugin/mslx-plugin-thirdparty-android-addons/pair`、`/api/plugin/mslx-plugin-thirdparty-android-addons/icon`。
 
 ## 安装
 
 1. 运行 `pack.ps1`（需 .NET 10 SDK；`MSLX.SDK` 自动探测：仓库内 `MSLX-dev`、
    平级 `MSLX-dev`、平级 `MSLX-Android/MSLX-dev`，也可用 `-SdkDir` 或
-   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/MSLX.Plugin.AndroidThirdpartyAddons.dll`；
-2. 将 `MSLX.Plugin.AndroidThirdpartyAddons.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
+   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/MSLX.Plugin.ThirdpartyAndroidAddons.dll`；
+2. 将 `MSLX.Plugin.ThirdpartyAndroidAddons.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
    - Windows：`%APPDATA%\MSLX\MSLXData\DaemonData\Plugins\`
    - macOS：`~/Library/Application Support/MSLX/MSLXData/DaemonData/Plugins/`
 3. 重启 Daemon，或在面板插件管理中热加载；
-4. 日志出现 `[mslx-plugin-android-thirdparty-addons] MSLX Android 扩展插件已挂载`，再确认面板出现「设置 → 扫码配对」。
+4. 日志出现 `[mslx-plugin-thirdparty-android-addons] MSLX Android 扩展插件已挂载`，再确认面板出现「设置 → 扫码配对」。
 
 ### 从旧版本升级
 
-1. 停止 Daemon，移除旧 `MSLX.Plugin.AndroidExtensions.dll`（旧 ID `mslx-plugin-android-extensions`），再放入本版 `MSLX.Plugin.AndroidThirdpartyAddons.dll`，并移出 `MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`（旧 ID：`mslx-extras` / `mslx-plugin-extras` / `mslx-plugin-pairing-server-icon`），以及更早的 `MSLX.Plugin.Pairing.dll` / `MSLX.Plugin.ServerIcon.dll`，避免端点重复注册。
+1. 停止 Daemon，移除旧 `MSLX.Plugin.AndroidThirdpartyAddons.dll`（旧 ID `mslx-plugin-android-thirdparty-addons`）、`MSLX.Plugin.AndroidExtensions.dll`（旧 ID `mslx-plugin-android-extensions`）、`MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`，再放入本版 `MSLX.Plugin.ThirdpartyAndroidAddons.dll`，避免端点重复注册。
 2. 保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据；改名继续读取原数据位置，不要求重新配对。
-3. 放入新的 `MSLX.Plugin.AndroidThirdpartyAddons.dll`，启动 Daemon 并刷新面板。旧版 Android App 可继续使用兼容接口。
+3. 放入新的 `MSLX.Plugin.ThirdpartyAndroidAddons.dll`，启动 Daemon 并刷新面板。Android 客户端需要使用新的规范接口前缀。
 
 ---
 
-## 一、扫码配对（`/api/plugin/mslx-plugin-android-thirdparty-addons/pair`）
+## 一、扫码配对（`/api/plugin/mslx-plugin-thirdparty-android-addons/pair`）
 
 在已授权的客户端（App / 面板 / curl）生成**一次性配对二维码**，手机 App 扫码后自动换取一枚
 **独立受限**的 API Key，免去手输长 Key。每台配对设备对应一个独立的 Daemon 用户：可撤销、可过期
 （默认 30 天，可选 1–365 天）、可审计，服务端只保存 API Key 前缀，完整 Key 仅返回给扫码设备一次。
 
-除 `redeem` 外均要求 **admin** 角色鉴权。
+`redeem` 允许匿名兑换；配置地址和设备管理要求 **admin** 角色，生成二维码要求登录用户。
+
+首次安装时需要管理员在面板中保存 Daemon 对外地址；未配置地址时，`/codes` 会返回 400，避免二维码携带不可访问的请求地址。
 
 | 方法 | 路径 | 说明 |
 | --- | --- | --- |
-| POST | `/codes` | 生成一次性配对码（TTL 120s，仅内存保存）。可带 `scope=full\|limited`、`resources[]`、`deviceTtlDays`、`publicUrl` |
+| GET | `/config` | 读取已保存的 Daemon 地址和当前用户可执行的操作 |
+| PUT | `/config` | 管理员保存 Daemon 对外地址 |
+| POST | `/codes` | 生成一次性配对码（TTL 120s，仅内存保存）。管理员可选择 `scope=full\|limited` 和 `resources[]`；普通用户强制使用自己的资源权限 |
 | POST | `/redeem` | 兑换配对码（匿名端点，插件内部强校验：HMAC 签名 / 时效 / 一次性 / IP 限速与失败锁定） |
 | GET | `/devices` | 已配对设备列表（脱敏：Key 前缀、指纹前缀、状态、有效期） |
 | POST | `/devices/{deviceId}/revoke` | 撤销设备（删除配对用户，Key 立即失效） |
@@ -48,7 +51,7 @@
 **不自行拼装或验签**（客户端无安装密钥）。配对码 120 秒过期、单次使用、仅内存保存；同 IP 每分钟
 最多 10 次兑换、连续失败 5 次临时锁定 15 分钟。
 
-## 二、服务端图标（`/api/plugin/mslx-plugin-android-thirdparty-addons/icon`）
+## 二、服务端图标（`/api/plugin/mslx-plugin-thirdparty-android-addons/icon`）
 
 为实例统一提供图标，供 App / 面板实例卡片展示。**来源优先级**（结果带 24 小时磁盘缓存）：
 实例目录 `server-icon.png` → 插件磁盘缓存 → 第三方状态 API（`mcsrvstat.us` → `mcstatus.io`，
@@ -63,8 +66,10 @@
 
 ---
 
+普通用户生成二维码时，服务端忽略请求中的 `scope` 和 `resources`，直接复制当前登录用户的 `Resources`，新设备角色固定为 `user`。管理员可生成完整权限设备，也可生成指定实例的受限设备。
+
 ## 数据位置
 
-- 配对配置：`<AppData>/PluginsData/mslx-pair/Config.json`（安装密钥 + 设备记录）
+- 配对配置：`<AppData>/PluginsData/mslx-pair/Config.json`（安装密钥 + Daemon 地址 + 设备记录）
 - 图标缓存：`<AppData>/PluginsData/mslx-icon/IconCache/<实例 id>.png`（TTL 24 小时）
 - 配对设备对应的用户：Daemon `UserList.json` 中用户名形如 `pair_dxxxxxxxxxx`

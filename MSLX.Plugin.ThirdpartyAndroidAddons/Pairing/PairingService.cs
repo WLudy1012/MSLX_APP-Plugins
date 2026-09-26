@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using MSLX.SDK.Models;
 using Newtonsoft.Json.Linq;
 
-namespace MSLX.Plugin.Pairing;
+namespace MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
 
 /// <summary>
 /// 扫码配对核心服务：
@@ -17,7 +17,7 @@ namespace MSLX.Plugin.Pairing;
 /// </summary>
 public sealed class PairingService
 {
-    public const string PluginId = "mslx-pair";
+    private const string ConfigId = "mslx-pair";
     public const string PayloadPrefix = "mslxp1:";
 
     private const int CodeTtlSeconds = 120;
@@ -64,7 +64,7 @@ public sealed class PairingService
     private Timer? _sweeper;
 
     private static SDK.Interfaces.IPluginConfigBridge Config =>
-        global::MSLX.SDK.MSLX.Config.GetPluginConfig(PluginId);
+        global::MSLX.SDK.MSLX.Config.GetPluginConfig(ConfigId);
 
     private static SDK.Interfaces.IMSLXLogger Log => global::MSLX.SDK.MSLX.Logger;
 
@@ -95,28 +95,58 @@ public sealed class PairingService
         _sweeper = null;
     }
 
+    public (int Code, string Message, object? Data) GetConfig(bool canEditAddress)
+    {
+        return (200, "ok", new
+        {
+            publicUrl = ReadPublicUrl(),
+            canEditAddress,
+            canManageDevices = canEditAddress,
+        });
+    }
+
+    public (int Code, string Message, object? Data) SetPublicUrl(string? publicUrl)
+    {
+        var normalized = NormalizeUrl(publicUrl, string.Empty);
+        if (!IsValidPublicUrl(normalized))
+        {
+            return (400, "Daemon 地址必须是有效的 http:// 或 https:// 地址", null);
+        }
+
+        lock (_storeLock)
+        {
+            Config.WriteConfigKey("publicUrl", normalized);
+        }
+        Log.Info($"[Pairing] Daemon 地址已更新为 {normalized}");
+        return (200, "Daemon 地址已保存", new { publicUrl = normalized });
+    }
+
     // ---------------- 配对码 ----------------
 
     /// <summary>生成一次性配对码并返回二维码载荷。scope=full 创建 admin 级配对用户；limited 创建受限 user。</summary>
     public (int Code, string Message, object? Data) CreateCode(
         CreateCodeRequest request,
-        string createdBy,
-        string requestBaseUrl)
+        UserInfo creator)
     {
+        var createdBy = creator.Id;
         if (!CheckAndTrackCodeIssue(createdBy))
         {
             return (429, "生成过于频繁，请稍后再试", null);
         }
 
-        var url = NormalizeUrl(request.PublicUrl, requestBaseUrl);
+        var url = ReadPublicUrl();
         if (string.IsNullOrWhiteSpace(url))
         {
-            return (400, "无法确定 Daemon 对外地址，请显式传入 publicUrl", null);
+            return (400, "尚未配置 Daemon 地址，请先由管理员保存", null);
         }
 
-        var scope = string.Equals(request.Scope, "limited", StringComparison.OrdinalIgnoreCase)
+        var isAdmin = string.Equals(creator.Role, "admin", StringComparison.OrdinalIgnoreCase);
+        var scope = isAdmin && string.Equals(request.Scope, "limited", StringComparison.OrdinalIgnoreCase)
             ? "limited"
-            : "full";
+            : (isAdmin ? "full" : "limited");
+        var resources = isAdmin && scope == "limited"
+            ? NormalizeResources(request.Resources)
+            : (isAdmin ? new List<string>() : NormalizeResources(creator.Resources));
         var ttlDays = Math.Clamp(request.DeviceTtlDays ?? DefaultDeviceTtlDays, 1, MaxDeviceTtlDays);
         var expiresAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + CodeTtlSeconds;
         var code = GenerateCode();
@@ -126,7 +156,7 @@ public sealed class PairingService
             Url = url,
             ExpiresAt = expiresAt,
             Scope = scope,
-            Resources = scope == "limited" ? (request.Resources ?? new List<string>()) : new List<string>(),
+            Resources = resources,
             DeviceTtlDays = ttlDays,
             CreatedBy = createdBy,
         };
@@ -470,6 +500,24 @@ public sealed class PairingService
         WriteDevices(devices);
     }
 
+    private static List<string> NormalizeResources(IEnumerable<string>? resources) =>
+        (resources ?? Array.Empty<string>())
+            .Select(resource => resource?.Trim())
+            .Where(resource => !string.IsNullOrWhiteSpace(resource))
+            .Select(resource => resource!)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+    private string ReadPublicUrl()
+    {
+        lock (_storeLock)
+        {
+            var stored = Config.ReadConfigKey("publicUrl")?.ToString();
+            var normalized = NormalizeUrl(stored, string.Empty);
+            return IsValidPublicUrl(normalized) ? normalized : string.Empty;
+        }
+    }
+
     private bool TryDecodePayload(string? text, out PairingPayload payload, out string error)
     {
         payload = new PairingPayload();
@@ -546,6 +594,14 @@ public sealed class PairingService
             url = "https://" + url;
         }
         return url;
+    }
+
+    private static bool IsValidPublicUrl(string url)
+    {
+        return Uri.TryCreate(url, UriKind.Absolute, out var parsed) &&
+               (parsed.Scheme.Equals(Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ||
+                parsed.Scheme.Equals(Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)) &&
+               !string.IsNullOrWhiteSpace(parsed.Host);
     }
 
     private static string Sanitize(string? value, int maxLength, string fallback)

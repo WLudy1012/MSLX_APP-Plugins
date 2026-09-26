@@ -1,10 +1,25 @@
 import request from 'mslx-request';
 
-import type { CreatePairCodeParams, PairCodeModel, PairedDeviceModel } from './model/pairing';
+import type {
+  CreatePairCodeParams,
+  PairCodeModel,
+  PairedDeviceModel,
+  PairingConfigModel,
+} from './model/pairing';
 
-// 扫码配对端点（由本插件后端提供，需 admin 会话；鉴权头/解包由宿主 request 拦截器自动完成）
-// 使用包含插件 ID 的规范路径；后端另为旧版 Android 客户端保留兼容入口。
-const pairingApi = '/api/plugin/mslx-plugin-android-thirdparty-addons/pair';
+// 鉴权头与响应解包由宿主 request 拦截器处理。
+const pairingApi = '/api/plugin/mslx-plugin-thirdparty-android-addons/pair';
+
+export async function getPairingConfig(): Promise<PairingConfigModel> {
+  return await request.get({ url: `${pairingApi}/config` });
+}
+
+export async function savePairingConfig(publicUrl: string): Promise<PairingConfigModel> {
+  return await request.put({
+    url: `${pairingApi}/config`,
+    data: { publicUrl },
+  });
+}
 
 /** 生成一次性配对码（TTL 120s，仅服务端内存保存） */
 export async function postPairCode(params: CreatePairCodeParams): Promise<PairCodeModel> {

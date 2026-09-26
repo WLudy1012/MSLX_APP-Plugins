@@ -1,7 +1,7 @@
 # 构建产物（bin/obj 任意层级；插件打包产物 dist 仅限插件目录，Frontend/dist 前端产物已提交入库）
 bin/
 obj/
-MSLX.Plugin.Extras/dist/
+MSLX.Plugin.ThirdpartyAndroidAddons/dist/
 
 # 前端依赖
 node_modules/

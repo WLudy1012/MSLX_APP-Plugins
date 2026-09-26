@@ -1,27 +1,27 @@
 using Microsoft.AspNetCore.Routing;
-using MSLX.Plugin.Pairing;
-using MSLX.Plugin.ServerIcon;
+using MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
+using MSLX.Plugin.ThirdpartyAndroidAddons.ServerIcon;
 using MSLX.SDK;
 
-namespace MSLX.Plugin.AndroidThirdpartyAddons;
+namespace MSLX.Plugin.ThirdpartyAndroidAddons;
 
 /// <summary>
 /// MSLX Android 扩展插件：为 MSLX Android 提供统一服务端扩展能力的第三方插件。
 ///
 /// Daemon 的 PluginManager 对每个程序集只识别第一个 IPlugin 实现，因此这里用单一入口，
-/// 在 OnRegisterEndpoints 中按插件 ID 挂载两组端点，同时保留旧版 App 的兼容入口。
+/// 在 OnRegisterEndpoints 中按插件 ID 挂载两组规范端点。
 /// 两组服务各自保持原有鉴权口径与生命周期。
 ///
 /// 插件图标为硫磺史莱姆 PNG（Frontend/dist/icon.png，随前端产物内嵌）；Icon 返回相对文件名，
 /// Daemon 插件列表接口会拼成 <c>/plugins/{id}/{version}/icon.png</c> 由静态资源管线匿名下发。
 /// </summary>
-public sealed class AndroidThirdpartyAddonsPlugin : IPlugin
+public sealed class ThirdpartyAndroidAddonsPlugin : IPlugin
 {
     /// <summary>
     /// 插件唯一标识须与前端 package.json.name 和 pluginConfig.name 一致。
     /// DLL 文件名是程序集名称，不要求等于 ID；旧插件须先卸载，避免重复注册端点。
     /// </summary>
-    public const string PluginId = "mslx-plugin-android-thirdparty-addons";
+    public const string PluginId = "mslx-plugin-thirdparty-android-addons";
 
     // 按官方规范将公开 API 放在 /api/plugin/{plugin-id}/ 下，防止插件之间路由冲突。
     public const string ApiPrefix = "/api/plugin/" + PluginId;
@@ -79,20 +79,6 @@ public sealed class AndroidThirdpartyAddonsPlugin : IPlugin
         PairingEndpoints.Map(endpoints, _pairing, ApiPrefix + "/pair");
         ServerIconEndpoints.Map(endpoints, _serverIcon, ApiPrefix + "/icon");
 
-        // 兼容 1.1.1 已发布的路径，避免升级期间仍加载旧入口的面板请求失败。
-        // 三组路径共用服务实例，配对码、限流和权限校验保持一致。
-        const string previousApiPrefix = "/api/plugin/mslx-plugin-pairing-server-icon";
-        PairingEndpoints.Map(endpoints, _pairing, previousApiPrefix + "/pair");
-        ServerIconEndpoints.Map(endpoints, _serverIcon, previousApiPrefix + "/icon");
-
-        const string previousAndroidExtensionsPrefix = "/api/plugin/mslx-plugin-android-extensions";
-        PairingEndpoints.Map(endpoints, _pairing, previousAndroidExtensionsPrefix + "/pair");
-        ServerIconEndpoints.Map(endpoints, _serverIcon, previousAndroidExtensionsPrefix + "/icon");
-
-        // 旧版 Android App 仍调用这些地址；共用服务和鉴权处理，保留已有配对与图标功能。
-        PairingEndpoints.Map(endpoints, _pairing, "/api/plugins/pair");
-        ServerIconEndpoints.Map(endpoints, _serverIcon, "/api/plugins/icon");
-
-        global::MSLX.SDK.MSLX.Logger.Info($"[{PluginId}] MSLX Android 扩展插件已挂载 {ApiPrefix}/pair 与 {ApiPrefix}/icon（含旧版 App 兼容入口）");
+        global::MSLX.SDK.MSLX.Logger.Info($"[{PluginId}] MSLX Android 扩展插件已挂载 {ApiPrefix}/pair 与 {ApiPrefix}/icon");
     }
 }

@@ -1,4 +1,4 @@
-// 扫码配对（/api/plugin/mslx-plugin-android-thirdparty-addons/pair 端点）相关类型
+// 扫码配对相关类型
 // 字段与后端 PairingService.CreateCode / ListDevices 返回结构对齐（camelCase）。
 
 /** 生成配对码请求体 */
@@ -9,8 +9,12 @@ export interface CreatePairCodeParams {
   resources?: string[];
   /** 配对设备有效期（天），1–365，默认 30 */
   deviceTtlDays?: number;
-  /** 覆盖自动识别的对外地址（App 从外网扫码时需填公网地址） */
-  publicUrl?: string;
+}
+
+export interface PairingConfigModel {
+  publicUrl: string;
+  canEditAddress: boolean;
+  canManageDevices: boolean;
 }
 
 /** 生成配对码返回数据（二维码原文在 payload） */

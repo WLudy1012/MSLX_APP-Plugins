@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Text.Json;
 using MSLX.SDK.Models;
 
-namespace MSLX.Plugin.ServerIcon;
+namespace MSLX.Plugin.ThirdpartyAndroidAddons.ServerIcon;
 
 /// <summary>
 /// 服务端图标核心服务：给出实例图标（PNG 字节），来源优先级：
@@ -17,7 +17,7 @@ namespace MSLX.Plugin.ServerIcon;
 /// </summary>
 public sealed class ServerIconService
 {
-    public const string PluginId = "mslx-icon";
+    private const string ConfigId = "mslx-icon";
 
     private const string IconFileName = "server-icon.png";
     private const string DefaultPropertiesFile = "server.properties";
@@ -30,7 +30,7 @@ public sealed class ServerIconService
 
     private static SDK.Interfaces.IMSLXLogger Log => global::MSLX.SDK.MSLX.Logger;
     private static string CacheDir =>
-        Path.Combine(global::MSLX.SDK.MSLX.Config.GetPluginConfig(PluginId).GetDataPath(), "IconCache");
+        Path.Combine(global::MSLX.SDK.MSLX.Config.GetPluginConfig(ConfigId).GetDataPath(), "IconCache");
 
     public sealed record IconResult(int Code, string Message, byte[]? Bytes, string ContentType);
 
