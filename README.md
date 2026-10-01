@@ -1,85 +1,61 @@
-# MSLX Android 扩展插件
+# Rolithax Launcher Daemon 扩展
 
-由 **WLudy1012** 开发的 [MSLX Daemon](https://github.com/MSLTeam/MSLX) 第三方插件，为 **MSLX Android** 提供统一的服务端扩展能力，集中承载客户端所需的整合与增强功能。
-当前已包含扫码配对、设备授权管理和服务端图标，后续增强功能可继续在此插件中扩展。
-插件以单个 DLL 形式分发，放入 Daemon 数据目录的 `Plugins/` 即可安装。
+为 **Rolithax Launcher** 提供配套服务端能力的 MSLX Daemon 插件。当前包含设备扫码配对、实例图标和资源中心远端直装；后续客户端增强功能统一扩展在此插件中。
 
-> 本仓库为 [MSLX_APP-Android](https://github.com/WLudy1012/MSLX_APP-Android) 配套插件的独立源码仓库。
-> 协议 [AGPL-3.0](LICENSE)。
+| 项目 | 值 |
+| --- | --- |
+| 插件 ID | `mslx-plugin-rolithax` |
+| 程序集与目录 | `Rolithax.Plugin.DaemonExtensions` |
+| 当前版本 | `1.0.0`（发布 tag 构建时使用 tag 版本） |
+| 最低 MSLX Daemon 版本 | `1.5.10.2` |
+| Android 包名 | `com.wludy.rolithax.launcher` |
 
-## 插件列表
+插件按单个 DLL 分发，WebPanel 前端构建物嵌入 DLL。插件 ID 与前端包名一致；API 路由遵循 MSLX Daemon 插件规范，保留 `mslx-plugin-rolithax` 前缀。
 
-| 插件 | Id | 说明 |
-| --- | --- | --- |
-| [MSLX Android 扩展插件](MSLX.Plugin.ThirdpartyAndroidAddons/) | `mslx-plugin-thirdparty-android-addons` | 一次性二维码配对、配对设备管理与服务端图标，单 DLL 分发，自带面板页面 |
+## 功能
 
-### 功能与兼容要求
+- **扫码配对**：生成一次性二维码，为设备签发独立、可过期和可撤销的受限 API Key。
+- **实例图标**：读取实例图标并按需查询公网状态服务，使用本地磁盘缓存。
+- **资源中心远端直装**：Daemon 所在机器直接从 Modrinth 下载资源到目标实例，不经 Android 客户端中转；支持模组、插件、数据包与整合包，检查实例权限、兼容性、依赖和摘要，并在暂存后提交文件。
 
-- 声明的最低 **MSLX Daemon 版本为 1.5.10.2**；这是插件的 `MinSDKVersion`，不是插件自身版本或 .NET SDK 版本。
-- 当前插件版本：**1.2.1**。后端 ID、前端 `package.json.name` 与 `pluginConfig.name` 均为 `mslx-plugin-thirdparty-android-addons`。
-- 命名与 API 前缀依据 [MSLX 插件开发规范](https://mslx.mslmc.cn/plugin-dev/init/start/)；程序集、根命名空间和源码目录统一为 `MSLX.Plugin.ThirdpartyAndroidAddons`。
-
-- **扫码配对**：生成一次性配对二维码（120s 有效、可撤销、可过期），App 扫码接入；
--  - **面板内置页面**：安装插件后面板「设置 → 扫码配对」自动出现；管理员可保存 Daemon 对外地址、选择完整或受限范围，普通用户只能生成自身权限范围的二维码；
-  - 页面前端随插件 DLL 内嵌分发（`Frontend/dist/mslx-plugin-entry.js` → Daemon 经 `/plugins/mslx-plugin-thirdparty-android-addons/{version}/` 下发），无需面板侧改动。
-- **服务端图标**：本地 `server-icon.png` 优先，第三方状态 API 回退并 24 小时缓存。
-- 插件图标：硫磺史莱姆，源文件 `Frontend/public/icon.png`（`Assets/sulfur.png` 同源），构建时自动拷贝到 `Frontend/dist/icon.png`。按 Daemon 约定 `Icon => "icon.png"`，插件列表接口自动拼成 `/plugins/{id}/{version}/icon.png` 下发。
+详细路由、权限和迁移说明见 [`Rolithax.Plugin.DaemonExtensions/README.md`](Rolithax.Plugin.DaemonExtensions/README.md)。
 
 ## 构建
 
-要求：.NET 10 SDK + MSLX.SDK 源码（`MSLTeam/MSLX` 仓库 `dev` 分支的 `MSLX.SDK` 目录）。
+需要 .NET 10 SDK、Node.js 与 pnpm。MSLX SDK 可通过 `-SdkDir` 指定；未指定时脚本会从当前工作区的 `MSLX-dev` 目录自动探测。
 
 ```powershell
-# SDK 位置自动探测（本仓库内 MSLX-dev / 平级 MSLX-dev / 平级 MSLX-Android 内的 MSLX-dev），
-# 也可显式指定：
-powershell -ExecutionPolicy Bypass -File MSLX.Plugin.ThirdpartyAndroidAddons/pack.ps1 -SdkDir D:\MSLX\MSLX-dev\MSLX.SDK
+./Rolithax.Plugin.DaemonExtensions/pack.ps1 -BuildFrontend -SdkDir D:/MSLX/MSLX-dev/MSLX.SDK
 ```
 
-产物在 `MSLX.Plugin.ThirdpartyAndroidAddons/dist/`：`MSLX.Plugin.ThirdpartyAndroidAddons.dll`（安装用）与 `MSLX.Plugin.ThirdpartyAndroidAddons.zip`（DLL + README）。
+产物位于 `Rolithax.Plugin.DaemonExtensions/dist/`：
 
-### 面板页面（前端）开发
+- `Rolithax.Plugin.DaemonExtensions.dll`：Daemon 插件本体。
+- `Rolithax.Plugin.DaemonExtensions.zip`：DLL 和安装说明。
 
-面板页面工程在 `MSLX.Plugin.ThirdpartyAndroidAddons/Frontend/`；构建产物 `Frontend/dist/`（`mslx-plugin-entry.js` + `icon.png`）**已提交入库**，CI 打包无需 Node。静态资源放 `Frontend/public/`（如 `icon.png`），`pnpm build` 会自动拷贝到 `dist/`。
+单独检查前端：
 
-```bash
-cd MSLX.Plugin.ThirdpartyAndroidAddons/Frontend
-pnpm install
-pnpm build        # 产出 dist/mslx-plugin-entry.js（单文件 ESM，样式经 JS 注入）
+```powershell
+cd Rolithax.Plugin.DaemonExtensions/Frontend
+pnpm install --frozen-lockfile
+pnpm typecheck
+pnpm build
 ```
 
-宿主插件机制约束：
+前端包名为 `mslx-plugin-rolithax`，输出入口为 `Frontend/dist/rolithax-plugin-entry.js`。该入口和 `icon.png` 随 DLL 内嵌，CNB 构建不需要安装 Node.js。
 
-- 只从 `vue` / `vue-router` / `pinia` / `tdesign-vue-next` / `mslx-request` 导入（构建时外部化，运行时取宿主 `window` 全局：`Vue` / `VueRouter` / `Pinia` / `TDesign` / `mslxRequest`）；
-- 入口导出 `pluginConfig`：`routes` 通过 `parentName: 'settingsBase'` 挂到面板「设置」分组，`component: 'HOST_LAYOUT'` 可挂一级菜单；
-- csproj 将 `Frontend/dist/**` 整体内嵌为程序集资源（`GenerateEmbeddedFilesManifest`），Daemon 用 `ManifestEmbeddedFileProvider(assembly, "Frontend/dist")` 下发。
+## 安装与升级
 
-打包脚本可在构建前自动重建前端：`pack.ps1 -BuildFrontend`（需要 pnpm）。
+把 `Rolithax.Plugin.DaemonExtensions.dll` 放到 Daemon 数据目录下的 `Plugins/`，随后重启 Daemon 或从插件管理页热加载。Daemon 运行版本低于 `1.5.10.2` 时不满足本插件要求。
 
-## 安装
+更换旧插件时先停掉 Daemon，再移除旧版程序集，避免重复注册路由。请保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据；新版仍读取现有配对配置与图标缓存。
 
-### 从旧插件升级
+## 自动构建
 
-旧 ID `mslx-plugin-android-thirdparty-addons` / `mslx-plugin-android-extensions` / `mslx-extras` / `mslx-plugin-extras` / `mslx-plugin-pairing-server-icon` 与新 ID 不同，不能同时加载。若已装过旧版，请停止 Daemon，移除旧 `MSLX.Plugin.AndroidThirdpartyAddons.dll`、`MSLX.Plugin.AndroidExtensions.dll`、`MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`，再放入新 `MSLX.Plugin.ThirdpartyAndroidAddons.dll`；同时移出更早的 `MSLX.Plugin.Pairing.dll`、`MSLX.Plugin.ServerIcon.dll`，再启动 Daemon、刷新面板。
-保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据，以继续使用已有设备授权与缓存。不要删除这些数据目录。
+- GitHub Actions：`main` 推送构建校验并将完整源码同步到 CNB；推送 `v*` tag 时构建 DLL/ZIP、发布 GitHub Release，并同步 `main` 源码与 tag。
+- CNB：`main` 推送执行 Release 构建校验；`v*` tag 构建 DLL/ZIP 并发布 CNB Release。
+- 两边构建均从上游检出 MSLX SDK，并验证 DLL 内含 `rolithax-plugin-entry.js` 与插件图标。
 
-新接口统一位于 `/api/plugin/mslx-plugin-thirdparty-android-addons/pair/` 和 `/api/plugin/mslx-plugin-thirdparty-android-addons/icon/`，旧版前缀不再注册。Android 客户端需要同步使用新前缀。
+## 致谢
 
-### 安装步骤
-
-1. 从 [Releases](../../releases) 下载 `MSLX.Plugin.ThirdpartyAndroidAddons.dll`（或 zip 解压）；
-2. 复制到 Daemon 数据目录的 `Plugins/` 子目录：
-   - Windows：`%APPDATA%\MSLX\MSLXData\DaemonData\Plugins\`
-   - macOS：`~/Library/Application Support/MSLX/MSLXData/DaemonData/Plugins/`
-3. 重启 Daemon，或在面板插件管理中热加载（也可经插件管理 API 用公网 URL 安装）。
-
-## 自动发布
-
-推送 `v*` 标签触发 GitHub Actions：检出 `MSLTeam/MSLX`（dev）提供 SDK → 构建打包 → 发布
-Release（附 `dll` 与 `zip`）；另行 `workflow_dispatch` 可手动构建产物（不上 Release）。
-
-CNB（cnb.cool）镜像仓库 `WLudy/MSLX_APP-Plugins`（本仓库直推）：`.cnb.yml` 配置 `main` 推送做构建校验、
-`v*` 标签构建并发布 CNB Release（同名 `dll` + `zip`）。CNB 下载地址：
-
-```
-https://cnb.cool/WLudy/MSLX_APP-Plugins/-/releases/download/{tag}/MSLX.Plugin.ThirdpartyAndroidAddons.dll
-```
+本项目基于 MSLX Daemon SDK 开发，接口设计遵循 [MSLX 插件开发规范](https://mslx.mslmc.cn/plugin-dev/init/start/)。

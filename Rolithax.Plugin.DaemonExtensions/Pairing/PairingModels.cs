@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
+namespace Rolithax.Plugin.DaemonExtensions.Pairing;
 
 /// <summary>扫码配对载荷（二维码内容，前缀 mslxp1: + Base64Url(JSON)）。</summary>
 public sealed class PairingPayload

@@ -1,9 +1,10 @@
-name: Build & Release Plugin
+name: 构建并发布 Rolithax 插件
 
 # 推 v* 标签：构建并发布 Release（dll + zip）；
 # 手动触发（workflow_dispatch）：仅构建并上传 Actions 工件（不发布 Release）。
 on:
   push:
+    branches: [main]
     tags: ['v*']
   workflow_dispatch:
 
@@ -14,60 +15,73 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Checkout plugin repository
-        uses: actions/checkout@v4
+      - name: 检出 Rolithax 插件仓库
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       # SDK 不在本仓库：检出上游 MSLTeam/MSLX（公开仓库，dev 分支）提供 MSLX.SDK 源码
-      - name: Checkout MSLX SDK source
-        uses: actions/checkout@v4
+      - name: 检出 MSLX SDK 源码
+        uses: actions/checkout@v7
         with:
           repository: MSLTeam/MSLX
           ref: dev
           path: MSLX-dev
           fetch-depth: 1
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+      - name: 配置 .NET SDK
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
-      - name: Build and pack
+      - name: 构建并打包插件
         shell: pwsh
         run: |
           # tag 触发时注入 tag 版本；手动构建沿用 csproj 版本，保持程序集与插件元数据一致。
           $ver = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '' }
-          ./MSLX.Plugin.ThirdpartyAndroidAddons/pack.ps1 -SdkDir "$env:GITHUB_WORKSPACE/MSLX-dev/MSLX.SDK" -Version $ver
+          ./Rolithax.Plugin.DaemonExtensions/pack.ps1 -SdkDir "$env:GITHUB_WORKSPACE/MSLX-dev/MSLX.SDK" -Version $ver
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+      - name: 上传插件构建产物
+        uses: actions/upload-artifact@v7
         with:
-          name: mslx-plugin-thirdparty-android-addons
+          name: rolithax-daemon-extensions
           path: |
-            MSLX.Plugin.ThirdpartyAndroidAddons/dist/MSLX.Plugin.ThirdpartyAndroidAddons.dll
-            MSLX.Plugin.ThirdpartyAndroidAddons/dist/MSLX.Plugin.ThirdpartyAndroidAddons.zip
+            Rolithax.Plugin.DaemonExtensions/dist/Rolithax.Plugin.DaemonExtensions.dll
+            Rolithax.Plugin.DaemonExtensions/dist/Rolithax.Plugin.DaemonExtensions.zip
 
-      - name: Publish release
+      - name: 发布 GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create $env:GITHUB_REF_NAME `
-            "MSLX.Plugin.ThirdpartyAndroidAddons/dist/MSLX.Plugin.ThirdpartyAndroidAddons.dll" `
-            "MSLX.Plugin.ThirdpartyAndroidAddons/dist/MSLX.Plugin.ThirdpartyAndroidAddons.zip" `
-            --title "MSLX Android 扩展插件 $env:GITHUB_REF_NAME" `
+            "Rolithax.Plugin.DaemonExtensions/dist/Rolithax.Plugin.DaemonExtensions.dll" `
+            "Rolithax.Plugin.DaemonExtensions/dist/Rolithax.Plugin.DaemonExtensions.zip" `
+            --title "Rolithax Launcher 扩展插件 $env:GITHUB_REF_NAME" `
             --generate-notes
 
 
-      - name: Sync release tag to CNB
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: 同步源码和发布标签到 CNB
+        if: github.event_name == 'push'
         shell: pwsh
         env:
           CNB_TOKEN: ${{ secrets.CNB_TOKEN }}
         run: |
           if ([string]::IsNullOrWhiteSpace($env:CNB_TOKEN)) {
-            Write-Warning '未配置 CNB_TOKEN，跳过 CNB tag 同步；GitHub Release 已完成。'
-            exit 0
+            throw '未配置 CNB_TOKEN，无法同步仓库源码到 CNB。'
           }
+          git config user.name 'GitHub Actions'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git remote add cnb "https://cnb:$env:CNB_TOKEN@cnb.cool/WLudy/MSLX_APP-Plugins.git"
-          git push cnb "refs/tags/$env:GITHUB_REF_NAME:refs/tags/$env:GITHUB_REF_NAME"
+          if ($LASTEXITCODE -ne 0) { throw '添加 CNB 远端失败。' }
+          git fetch cnb main --prune
+          if ($LASTEXITCODE -ne 0) { throw '获取 CNB main 失败，已停止同步。' }
+          git merge --no-edit cnb/main
+          if ($LASTEXITCODE -ne 0) { throw 'CNB main 有无法自动合并的提交；已停止同步，没有强制覆盖远端。' }
+          git push cnb HEAD:refs/heads/main
+          if ($LASTEXITCODE -ne 0) { throw '推送源码到 CNB main 失败。' }
+          if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            git push cnb "refs/tags/$env:GITHUB_REF_NAME:refs/tags/$env:GITHUB_REF_NAME"
+            if ($LASTEXITCODE -ne 0) { throw '推送发布 tag 到 CNB 失败。' }
+          }

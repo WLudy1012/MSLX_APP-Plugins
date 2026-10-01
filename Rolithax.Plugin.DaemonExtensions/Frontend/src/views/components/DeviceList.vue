@@ -67,11 +67,11 @@ onMounted(getList);
 </script>
 
 <template>
-  <div class="extras-card flex flex-col gap-4 p-5">
+  <div class="rolithax-card flex flex-col gap-4 p-5">
     <div class="flex items-center justify-between gap-4 flex-wrap">
       <div class="flex flex-col gap-2">
-        <h3 class="extras-title text-base font-bold m-0">已配对设备</h3>
-        <p class="extras-muted text-sm m-0">撤销将删除对应配对用户，其 API Key 立即失效且不可恢复。</p>
+        <h3 class="rolithax-title text-base font-bold m-0">已配对设备</h3>
+        <p class="rolithax-muted text-sm m-0">撤销将删除对应配对用户，其 API Key 立即失效且不可恢复。</p>
       </div>
       <t-button variant="dashed" :loading="loading" @click="getList">
         <template #icon><refresh-icon /></template>

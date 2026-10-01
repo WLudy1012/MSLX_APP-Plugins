@@ -12,7 +12,7 @@ main:
       stages:
         # dotnet/sdk 镜像只保证 SDK 本身。git 用于检出 MSLX.SDK 源码，zip 用于打包附件；
         # 两者缺失时先尝试补装（失败不阻断，后续步骤会给出更明确的报错）。
-        - name: install build tools
+        - name: 安装构建工具
           script: |
             set -eu
             if ! command -v git > /dev/null 2>&1; then
@@ -25,7 +25,7 @@ main:
             fi
             git --version || { echo "ERROR: 缺少 git，无法检出 MSLX.SDK 源码" >&2; exit 1; }
             command -v zip > /dev/null 2>&1 && zip -v | head -n 1 || echo "警告：缺少 zip，将在打包阶段重试安装" >&2
-        - name: fetch MSLX SDK source
+        - name: 获取 MSLX SDK 源码
           script: |
             set -eu
             clone_sdk() {
@@ -61,19 +61,19 @@ main:
               || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 与镜像站均不可达？）" >&2; exit 1; }
             test -f MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
 
-        - name: build plugin (release)
+        - name: 构建插件（Release）
           script: |
             set -eu
-            dotnet build MSLX.Plugin.ThirdpartyAndroidAddons/MSLX.Plugin.ThirdpartyAndroidAddons.csproj \
+            dotnet build Rolithax.Plugin.DaemonExtensions/Rolithax.Plugin.DaemonExtensions.csproj \
               -c Release --nologo \
               -p:MSLX_SDK_DIR="$PWD/MSLX-dev/MSLX.SDK"
 
-        - name: verify embedded frontend
+        - name: 验证内嵌前端
           script: |
             set -eu
-            DLL=MSLX.Plugin.ThirdpartyAndroidAddons/bin/Release/net10.0/MSLX.Plugin.ThirdpartyAndroidAddons.dll
+            DLL=Rolithax.Plugin.DaemonExtensions/bin/Release/net10.0/Rolithax.Plugin.DaemonExtensions.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
-            grep -aq 'mslx-plugin-entry.js' "$DLL"
+            grep -aq 'rolithax-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
             ls -lh "$DLL"
 
@@ -84,7 +84,7 @@ $:
         volumes:
           - /root/.nuget:cow
       stages:
-        - name: install build tools
+        - name: 安装构建工具
           script: |
             set -eu
             if ! command -v git > /dev/null 2>&1; then
@@ -97,7 +97,7 @@ $:
             fi
             git --version || { echo "ERROR: 缺少 git，无法检出 MSLX.SDK 源码" >&2; exit 1; }
             command -v zip > /dev/null 2>&1 && zip -v | head -n 1 || echo "警告：缺少 zip，将在打包阶段重试安装" >&2
-        - name: fetch MSLX SDK source
+        - name: 获取 MSLX SDK 源码
           script: |
             set -eu
             clone_sdk() {
@@ -133,7 +133,7 @@ $:
               || { echo "ERROR: 获取 MSLX SDK 源码失败（GitHub 与镜像站均不可达？）" >&2; exit 1; }
             test -f MSLX-dev/MSLX.SDK/MSLX.SDK.csproj
 
-        - name: build plugin (tag version)
+        - name: 构建插件（Tag 版本）
           script: |
             set -eu
             CUR_TAG=$(git tag --points-at HEAD | grep -E '^v[0-9]' | sort -V | tail -1 || true)
@@ -141,26 +141,26 @@ $:
             [ -n "$CUR_TAG" ] || { echo "ERROR: 无法确定当前 tag（构建需要精确 tag）" >&2; exit 1; }
             VER=${CUR_TAG#v}
             echo "tag=$CUR_TAG version=$VER"
-            dotnet build MSLX.Plugin.ThirdpartyAndroidAddons/MSLX.Plugin.ThirdpartyAndroidAddons.csproj \
+            dotnet build Rolithax.Plugin.DaemonExtensions/Rolithax.Plugin.DaemonExtensions.csproj \
               -c Release --nologo \
               -p:MSLX_SDK_DIR="$PWD/MSLX-dev/MSLX.SDK" \
               -p:Version="$VER"
 
-        - name: collect artifacts
+        - name: 收集发布产物
           script: |
             set -eu
-            DLL=MSLX.Plugin.ThirdpartyAndroidAddons/bin/Release/net10.0/MSLX.Plugin.ThirdpartyAndroidAddons.dll
+            DLL=Rolithax.Plugin.DaemonExtensions/bin/Release/net10.0/Rolithax.Plugin.DaemonExtensions.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
-            grep -aq 'mslx-plugin-entry.js' "$DLL"
+            grep -aq 'rolithax-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
-            cp "$DLL" MSLX.Plugin.ThirdpartyAndroidAddons.dll
+            cp "$DLL" Rolithax.Plugin.DaemonExtensions.dll
             if ! command -v zip >/dev/null 2>&1; then
               apt-get update -qq && apt-get install -y -qq zip
             fi
-            zip -q MSLX.Plugin.ThirdpartyAndroidAddons.zip MSLX.Plugin.ThirdpartyAndroidAddons.dll MSLX.Plugin.ThirdpartyAndroidAddons/README.md
-            ls -lh MSLX.Plugin.ThirdpartyAndroidAddons.dll MSLX.Plugin.ThirdpartyAndroidAddons.zip
+            zip -q Rolithax.Plugin.DaemonExtensions.zip Rolithax.Plugin.DaemonExtensions.dll Rolithax.Plugin.DaemonExtensions/README.md
+            ls -lh Rolithax.Plugin.DaemonExtensions.dll Rolithax.Plugin.DaemonExtensions.zip
 
-        - name: prepare release notes
+        - name: 生成发布说明
           script: |
             set -eu
             CUR_TAG=$(git tag --points-at HEAD | grep -E '^v[0-9]' | sort -V | tail -1 || true)
@@ -172,7 +172,7 @@ $:
             PREV_TAG=$(git tag --list 'v*' | grep -v "^${CUR_TAG}$" | sort -V | tail -1 || true)
             echo "当前 tag=$CUR_TAG 上一版本=${PREV_TAG:-<无>}"
             {
-              echo "# MSLX Android 扩展插件 $CUR_TAG"
+              echo "# Rolithax Launcher 扩展插件 $CUR_TAG"
               echo ""
               if [ -n "$PREV_TAG" ]; then
                 echo "自 \`$PREV_TAG\` 以来的提交："
@@ -189,20 +189,20 @@ $:
               echo ""
               echo "| 文件 | 说明 | SHA-256 |"
               echo "| --- | --- | --- |"
-              echo "| \`MSLX.Plugin.ThirdpartyAndroidAddons.dll\` | 插件本体（含内嵌面板页面），放入 Daemon \`Plugins/\` 安装 | \`$(sha256sum MSLX.Plugin.ThirdpartyAndroidAddons.dll | awk '{print $1}')\` |"
-              echo "| \`MSLX.Plugin.ThirdpartyAndroidAddons.zip\` | DLL + README 压缩包 | \`$(sha256sum MSLX.Plugin.ThirdpartyAndroidAddons.zip | awk '{print $1}')\` |"
+              echo "| \`Rolithax.Plugin.DaemonExtensions.dll\` | 插件本体（含内嵌面板页面），放入 Daemon \`Plugins/\` 安装 | \`$(sha256sum Rolithax.Plugin.DaemonExtensions.dll | awk '{print $1}')\` |"
+              echo "| \`Rolithax.Plugin.DaemonExtensions.zip\` | DLL + README 压缩包 | \`$(sha256sum Rolithax.Plugin.DaemonExtensions.zip | awk '{print $1}')\` |"
             } > CNB_RELEASE.md
             cat CNB_RELEASE.md
 
-        - name: create cnb release
+        - name: 创建 CNB Release
           type: git:release
           options:
             descriptionFromFile: CNB_RELEASE.md
             latest: true
 
-        - name: upload release assets
+        - name: 上传 Release 附件
           image: cnbcool/attachments:latest
           settings:
             attachments:
-              - MSLX.Plugin.ThirdpartyAndroidAddons.dll
-              - MSLX.Plugin.ThirdpartyAndroidAddons.zip
+              - Rolithax.Plugin.DaemonExtensions.dll
+              - Rolithax.Plugin.DaemonExtensions.zip

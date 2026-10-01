@@ -8,7 +8,7 @@ import type {
 } from './model/pairing';
 
 // 鉴权头与响应解包由宿主 request 拦截器处理。
-const pairingApi = '/api/plugin/mslx-plugin-thirdparty-android-addons/pair';
+const pairingApi = '/api/plugin/mslx-plugin-rolithax/pair';
 
 export async function getPairingConfig(): Promise<PairingConfigModel> {
   return await request.get({ url: `${pairingApi}/config` });

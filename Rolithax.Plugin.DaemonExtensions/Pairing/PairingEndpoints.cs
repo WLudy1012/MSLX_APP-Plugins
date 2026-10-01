@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using MSLX.SDK.Models;
 
-namespace MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
+namespace Rolithax.Plugin.DaemonExtensions.Pairing;
 
 /// <summary>
 /// 配对 API：规范前缀由插件入口传入，自动经过 Daemon 的 AuthMiddleware。

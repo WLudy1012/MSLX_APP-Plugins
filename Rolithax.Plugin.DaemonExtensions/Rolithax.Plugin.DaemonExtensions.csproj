@@ -4,11 +4,11 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>MSLX.Plugin.ThirdpartyAndroidAddons</AssemblyName>
-    <RootNamespace>MSLX.Plugin.ThirdpartyAndroidAddons</RootNamespace>
-    <Product>MSLX Android 扩展插件</Product>
-    <Description>为 MSLX Android 提供统一服务端扩展能力的第三方插件，当前包含扫码配对、设备授权管理和服务端图标。</Description>
-    <Version>1.2.1</Version>
+    <AssemblyName>Rolithax.Plugin.DaemonExtensions</AssemblyName>
+    <RootNamespace>Rolithax.Plugin.DaemonExtensions</RootNamespace>
+    <Product>Rolithax Launcher 扩展插件</Product>
+    <Description>为 Rolithax Launcher 提供扫码配对、设备图标与服务器本机资源安装。</Description>
+    <Version>1.0.0</Version>
     <IsPackable>false</IsPackable>
     <!-- 生成内嵌文件清单：Daemon 面板用 ManifestEmbeddedFileProvider(assembly, "Frontend/dist") 下发插件前端 -->
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <!-- 与 Daemon 主程序同版本：插件内 ALC 把依赖委托回主程序已加载的 Newtonsoft.Json -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <!-- 提供 GenerateEmbeddedFilesManifest 构建目标（清单随程序集内嵌，运行时由 Daemon 侧读取） -->
@@ -52,8 +53,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- 前端构建产物（Frontend/dist/mslx-plugin-entry.js 等）内嵌进 DLL，面板经 /plugins/{id}/{version}/ 动态加载 -->
-    <EmbeddedResource Include="Frontend/dist/**/*" />
+    <!-- 前端构建产物（Frontend/dist/rolithax-plugin-entry.js 等）内嵌进 DLL，面板经 /plugins/{id}/{version}/ 动态加载 -->
+    <EmbeddedResource Include="Frontend/dist/**/*" Condition="Exists('Frontend/dist')" />
   </ItemGroup>
 
   <!-- 插件图标（硫磺史莱姆）源文件保留在 Assets/sulfur.png（隐式 None 项，无需配置）；

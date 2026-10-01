@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Routing;
-using MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
-using MSLX.Plugin.ThirdpartyAndroidAddons.ServerIcon;
+using Rolithax.Plugin.DaemonExtensions.Pairing;
+using Rolithax.Plugin.DaemonExtensions.ServerIcon;
+using Rolithax.Plugin.DaemonExtensions.Resources;
 using MSLX.SDK;
 
-namespace MSLX.Plugin.ThirdpartyAndroidAddons;
+namespace Rolithax.Plugin.DaemonExtensions;
 
 /// <summary>
-/// MSLX Android 扩展插件：为 MSLX Android 提供统一服务端扩展能力的第三方插件。
+/// Rolithax Launcher 扩展插件：为 Rolithax Launcher 提供统一服务端扩展能力的第三方插件。
 ///
 /// Daemon 的 PluginManager 对每个程序集只识别第一个 IPlugin 实现，因此这里用单一入口，
 /// 在 OnRegisterEndpoints 中按插件 ID 挂载两组规范端点。
@@ -15,26 +16,25 @@ namespace MSLX.Plugin.ThirdpartyAndroidAddons;
 /// 插件图标为硫磺史莱姆 PNG（Frontend/dist/icon.png，随前端产物内嵌）；Icon 返回相对文件名，
 /// Daemon 插件列表接口会拼成 <c>/plugins/{id}/{version}/icon.png</c> 由静态资源管线匿名下发。
 /// </summary>
-public sealed class ThirdpartyAndroidAddonsPlugin : IPlugin
+public sealed class RolithaxPlugin : IPlugin
 {
     /// <summary>
     /// 插件唯一标识须与前端 package.json.name 和 pluginConfig.name 一致。
     /// DLL 文件名是程序集名称，不要求等于 ID；旧插件须先卸载，避免重复注册端点。
     /// </summary>
-    public const string PluginId = "mslx-plugin-thirdparty-android-addons";
+    public const string PluginId = "mslx-plugin-rolithax";
 
     // 按官方规范将公开 API 放在 /api/plugin/{plugin-id}/ 下，防止插件之间路由冲突。
     public const string ApiPrefix = "/api/plugin/" + PluginId;
 
     public string Id => PluginId;
 
-    public string Name => "MSLX Android 扩展插件";
+    public string Name => "Rolithax Launcher Daemon 扩展";
 
     public string Description =>
-        "MSLX Android 配套的第三方扩展插件，提供统一的服务端增强能力。" +
-        "当前包含扫码配对、设备授权管理和服务端图标，并内置面板扫码配对页面。";
+        "Rolithax Launcher 配套扩展，提供扫码配对、设备图标与服务器本机资源安装。";
 
-    public string Version => "1.2.1";
+    public string Version => GetType().Assembly.GetName().Version?.ToString(3) ?? "1.0.0";
 
     public string MinSDKVersion => "1.5.10.2";
 
@@ -49,6 +49,7 @@ public sealed class ThirdpartyAndroidAddonsPlugin : IPlugin
 
     private PairingService? _pairing;
     private ServerIconService? _serverIcon;
+    private ResourceInstallService? _resourceInstaller;
     private bool _pairingInitialized;
 
     public void OnLoad()
@@ -63,11 +64,13 @@ public sealed class ThirdpartyAndroidAddonsPlugin : IPlugin
 
         // 图标：无状态，仅准备实例
         _serverIcon ??= new ServerIconService();
+        _resourceInstaller ??= new ResourceInstallService();
     }
 
     public void OnUnload()
     {
         _pairing?.Shutdown();
+        _resourceInstaller?.Shutdown();
         _pairingInitialized = false;
     }
 
@@ -75,10 +78,12 @@ public sealed class ThirdpartyAndroidAddonsPlugin : IPlugin
     {
         _pairing ??= new PairingService();
         _serverIcon ??= new ServerIconService();
+        _resourceInstaller ??= new ResourceInstallService();
 
         PairingEndpoints.Map(endpoints, _pairing, ApiPrefix + "/pair");
         ServerIconEndpoints.Map(endpoints, _serverIcon, ApiPrefix + "/icon");
+        ResourceInstallEndpoints.Map(endpoints, _resourceInstaller, ApiPrefix + "/resources");
 
-        global::MSLX.SDK.MSLX.Logger.Info($"[{PluginId}] MSLX Android 扩展插件已挂载 {ApiPrefix}/pair 与 {ApiPrefix}/icon");
+        global::MSLX.SDK.MSLX.Logger.Info($"[{PluginId}] Rolithax 扩展已挂载配对、图标和资源安装接口");
     }
 }

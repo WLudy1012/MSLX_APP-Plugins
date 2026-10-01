@@ -28,11 +28,11 @@ onMounted(loadConfig);
 </script>
 
 <template>
-  <div class="extras-page flex flex-col gap-5">
-    <div class="extras-card flex flex-col xl:flex-row xl:items-center justify-between gap-5 p-5">
+  <div class="rolithax-page flex flex-col gap-5">
+    <div class="rolithax-card flex flex-col xl:flex-row xl:items-center justify-between gap-5 p-5">
       <div class="flex flex-col gap-2">
-        <h2 class="extras-title text-lg font-bold m-0">扫码配对</h2>
-        <p class="extras-muted text-sm m-0">
+        <h2 class="rolithax-title text-lg font-bold m-0">扫码配对</h2>
+        <p class="rolithax-muted text-sm m-0">
           生成一次性配对二维码；设备权限由当前登录账号决定。
         </p>
       </div>
@@ -47,10 +47,10 @@ onMounted(loadConfig);
       </t-radio-group>
     </div>
 
-    <div v-if="loading" class="extras-card p-5 extras-muted">正在加载配对配置…</div>
-    <div v-else-if="loadError" class="extras-card p-5 extras-error">加载配对配置失败：{{ loadError }}</div>
+    <div v-if="loading" class="rolithax-card p-5 rolithax-muted">正在加载配对配置…</div>
+    <div v-else-if="loadError" class="rolithax-card p-5 rolithax-error">加载配对配置失败：{{ loadError }}</div>
     <template v-else-if="config">
-      <transition name="extras-fade" mode="out-in">
+      <transition name="rolithax-fade" mode="out-in">
         <keep-alive>
           <generate-pair-code v-if="activeTab === 'generate'" :config="config" />
           <device-list v-else-if="canManageDevices" />
@@ -63,23 +63,23 @@ onMounted(loadConfig);
 <style scoped>
 @unocss;
 
-.extras-page {
+.rolithax-page {
   color: var(--td-text-color-primary);
   padding-bottom: 8px;
 }
 
-.extras-error {
+.rolithax-error {
   color: var(--td-error-color);
 }
 
-.extras-fade-enter-active,
-.extras-fade-leave-active {
+.rolithax-fade-enter-active,
+.rolithax-fade-leave-active {
   transition:
     opacity 0.2s ease,
     transform 0.2s ease;
 }
-.extras-fade-enter-from,
-.extras-fade-leave-to {
+.rolithax-fade-enter-from,
+.rolithax-fade-leave-to {
   opacity: 0;
   transform: translateY(10px);
 }

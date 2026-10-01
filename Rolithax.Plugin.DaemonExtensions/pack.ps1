@@ -7,10 +7,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$proj = Join-Path $root 'MSLX.Plugin.ThirdpartyAndroidAddons.csproj'
+$proj = Join-Path $root 'Rolithax.Plugin.DaemonExtensions.csproj'
 $dist = Join-Path $root 'dist'
 $feDir = Join-Path $root 'Frontend'
-$feEntry = Join-Path $feDir 'dist\mslx-plugin-entry.js'
+$feEntry = Join-Path $feDir 'dist\rolithax-plugin-entry.js'
 $feIcon = Join-Path $feDir 'dist\icon.png'
 
 if ($BuildFrontend) {
@@ -36,25 +36,25 @@ dotnet build @buildArgs
 if ($LASTEXITCODE -ne 0) { throw 'dotnet build failed' }
 
 $bin = Join-Path $root 'bin\Release\net10.0'
-$dll = Join-Path $bin 'MSLX.Plugin.ThirdpartyAndroidAddons.dll'
-$pdb = Join-Path $bin 'MSLX.Plugin.ThirdpartyAndroidAddons.pdb'
+$dll = Join-Path $bin 'Rolithax.Plugin.DaemonExtensions.dll'
+$pdb = Join-Path $bin 'Rolithax.Plugin.DaemonExtensions.pdb'
 if (-not (Test-Path $dll)) { throw "dll not found: $dll" }
 
 Write-Host '[2/3] Collecting artifacts...'
 New-Item -ItemType Directory -Force -Path $dist | Out-Null
-$legacyNames = @('MSLX.Plugin.ThirdpartyAndroidAddons.dll', 'MSLX.Plugin.ThirdpartyAndroidAddons.pdb', 'MSLX.Plugin.ThirdpartyAndroidAddons.zip', 'MSLX.Plugin.AndroidThirdpartyAddons.dll', 'MSLX.Plugin.AndroidThirdpartyAddons.pdb', 'MSLX.Plugin.AndroidThirdpartyAddons.zip', 'MSLX.Plugin.Extras.dll', 'MSLX.Plugin.Extras.pdb', 'MSLX.Plugin.Extras.zip', 'MSLX.Plugin.PairingServerIcon.dll', 'MSLX.Plugin.PairingServerIcon.pdb', 'MSLX.Plugin.PairingServerIcon.zip', 'MSLX.Plugin.AndroidExtensions.dll', 'MSLX.Plugin.AndroidExtensions.pdb', 'MSLX.Plugin.AndroidExtensions.zip')
+$legacyNames = @('Rolithax.Plugin.DaemonExtensions.dll', 'Rolithax.Plugin.DaemonExtensions.pdb', 'Rolithax.Plugin.DaemonExtensions.zip', 'MSLX.Plugin.ThirdpartyAndroidAddons.dll', 'MSLX.Plugin.ThirdpartyAndroidAddons.pdb', 'MSLX.Plugin.ThirdpartyAndroidAddons.zip', 'MSLX.Plugin.AndroidThirdpartyAddons.dll', 'MSLX.Plugin.AndroidThirdpartyAddons.pdb', 'MSLX.Plugin.AndroidThirdpartyAddons.zip', 'MSLX.Plugin.Extras.dll', 'MSLX.Plugin.Extras.pdb', 'MSLX.Plugin.Extras.zip', 'MSLX.Plugin.PairingServerIcon.dll', 'MSLX.Plugin.PairingServerIcon.pdb', 'MSLX.Plugin.PairingServerIcon.zip', 'MSLX.Plugin.AndroidExtensions.dll', 'MSLX.Plugin.AndroidExtensions.pdb', 'MSLX.Plugin.AndroidExtensions.zip')
 foreach ($legacyName in $legacyNames) {
     $legacyPath = Join-Path $dist $legacyName
     if (Test-Path -LiteralPath $legacyPath) { Remove-Item -LiteralPath $legacyPath -Force }
 }
-Copy-Item $dll (Join-Path $dist 'MSLX.Plugin.ThirdpartyAndroidAddons.dll') -Force
-if (Test-Path $pdb) { Copy-Item $pdb (Join-Path $dist 'MSLX.Plugin.ThirdpartyAndroidAddons.pdb') -Force }
+Copy-Item $dll (Join-Path $dist 'Rolithax.Plugin.DaemonExtensions.dll') -Force
+if (Test-Path $pdb) { Copy-Item $pdb (Join-Path $dist 'Rolithax.Plugin.DaemonExtensions.pdb') -Force }
 Copy-Item (Join-Path $root 'README.md') (Join-Path $dist 'README.md') -Force
 
 Write-Host '[3/3] Creating zip package...'
-$zip = Join-Path $dist 'MSLX.Plugin.ThirdpartyAndroidAddons.zip'
+$zip = Join-Path $dist 'Rolithax.Plugin.DaemonExtensions.zip'
 if (Test-Path $zip) { Remove-Item $zip -Force }
-Compress-Archive -Path (Join-Path $dist 'MSLX.Plugin.ThirdpartyAndroidAddons.dll'), (Join-Path $dist 'README.md') -DestinationPath $zip
+Compress-Archive -Path (Join-Path $dist 'Rolithax.Plugin.DaemonExtensions.dll'), (Join-Path $dist 'README.md') -DestinationPath $zip
 
-Write-Host "Done. DLL: $(Join-Path $dist 'MSLX.Plugin.ThirdpartyAndroidAddons.dll')"
+Write-Host "Done. DLL: $(Join-Path $dist 'Rolithax.Plugin.DaemonExtensions.dll')"
 Write-Host "ZIP: $zip"

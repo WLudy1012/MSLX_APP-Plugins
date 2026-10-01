@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using MSLX.SDK.Models;
 using Newtonsoft.Json.Linq;
 
-namespace MSLX.Plugin.ThirdpartyAndroidAddons.Pairing;
+namespace Rolithax.Plugin.DaemonExtensions.Pairing;
 
 /// <summary>
 /// 扫码配对核心服务：
@@ -63,10 +63,10 @@ public sealed class PairingService
     private string _installSecret = string.Empty;
     private Timer? _sweeper;
 
-    private static SDK.Interfaces.IPluginConfigBridge Config =>
+    private static MSLX.SDK.Interfaces.IPluginConfigBridge Config =>
         global::MSLX.SDK.MSLX.Config.GetPluginConfig(ConfigId);
 
-    private static SDK.Interfaces.IMSLXLogger Log => global::MSLX.SDK.MSLX.Logger;
+    private static MSLX.SDK.Interfaces.IMSLXLogger Log => global::MSLX.SDK.MSLX.Logger;
 
     /// <summary>插件加载后调用：准备安装密钥并启动过期清理定时器。</summary>
     public void Initialize()

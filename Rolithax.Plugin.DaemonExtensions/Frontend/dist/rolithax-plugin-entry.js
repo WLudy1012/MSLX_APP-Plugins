@@ -1,4 +1,4 @@
-(function(){"use strict";try{if(typeof document<"u"){var a=document.createElement("style");a.appendChild(document.createTextNode(".extras-card{background:var(--td-bg-color-container);border:1px solid var(--td-component-border);border-radius:16px;box-shadow:0 1px 2px #00000008}.extras-title{color:var(--td-text-color-primary)}.extras-muted{color:var(--td-text-color-secondary)}.extras-placeholder{color:var(--td-text-color-placeholder)}@keyframes t-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.t-icon{display:inline-block;vertical-align:middle;width:1em;height:1em}.t-icon:before{font-family:unset}.t-icon-loading{animation:t-spin 1s linear infinite}.t-icon.t-size-s,i.t-size-s{font-size:14px}.t-icon.t-size-m,i.t-size-m{font-size:16px}.t-icon.t-size-l,i.t-size-l{font-size:18px}.extras-qr-col[data-v-dd62e247]{width:100%}.extras-qr-box[data-v-dd62e247]{display:flex;width:240px;height:240px;background:#fff}.extras-qr-mask[data-v-dd62e247]{position:absolute;inset:0;background:#000000b3;color:#fff}.extras-expired[data-v-dd62e247]{color:var(--td-error-color)}@media(min-width:768px){.extras-qr-col[data-v-dd62e247]{width:280px}}.absolute[data-v-dd62e247]{position:absolute}.relative[data-v-dd62e247]{position:relative}.m-0[data-v-dd62e247]{margin:0}.min-w-0[data-v-dd62e247]{min-width:0}.w-full[data-v-dd62e247]{width:100%}.flex[data-v-dd62e247]{display:flex}.flex-1[data-v-dd62e247]{flex:1 1 0%}.shrink-0[data-v-dd62e247]{flex-shrink:0}.flex-col[data-v-dd62e247]{flex-direction:column}.items-center[data-v-dd62e247]{align-items:center}.self-start[data-v-dd62e247]{align-self:flex-start}.justify-center[data-v-dd62e247]{justify-content:center}.gap-2[data-v-dd62e247]{gap:.5rem}.gap-3[data-v-dd62e247]{gap:.75rem}.gap-4[data-v-dd62e247]{gap:1rem}.gap-5[data-v-dd62e247]{gap:1.25rem}.gap-6[data-v-dd62e247]{gap:1.5rem}.overflow-hidden[data-v-dd62e247]{overflow:hidden}.p-5[data-v-dd62e247]{padding:1.25rem}.px-6[data-v-dd62e247]{padding-left:1.5rem;padding-right:1.5rem}.text-center[data-v-dd62e247]{text-align:center}.text-base[data-v-dd62e247]{font-size:1rem;line-height:1.5rem}.text-sm[data-v-dd62e247]{font-size:.875rem;line-height:1.25rem}.text-xs[data-v-dd62e247]{font-size:.75rem;line-height:1rem}.font-bold[data-v-dd62e247]{font-weight:700}.tracking-widest[data-v-dd62e247]{letter-spacing:.1em}.font-mono[data-v-dd62e247]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}@media(min-width:768px){.md\\:flex-row[data-v-dd62e247]{flex-direction:row}}.fixed[data-v-35143171]{position:fixed}.m-0[data-v-35143171]{margin:0}.flex[data-v-35143171]{display:flex}.flex-col[data-v-35143171]{flex-direction:column}.flex-wrap[data-v-35143171]{flex-wrap:wrap}.items-center[data-v-35143171]{align-items:center}.justify-between[data-v-35143171]{justify-content:space-between}.gap-2[data-v-35143171]{gap:.5rem}.gap-4[data-v-35143171]{gap:1rem}.p-5[data-v-35143171]{padding:1.25rem}.text-base[data-v-35143171]{font-size:1rem;line-height:1.5rem}.text-sm[data-v-35143171]{font-size:.875rem;line-height:1.25rem}.font-bold[data-v-35143171]{font-weight:700}@unocss;.extras-page[data-v-633ca783]{color:var(--td-text-color-primary);padding-bottom:8px}.extras-error[data-v-633ca783]{color:var(--td-error-color)}.extras-fade-enter-active[data-v-633ca783],.extras-fade-leave-active[data-v-633ca783]{transition:opacity .2s ease,transform .2s ease}.extras-fade-enter-from[data-v-633ca783],.extras-fade-leave-to[data-v-633ca783]{opacity:0;transform:translateY(10px)}.m-0[data-v-633ca783]{margin:0}.flex[data-v-633ca783]{display:flex}.flex-col[data-v-633ca783]{flex-direction:column}.transform[data-v-633ca783]{transform:translate(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotate(var(--un-rotate-z)) skew(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z))}.items-center[data-v-633ca783]{align-items:center}.self-start[data-v-633ca783]{align-self:flex-start}.justify-between[data-v-633ca783]{justify-content:space-between}.gap-1[data-v-633ca783]{gap:.25rem}.gap-2[data-v-633ca783]{gap:.5rem}.gap-5[data-v-633ca783]{gap:1.25rem}.p-5[data-v-633ca783]{padding:1.25rem}.text-lg[data-v-633ca783]{font-size:1.125rem;line-height:1.75rem}.text-sm[data-v-633ca783]{font-size:.875rem;line-height:1.25rem}.font-bold[data-v-633ca783]{font-weight:700}.transition[data-v-633ca783]{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.ease[data-v-633ca783]{transition-timing-function:cubic-bezier(.4,0,.2,1)}@media(min-width:1280px){.xl\\:flex-row[data-v-633ca783]{flex-direction:row}.xl\\:items-center[data-v-633ca783]{align-items:center}.xl\\:self-auto[data-v-633ca783]{align-self:auto}}")),document.head.appendChild(a)}}catch(e){console.error("vite-plugin-css-injected-by-js",e)}})();
+(function(){"use strict";try{if(typeof document<"u"){var a=document.createElement("style");a.appendChild(document.createTextNode(".rolithax-card{background:var(--td-bg-color-container);border:1px solid var(--td-component-border);border-radius:16px;box-shadow:0 1px 2px #00000008}.rolithax-title{color:var(--td-text-color-primary)}.rolithax-muted{color:var(--td-text-color-secondary)}.rolithax-placeholder{color:var(--td-text-color-placeholder)}@keyframes t-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.t-icon{display:inline-block;vertical-align:middle;width:1em;height:1em}.t-icon:before{font-family:unset}.t-icon-loading{animation:t-spin 1s linear infinite}.t-icon.t-size-s,i.t-size-s{font-size:14px}.t-icon.t-size-m,i.t-size-m{font-size:16px}.t-icon.t-size-l,i.t-size-l{font-size:18px}.rolithax-qr-col[data-v-aa959d09]{width:100%}.rolithax-qr-box[data-v-aa959d09]{display:flex;width:240px;height:240px;background:#fff}.rolithax-qr-mask[data-v-aa959d09]{position:absolute;inset:0;background:#000000b3;color:#fff}.rolithax-expired[data-v-aa959d09]{color:var(--td-error-color)}@media(min-width:768px){.rolithax-qr-col[data-v-aa959d09]{width:280px}}.absolute[data-v-aa959d09]{position:absolute}.relative[data-v-aa959d09]{position:relative}.m-0[data-v-aa959d09]{margin:0}.min-w-0[data-v-aa959d09]{min-width:0}.w-full[data-v-aa959d09]{width:100%}.flex[data-v-aa959d09]{display:flex}.flex-1[data-v-aa959d09]{flex:1 1 0%}.shrink-0[data-v-aa959d09]{flex-shrink:0}.flex-col[data-v-aa959d09]{flex-direction:column}.items-center[data-v-aa959d09]{align-items:center}.self-start[data-v-aa959d09]{align-self:flex-start}.justify-center[data-v-aa959d09]{justify-content:center}.gap-2[data-v-aa959d09]{gap:.5rem}.gap-3[data-v-aa959d09]{gap:.75rem}.gap-4[data-v-aa959d09]{gap:1rem}.gap-5[data-v-aa959d09]{gap:1.25rem}.gap-6[data-v-aa959d09]{gap:1.5rem}.overflow-hidden[data-v-aa959d09]{overflow:hidden}.p-5[data-v-aa959d09]{padding:1.25rem}.px-6[data-v-aa959d09]{padding-left:1.5rem;padding-right:1.5rem}.text-center[data-v-aa959d09]{text-align:center}.text-base[data-v-aa959d09]{font-size:1rem;line-height:1.5rem}.text-sm[data-v-aa959d09]{font-size:.875rem;line-height:1.25rem}.text-xs[data-v-aa959d09]{font-size:.75rem;line-height:1rem}.font-bold[data-v-aa959d09]{font-weight:700}.tracking-widest[data-v-aa959d09]{letter-spacing:.1em}.font-mono[data-v-aa959d09]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}@media(min-width:768px){.md\\:flex-row[data-v-aa959d09]{flex-direction:row}}.fixed[data-v-ccac421b]{position:fixed}.m-0[data-v-ccac421b]{margin:0}.flex[data-v-ccac421b]{display:flex}.flex-col[data-v-ccac421b]{flex-direction:column}.flex-wrap[data-v-ccac421b]{flex-wrap:wrap}.items-center[data-v-ccac421b]{align-items:center}.justify-between[data-v-ccac421b]{justify-content:space-between}.gap-2[data-v-ccac421b]{gap:.5rem}.gap-4[data-v-ccac421b]{gap:1rem}.p-5[data-v-ccac421b]{padding:1.25rem}.text-base[data-v-ccac421b]{font-size:1rem;line-height:1.5rem}.text-sm[data-v-ccac421b]{font-size:.875rem;line-height:1.25rem}.font-bold[data-v-ccac421b]{font-weight:700}@unocss;.rolithax-page[data-v-39086d7c]{color:var(--td-text-color-primary);padding-bottom:8px}.rolithax-error[data-v-39086d7c]{color:var(--td-error-color)}.rolithax-fade-enter-active[data-v-39086d7c],.rolithax-fade-leave-active[data-v-39086d7c]{transition:opacity .2s ease,transform .2s ease}.rolithax-fade-enter-from[data-v-39086d7c],.rolithax-fade-leave-to[data-v-39086d7c]{opacity:0;transform:translateY(10px)}.m-0[data-v-39086d7c]{margin:0}.flex[data-v-39086d7c]{display:flex}.flex-col[data-v-39086d7c]{flex-direction:column}.transform[data-v-39086d7c]{transform:translate(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotate(var(--un-rotate-z)) skew(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z))}.items-center[data-v-39086d7c]{align-items:center}.self-start[data-v-39086d7c]{align-self:flex-start}.justify-between[data-v-39086d7c]{justify-content:space-between}.gap-1[data-v-39086d7c]{gap:.25rem}.gap-2[data-v-39086d7c]{gap:.5rem}.gap-5[data-v-39086d7c]{gap:1.25rem}.p-5[data-v-39086d7c]{padding:1.25rem}.text-lg[data-v-39086d7c]{font-size:1.125rem;line-height:1.75rem}.text-sm[data-v-39086d7c]{font-size:.875rem;line-height:1.25rem}.font-bold[data-v-39086d7c]{font-weight:700}.transition[data-v-39086d7c]{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.ease[data-v-39086d7c]{transition-timing-function:cubic-bezier(.4,0,.2,1)}@media(min-width:1280px){.xl\\:flex-row[data-v-39086d7c]{flex-direction:row}.xl\\:items-center[data-v-39086d7c]{align-items:center}.xl\\:self-auto[data-v-39086d7c]{align-self:auto}}")),document.head.appendChild(a)}}catch(t){console.error("vite-plugin-css-injected-by-js",t)}})();
 function pe(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
@@ -476,7 +476,7 @@ function ae(e) {
   }
   return e;
 }
-var Se = {
+var Ve = {
   tag: "svg",
   attrs: {
     fill: "none",
@@ -551,7 +551,7 @@ var Se = {
       iconId: "refresh",
       overlapMaskInstanceId: r
     }));
-    return () => H(Se, b.value);
+    return () => H(Ve, b.value);
   }
 });
 function oe(e, s) {
@@ -575,7 +575,7 @@ function ne(e) {
   }
   return e;
 }
-var Ve = {
+var Se = {
   tag: "svg",
   attrs: {
     fill: "none",
@@ -722,14 +722,14 @@ var Ve = {
       iconId: "usergroup",
       overlapMaskInstanceId: r
     }));
-    return () => H(Ve, b.value);
+    return () => H(Se, b.value);
   }
 }), F, le;
 function Oe() {
   return le || (le = 1, F = mslxRequest), F;
 }
 var Ie = Oe();
-const I = /* @__PURE__ */ pe(Ie), T = "/api/plugin/mslx-plugin-thirdparty-android-addons/pair";
+const I = /* @__PURE__ */ pe(Ie), T = "/api/plugin/mslx-plugin-rolithax/pair";
 async function Re() {
   return await I.get({ url: `${T}/config` });
 }
@@ -763,14 +763,14 @@ function He() {
   return ie || (ie = 1, Z = TDesign), Z;
 }
 var N = He();
-var V = function() {
-  return V = Object.assign || function(s) {
+var S = function() {
+  return S = Object.assign || function(s) {
     for (var n, o = 1, u = arguments.length; o < u; o++) {
       n = arguments[o];
       for (var d in n) Object.prototype.hasOwnProperty.call(n, d) && (s[d] = n[d]);
     }
     return s;
-  }, V.apply(this, arguments);
+  }, S.apply(this, arguments);
 };
 var A;
 (function(e) {
@@ -829,9 +829,9 @@ var A;
           }
         }
         u(m.length == g);
-        var S = i.getNumDataCodewords(h, a) * 8;
-        u(m.length <= S), n(0, Math.min(4, S - m.length), m), n(0, (8 - m.length % 8) % 8, m), u(m.length % 8 == 0);
-        for (var x = 236; m.length < S; x ^= 253)
+        var V = i.getNumDataCodewords(h, a) * 8;
+        u(m.length <= V), n(0, Math.min(4, V - m.length), m), n(0, (8 - m.length % 8) % 8, m), u(m.length % 8 == 0);
+        for (var x = 236; m.length < V; x ^= 253)
           n(x, 8, m);
         for (var O = []; O.length * 8 < m.length; )
           O.push(0);
@@ -1343,7 +1343,7 @@ var W = {
     type: String,
     required: !1
   }
-}, Ye = V(V({}, W), { renderAs: {
+}, Ye = S(S({}, W), { renderAs: {
   type: String,
   required: !1,
   default: "canvas",
@@ -1369,7 +1369,7 @@ var W = {
         fx: "50%",
         fy: "50%"
       };
-      return t.h(e.gradientType === "linear" ? "linearGradient" : "radialGradient", V({ id: l }, g), [
+      return t.h(e.gradientType === "linear" ? "linearGradient" : "radialGradient", S({ id: l }, g), [
         t.h("stop", {
           offset: "0%",
           style: { stopColor: e.gradientStartColor }
@@ -1435,7 +1435,7 @@ var W = {
           rx: i.value.borderRadius,
           ry: i.value.borderRadius
         }),
-        e.imageSettings.src && d.value && t.h("image", V({ href: e.imageSettings.src, crossorigin: e.imageSettings.crossOrigin, "clip-path": d.value.borderRadius > 0 ? "url(#".concat(c, ")") : void 0 }, d.value))
+        e.imageSettings.src && d.value && t.h("image", S({ href: e.imageSettings.src, crossorigin: e.imageSettings.crossOrigin, "clip-path": d.value.borderRadius > 0 ? "url(#".concat(c, ")") : void 0 }, d.value))
       ]);
     };
   }
@@ -1464,8 +1464,8 @@ var W = {
           var R = e.imageSettings.src && M && M.naturalWidth !== 0 && M.naturalHeight !== 0;
           if (R && r.value) {
             if (a.value) {
-              var S = a.value;
-              y.fillStyle = e.background, f(y, S.x, S.y, S.width, S.height, S.borderRadius), y.fill();
+              var V = a.value;
+              y.fillStyle = e.background, f(y, V.x, V.y, V.width, V.height, V.borderRadius), y.fill();
             }
             var x = r.value.borderRadius;
             x > 0 ? (y.save(), f(y, r.value.x, r.value.y, r.value.width, r.value.height, x), y.clip(), y.drawImage(M, r.value.x, r.value.y, r.value.width, r.value.height), y.restore()) : y.drawImage(M, r.value.x, r.value.y, r.value.width, r.value.height);
@@ -1485,7 +1485,7 @@ var W = {
       }
     }), function() {
       return t.h(t.Fragment, [
-        t.h("canvas", V(V({}, s.attrs), { ref: l, role: "img", style: V(V({}, s.attrs.style), { width: "".concat(e.size, "px"), height: "".concat(e.size, "px") }) })),
+        t.h("canvas", S(S({}, s.attrs), { ref: l, role: "img", style: S(S({}, s.attrs.style), { width: "".concat(e.size, "px"), height: "".concat(e.size, "px") }) })),
         e.imageSettings.src && t.h("img", {
           ref: c,
           src: e.imageSettings.src,
@@ -1609,14 +1609,14 @@ const tt = /* @__PURE__ */ t.defineComponent({
         }
     }
     return t.onMounted(l), t.onUnmounted(k), (m, y) => {
-      const M = t.resolveComponent("t-input"), E = t.resolveComponent("t-button"), _ = t.resolveComponent("t-radio-button"), P = t.resolveComponent("t-radio-group"), R = t.resolveComponent("t-select"), S = t.resolveComponent("t-input-number");
-      return t.openBlock(), t.createElementBlock("div", { class: "extras-card flex flex-col gap-5 p-5" }, [
+      const M = t.resolveComponent("t-input"), E = t.resolveComponent("t-button"), _ = t.resolveComponent("t-radio-button"), P = t.resolveComponent("t-radio-group"), R = t.resolveComponent("t-select"), V = t.resolveComponent("t-input-number");
+      return t.openBlock(), t.createElementBlock("div", { class: "rolithax-card flex flex-col gap-5 p-5" }, [
         t.createElementVNode("div", { class: "flex flex-col gap-2" }, [
-          t.createElementVNode("h3", { class: "extras-title text-base font-bold m-0" }, "生成配对二维码"),
-          t.createElementVNode("p", { class: "extras-muted text-sm m-0" }, " 生成一次性二维码，在另一台设备的 MSLX App「连接」页扫描即可接入。 ")
+          t.createElementVNode("h3", { class: "rolithax-title text-base font-bold m-0" }, "生成配对二维码"),
+          t.createElementVNode("p", { class: "rolithax-muted text-sm m-0" }, " 生成一次性二维码，在另一台设备的 Rolithax Launcher「连接」页扫描即可接入。 ")
         ]),
         t.createElementVNode("div", { class: "flex flex-col gap-2" }, [
-          t.createElementVNode("label", { class: "extras-title text-xs font-bold" }, "Daemon 对外地址"),
+          t.createElementVNode("label", { class: "rolithax-title text-xs font-bold" }, "Daemon 对外地址"),
           t.createElementVNode("div", { class: "flex flex-col md:flex-row gap-2" }, [
             t.createVNode(M, {
               modelValue: o.publicUrl,
@@ -1638,11 +1638,11 @@ const tt = /* @__PURE__ */ t.defineComponent({
               _: 1
             }, 8, ["loading", "disabled"])) : t.createCommentVNode("", !0)
           ]),
-          t.createElementVNode("span", { class: "extras-placeholder text-xs" }, t.toDisplayString(n.value ? "管理员修改后会持久化，所有新二维码使用该地址。" : "地址由管理员维护，当前账号只能使用已保存地址。"), 1)
+          t.createElementVNode("span", { class: "rolithax-placeholder text-xs" }, t.toDisplayString(n.value ? "管理员修改后会持久化，所有新二维码使用该地址。" : "地址由管理员维护，当前账号只能使用已保存地址。"), 1)
         ]),
         n.value ? t.createCommentVNode("", !0) : (t.openBlock(), t.createElementBlock("div", {
           key: 0,
-          class: "extras-muted text-sm"
+          class: "rolithax-muted text-sm"
         }, [
           t.createTextVNode(" 当前二维码只会授予你的 Daemon 权限，无法扩大到其他用户或实例。 "),
           r.value.length ? (t.openBlock(), t.createElementBlock("span", { key: 0 }, "当前可访问实例：" + t.toDisplayString(r.value.map((x) => x.label).join("、")), 1)) : t.createCommentVNode("", !0)
@@ -1653,7 +1653,7 @@ const tt = /* @__PURE__ */ t.defineComponent({
               key: 0,
               class: "flex flex-col gap-2"
             }, [
-              t.createElementVNode("label", { class: "extras-title text-xs font-bold" }, "授权范围"),
+              t.createElementVNode("label", { class: "rolithax-title text-xs font-bold" }, "授权范围"),
               t.createVNode(P, {
                 modelValue: o.scope,
                 "onUpdate:modelValue": y[1] || (y[1] = (x) => o.scope = x),
@@ -1680,7 +1680,7 @@ const tt = /* @__PURE__ */ t.defineComponent({
               key: 1,
               class: "flex flex-col gap-2"
             }, [
-              t.createElementVNode("label", { class: "extras-title text-xs font-bold" }, "授予实例"),
+              t.createElementVNode("label", { class: "rolithax-title text-xs font-bold" }, "授予实例"),
               t.createVNode(R, {
                 modelValue: o.resources,
                 "onUpdate:modelValue": y[2] || (y[2] = (x) => o.resources = x),
@@ -1693,8 +1693,8 @@ const tt = /* @__PURE__ */ t.defineComponent({
               }, null, 8, ["modelValue", "options", "loading"])
             ])) : t.createCommentVNode("", !0),
             t.createElementVNode("div", { class: "flex flex-col gap-2" }, [
-              t.createElementVNode("label", { class: "extras-title text-xs font-bold" }, "设备有效期（天，1–365）"),
-              t.createVNode(S, {
+              t.createElementVNode("label", { class: "rolithax-title text-xs font-bold" }, "设备有效期（天，1–365）"),
+              t.createVNode(V, {
                 modelValue: o.deviceTtlDays,
                 "onUpdate:modelValue": y[3] || (y[3] = (x) => o.deviceTtlDays = x),
                 min: 1,
@@ -1718,8 +1718,8 @@ const tt = /* @__PURE__ */ t.defineComponent({
               _: 1
             }, 8, ["loading"])
           ]),
-          t.createElementVNode("div", { class: "extras-qr-col shrink-0 flex flex-col items-center gap-3" }, [
-            t.createElementVNode("div", { class: "extras-qr-box extras-card items-center justify-center relative overflow-hidden" }, [
+          t.createElementVNode("div", { class: "rolithax-qr-col shrink-0 flex flex-col items-center gap-3" }, [
+            t.createElementVNode("div", { class: "rolithax-qr-box rolithax-card items-center justify-center relative overflow-hidden" }, [
               v.value ? (t.openBlock(), t.createElementBlock(t.Fragment, { key: 0 }, [
                 t.createVNode(et, {
                   value: v.value.payload,
@@ -1729,7 +1729,7 @@ const tt = /* @__PURE__ */ t.defineComponent({
                 }, null, 8, ["value"]),
                 b.value ? (t.openBlock(), t.createElementBlock("div", {
                   key: 0,
-                  class: "extras-qr-mask flex flex-col items-center justify-center gap-2 text-sm font-bold"
+                  class: "rolithax-qr-mask flex flex-col items-center justify-center gap-2 text-sm font-bold"
                 }, [
                   t.createElementVNode("span", null, "二维码已过期"),
                   t.createVNode(E, {
@@ -1745,16 +1745,16 @@ const tt = /* @__PURE__ */ t.defineComponent({
                 ])) : t.createCommentVNode("", !0)
               ], 64)) : (t.openBlock(), t.createElementBlock("span", {
                 key: 1,
-                class: "extras-placeholder text-sm px-6 text-center"
+                class: "rolithax-placeholder text-sm px-6 text-center"
               }, "生成后在此显示二维码"))
             ]),
             v.value ? (t.openBlock(), t.createElementBlock("div", {
               key: 0,
               class: "flex flex-col items-center gap-2 text-center"
             }, [
-              t.createElementVNode("div", { class: "extras-title text-sm font-mono tracking-widest" }, "配对码 " + t.toDisplayString(v.value.code), 1),
+              t.createElementVNode("div", { class: "rolithax-title text-sm font-mono tracking-widest" }, "配对码 " + t.toDisplayString(v.value.code), 1),
               t.createElementVNode("div", {
-                class: t.normalizeClass(["text-xs", b.value ? "extras-expired" : "extras-muted"])
+                class: t.normalizeClass(["text-xs", b.value ? "rolithax-expired" : "rolithax-muted"])
               }, t.toDisplayString(b.value ? "已过期，请重新生成" : `剩余 ${h.value} 秒 · 单次有效 · ${v.value.scope === "full" ? "完整权限" : "受限"}`), 3),
               t.createElementVNode("div", { class: "flex items-center gap-2" }, [
                 t.createVNode(E, {
@@ -1795,7 +1795,7 @@ const tt = /* @__PURE__ */ t.defineComponent({
   for (const [o, u] of s)
     n[o] = u;
   return n;
-}, rt = /* @__PURE__ */ Q(tt, [["__scopeId", "data-v-dd62e247"]]), at = /* @__PURE__ */ t.defineComponent({
+}, rt = /* @__PURE__ */ Q(tt, [["__scopeId", "data-v-aa959d09"]]), at = /* @__PURE__ */ t.defineComponent({
   __name: "DeviceList",
   setup(e, { expose: s }) {
     const n = t.ref(!1), o = t.ref([]);
@@ -1844,11 +1844,11 @@ const tt = /* @__PURE__ */ t.defineComponent({
     }
     return s({ getList: u }), t.onMounted(u), (c, f) => {
       const v = t.resolveComponent("t-button"), h = t.resolveComponent("t-popconfirm"), g = t.resolveComponent("t-table");
-      return t.openBlock(), t.createElementBlock("div", { class: "extras-card flex flex-col gap-4 p-5" }, [
+      return t.openBlock(), t.createElementBlock("div", { class: "rolithax-card flex flex-col gap-4 p-5" }, [
         t.createElementVNode("div", { class: "flex items-center justify-between gap-4 flex-wrap" }, [
           t.createElementVNode("div", { class: "flex flex-col gap-2" }, [
-            t.createElementVNode("h3", { class: "extras-title text-base font-bold m-0" }, "已配对设备"),
-            t.createElementVNode("p", { class: "extras-muted text-sm m-0" }, "撤销将删除对应配对用户，其 API Key 立即失效且不可恢复。")
+            t.createElementVNode("h3", { class: "rolithax-title text-base font-bold m-0" }, "已配对设备"),
+            t.createElementVNode("p", { class: "rolithax-muted text-sm m-0" }, "撤销将删除对应配对用户，其 API Key 立即失效且不可恢复。")
           ]),
           t.createVNode(v, {
             variant: "dashed",
@@ -1902,7 +1902,7 @@ const tt = /* @__PURE__ */ t.defineComponent({
       ]);
     };
   }
-}), ot = /* @__PURE__ */ Q(at, [["__scopeId", "data-v-35143171"]]), nt = /* @__PURE__ */ t.defineComponent({
+}), ot = /* @__PURE__ */ Q(at, [["__scopeId", "data-v-ccac421b"]]), nt = /* @__PURE__ */ t.defineComponent({
   __name: "PairingPage",
   setup(e) {
     const s = t.ref("generate"), n = t.ref(null), o = t.ref(!0), u = t.ref(""), d = t.computed(() => n.value?.canManageDevices === !0);
@@ -1917,11 +1917,11 @@ const tt = /* @__PURE__ */ t.defineComponent({
     }
     return t.onMounted(i), (r, a) => {
       const l = t.resolveComponent("t-radio-button"), c = t.resolveComponent("t-radio-group");
-      return t.openBlock(), t.createElementBlock("div", { class: "extras-page flex flex-col gap-5" }, [
-        t.createElementVNode("div", { class: "extras-card flex flex-col xl:flex-row xl:items-center justify-between gap-5 p-5" }, [
+      return t.openBlock(), t.createElementBlock("div", { class: "rolithax-page flex flex-col gap-5" }, [
+        t.createElementVNode("div", { class: "rolithax-card flex flex-col xl:flex-row xl:items-center justify-between gap-5 p-5" }, [
           t.createElementVNode("div", { class: "flex flex-col gap-2" }, [
-            t.createElementVNode("h2", { class: "extras-title text-lg font-bold m-0" }, "扫码配对"),
-            t.createElementVNode("p", { class: "extras-muted text-sm m-0" }, " 生成一次性配对二维码；设备权限由当前登录账号决定。 ")
+            t.createElementVNode("h2", { class: "rolithax-title text-lg font-bold m-0" }, "扫码配对"),
+            t.createElementVNode("p", { class: "rolithax-muted text-sm m-0" }, " 生成一次性配对二维码；设备权限由当前登录账号决定。 ")
           ]),
           d.value ? (t.openBlock(), t.createBlock(c, {
             key: 0,
@@ -1955,13 +1955,13 @@ const tt = /* @__PURE__ */ t.defineComponent({
         ]),
         o.value ? (t.openBlock(), t.createElementBlock("div", {
           key: 0,
-          class: "extras-card p-5 extras-muted"
+          class: "rolithax-card p-5 rolithax-muted"
         }, "正在加载配对配置…")) : u.value ? (t.openBlock(), t.createElementBlock("div", {
           key: 1,
-          class: "extras-card p-5 extras-error"
+          class: "rolithax-card p-5 rolithax-error"
         }, "加载配对配置失败：" + t.toDisplayString(u.value), 1)) : n.value ? (t.openBlock(), t.createBlock(t.Transition, {
           key: 2,
-          name: "extras-fade",
+          name: "rolithax-fade",
           mode: "out-in"
         }, {
           default: t.withCtx(() => [
@@ -1977,21 +1977,21 @@ const tt = /* @__PURE__ */ t.defineComponent({
       ]);
     };
   }
-}), lt = /* @__PURE__ */ Q(nt, [["__scopeId", "data-v-633ca783"]]), it = {
+}), lt = /* @__PURE__ */ Q(nt, [["__scopeId", "data-v-39086d7c"]]), it = import.meta.url.match(/\/plugins\/[^/]+\/([^/]+)\//)?.[1], st = {
   // 与后端 IPlugin.Id、package.json.name 完全一致，作为 Android 客户端扩展能力的统一标识。
-  name: "mslx-plugin-thirdparty-android-addons",
-  version: "1.2.1",
+  name: "mslx-plugin-rolithax",
+  version: it ?? "1.0.0",
   // 注入路由：挂到宿主「设置」分组（settingsBase）下，与「插件管理」同级
   routes: [
     {
       parentName: "settingsBase",
       path: "pairing",
-      name: "mslx-plugin-thirdparty-android-addons-pairing",
+      name: "mslx-plugin-rolithax-pairing",
       component: lt,
       meta: { title: "扫码配对", icon: "qrcode", roleCode: ["admin", "user"] }
     }
   ]
 };
 export {
-  it as pluginConfig
+  st as pluginConfig
 };

@@ -1,36 +1,36 @@
-# MSLX Android 扩展插件
+# Rolithax Launcher 扩展插件
 
-由 **WLudy1012** 开发的 MSLX Daemon 第三方插件，为 **MSLX Android** 提供统一的服务端扩展能力，集中承载客户端所需的整合与增强功能。
-当前包含扫码配对、设备授权管理和服务端图标，以**单个 DLL** 分发；后续增强功能可继续集成在此插件中。
-统一入口为 `ThirdpartyAndroidAddonsPlugin`，ID 为 `mslx-plugin-thirdparty-android-addons`，前端包名与此一致。
-插件版本 **1.2.1**，声明的最低 **MSLX Daemon 版本为 1.5.10.2**。
+由 **WLudy1012** 开发的 MSLX Daemon 第三方插件，为 **Rolithax Launcher** 提供统一的服务端扩展能力，集中承载客户端所需的整合与增强功能。
+当前包含扫码配对、设备授权管理、服务端图标和资源中心远端直装，以**单个 DLL** 分发；后续增强功能可继续集成在此插件中。
+统一入口为 `RolithaxPlugin`，ID 为 `mslx-plugin-rolithax`，前端包名与此一致。
+插件版本从 **1.0.0** 起，发布 tag 构建时自动同步 tag 版本；声明的最低 **MSLX Daemon 版本为 1.5.10.2**。
 插件图标为内嵌的硫磺史莱姆 PNG，由 `/plugins/{id}/{version}/icon.png` 下发。
 
 > Daemon 的 PluginManager 对每个程序集只识别第一个 `IPlugin` 实现，因此合并采用单一入口，
-> 两组规范端点前缀为 `/api/plugin/mslx-plugin-thirdparty-android-addons/pair`、`/api/plugin/mslx-plugin-thirdparty-android-addons/icon`。
+> 规范端点前缀为 `/api/plugin/mslx-plugin-rolithax/pair`、`/api/plugin/mslx-plugin-rolithax/icon` 和 `/api/plugin/mslx-plugin-rolithax/resources`。
 
 ## 安装
 
 1. 运行 `pack.ps1`（需 .NET 10 SDK；`MSLX.SDK` 自动探测：仓库内 `MSLX-dev`、
    平级 `MSLX-dev`、平级 `MSLX-Android/MSLX-dev`，也可用 `-SdkDir` 或
-   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/MSLX.Plugin.ThirdpartyAndroidAddons.dll`；
-2. 将 `MSLX.Plugin.ThirdpartyAndroidAddons.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
+   `-p:MSLX_SDK_DIR=<SDK 目录>` 指定）得到 `dist/Rolithax.Plugin.DaemonExtensions.dll`；
+2. 将 `Rolithax.Plugin.DaemonExtensions.dll` 复制到 Daemon 数据目录的 `Plugins/` 子目录：
    - Windows：`%APPDATA%\MSLX\MSLXData\DaemonData\Plugins\`
    - macOS：`~/Library/Application Support/MSLX/MSLXData/DaemonData/Plugins/`
 3. 重启 Daemon，或在面板插件管理中热加载；
-4. 日志出现 `[mslx-plugin-thirdparty-android-addons] MSLX Android 扩展插件已挂载`，再确认面板出现「设置 → 扫码配对」。
+4. 日志出现 `[mslx-plugin-rolithax] Rolithax 扩展已挂载配对、图标和资源安装接口`，再确认面板出现「设置 → 扫码配对」。
 
 ### 从旧版本升级
 
-1. 停止 Daemon，移除旧 `MSLX.Plugin.AndroidThirdpartyAddons.dll`（旧 ID `mslx-plugin-android-thirdparty-addons`）、`MSLX.Plugin.AndroidExtensions.dll`（旧 ID `mslx-plugin-android-extensions`）、`MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`，再放入本版 `MSLX.Plugin.ThirdpartyAndroidAddons.dll`，避免端点重复注册。
+1. 停止 Daemon，移除旧 `MSLX.Plugin.AndroidThirdpartyAddons.dll`（旧 ID `mslx-plugin-android-thirdparty-addons`）、`MSLX.Plugin.AndroidExtensions.dll`（旧 ID `mslx-plugin-android-extensions`）、`MSLX.Plugin.Extras.dll` 或 `MSLX.Plugin.PairingServerIcon.dll`，再放入本版 `Rolithax.Plugin.DaemonExtensions.dll`，避免端点重复注册。
 2. 保留 `PluginsData/mslx-pair/`、`PluginsData/mslx-icon/` 和 Daemon 用户数据；改名继续读取原数据位置，不要求重新配对。
-3. 放入新的 `MSLX.Plugin.ThirdpartyAndroidAddons.dll`，启动 Daemon 并刷新面板。Android 客户端需要使用新的规范接口前缀。
+3. 放入新的 `Rolithax.Plugin.DaemonExtensions.dll`，启动 Daemon 并刷新面板。Android 客户端需要使用新的规范接口前缀。
 
 ---
 
-## 一、扫码配对（`/api/plugin/mslx-plugin-thirdparty-android-addons/pair`）
+## 一、扫码配对（`/api/plugin/mslx-plugin-rolithax/pair`）
 
-在已授权的客户端（App / 面板 / curl）生成**一次性配对二维码**，手机 App 扫码后自动换取一枚
+在已授权的客户端（Rolithax Launcher / 面板 / curl）生成**一次性配对二维码**，手机扫码后自动换取一枚
 **独立受限**的 API Key，免去手输长 Key。每台配对设备对应一个独立的 Daemon 用户：可撤销、可过期
 （默认 30 天，可选 1–365 天）、可审计，服务端只保存 API Key 前缀，完整 Key 仅返回给扫码设备一次。
 
@@ -51,7 +51,7 @@
 **不自行拼装或验签**（客户端无安装密钥）。配对码 120 秒过期、单次使用、仅内存保存；同 IP 每分钟
 最多 10 次兑换、连续失败 5 次临时锁定 15 分钟。
 
-## 二、服务端图标（`/api/plugin/mslx-plugin-thirdparty-android-addons/icon`）
+## 二、服务端图标（`/api/plugin/mslx-plugin-rolithax/icon`）
 
 为实例统一提供图标，供 App / 面板实例卡片展示。**来源优先级**（结果带 24 小时磁盘缓存）：
 实例目录 `server-icon.png` → 插件磁盘缓存 → 第三方状态 API（`mcsrvstat.us` → `mcstatus.io`，
@@ -63,6 +63,20 @@
 | --- | --- | --- |
 | GET | `/server/{id}` | 返回图标 PNG 字节流（`image/png`）；无图标时返回 `{code,message}` JSON |
 | POST | `/server/{id}/refresh` | 清除该实例的第三方图标磁盘缓存，下次请求重新拉取 |
+
+## 三、资源中心远端直装（`/api/plugin/mslx-plugin-rolithax/resources`）
+
+客户端提交已校验的 Modrinth v3 项目与版本清单后，插件在 Daemon 所在机直接下载到实例目录，资源包不会经过客户端中转。每次任务都会重新读取 Modrinth 元数据并检查项目与版本对应关系、游戏版本、加载器、服务端兼容性、必需依赖和冲突。写入前按实例加锁，检查摘要、文件大小和安全路径，在实例目录内暂存后原子替换；失败时回滚并保留无法恢复的备份。
+
+插件按当前 Daemon 用户逐个检查 `server:{id}` 实例权限。任务查询和取消仅允许发起任务的用户操作。
+
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| POST | `/install` | 启动远端安装任务。请求包含 `instanceId`、`gameVersion`、`loader` 和 `items[]`（`provider`、`projectId`、`versionId`、`type`）；当前只接受 `modrinth` 来源 |
+| GET | `/install/{id}` | 查询任务进度与安装文件清单 |
+| POST | `/install/{id}/cancel` | 请求取消尚未结束的任务 |
+
+支持 `mod`、`plugin`、`datapack`、`modpack` 四种类型。整合包只安装服务端可用文件以及 `server-overrides/`（没有时使用 `overrides/`）；拒绝超出大小上限、没有可信摘要、穿越实例目录或经过符号链接的安装目标。
 
 ---
 
