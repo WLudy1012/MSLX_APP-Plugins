@@ -42,7 +42,7 @@ pnpm typecheck
 pnpm build
 ```
 
-前端包名为 `mslx-plugin-rolithax`，输出入口为 `Frontend/dist/rolithax-plugin-entry.js`。该入口和 `icon.png` 随 DLL 内嵌，CNB 构建不需要安装 Node.js。
+前端包名为 `mslx-plugin-rolithax`，输出入口为 `Frontend/dist/mslx-plugin-entry.js`。`mslx-plugin-entry.js` 是 Daemon WebPanel 的固定入口文件名；该入口和 `icon.png` 随 DLL 内嵌，CNB 构建不需要安装 Node.js。
 
 ## 安装与升级
 
@@ -54,7 +54,7 @@ pnpm build
 
 - GitHub Actions：`main` 推送构建校验并将完整源码同步到 CNB；推送 `v*` tag 时构建 DLL/ZIP、发布 GitHub Release，并同步 `main` 源码与 tag。
 - CNB：`main` 推送执行 Release 构建校验；`v*` tag 构建 DLL/ZIP 并发布 CNB Release。
-- 两边构建均从上游检出 MSLX SDK，并验证 DLL 内含 `rolithax-plugin-entry.js` 与插件图标。
+- 两边构建均从上游检出 MSLX SDK，并验证 DLL 内含 `mslx-plugin-entry.js` 与插件图标。
 
 ## 致谢
 

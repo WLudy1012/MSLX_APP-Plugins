@@ -7,7 +7,7 @@ import UnoCSS from 'unocss/vite';
 
 // MSLX 面板插件前端构建配置：
 // - 依赖外部化：vue / vue-router / pinia / tdesign-vue-next / mslx-request 全部取自宿主 window 全局，插件包里不重复打包
-// - 产物为单文件 ESM：dist/rolithax-plugin-entry.js（Daemon 会从插件 DLL 内嵌资源中读取）
+// - 产物为单文件 ESM：dist/mslx-plugin-entry.js（Daemon 会从插件 DLL 内嵌资源中读取）
 // - 样式经 cssInjectedByJsPlugin 注入，随 entry 一同加载
 export default defineConfig({
   plugins: [
@@ -44,7 +44,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, 'src/pluginEntry.ts'),
       name: 'RolithaxPlugin',
       formats: ['es'],
-      fileName: () => 'rolithax-plugin-entry.js'
+      fileName: () => 'mslx-plugin-entry.js'
     },
     rollupOptions: {
       external: ['vue', 'vue-router', 'pinia', 'tdesign-vue-next', 'mslx-request'],

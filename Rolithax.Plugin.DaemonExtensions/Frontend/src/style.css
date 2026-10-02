@@ -1,4 +1,4 @@
-/* 插件全局样式：随 rolithax-plugin-entry.js 注入宿主页面，类名统一 rolithax- 前缀避免污染 */
+/* 插件全局样式：随 mslx-plugin-entry.js 注入宿主页面，类名统一 rolithax- 前缀避免污染 */
 
 .rolithax-card {
   background: var(--td-bg-color-container);

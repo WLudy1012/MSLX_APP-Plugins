@@ -73,7 +73,7 @@ main:
             set -eu
             DLL=Rolithax.Plugin.DaemonExtensions/bin/Release/net10.0/Rolithax.Plugin.DaemonExtensions.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
-            grep -aq 'rolithax-plugin-entry.js' "$DLL"
+            grep -aq 'mslx-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
             ls -lh "$DLL"
 
@@ -151,7 +151,7 @@ $:
             set -eu
             DLL=Rolithax.Plugin.DaemonExtensions/bin/Release/net10.0/Rolithax.Plugin.DaemonExtensions.dll
             [ -f "$DLL" ] || { echo "ERROR: 缺少构建产物 $DLL" >&2; exit 1; }
-            grep -aq 'rolithax-plugin-entry.js' "$DLL"
+            grep -aq 'mslx-plugin-entry.js' "$DLL"
             grep -aq 'icon.png' "$DLL"
             cp "$DLL" Rolithax.Plugin.DaemonExtensions.dll
             if ! command -v zip >/dev/null 2>&1; then

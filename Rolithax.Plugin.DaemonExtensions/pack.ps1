@@ -10,7 +10,7 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $proj = Join-Path $root 'Rolithax.Plugin.DaemonExtensions.csproj'
 $dist = Join-Path $root 'dist'
 $feDir = Join-Path $root 'Frontend'
-$feEntry = Join-Path $feDir 'dist\rolithax-plugin-entry.js'
+$feEntry = Join-Path $feDir 'dist\mslx-plugin-entry.js'
 $feIcon = Join-Path $feDir 'dist\icon.png'
 
 if ($BuildFrontend) {

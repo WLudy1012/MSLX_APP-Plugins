@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- 前端构建产物（Frontend/dist/rolithax-plugin-entry.js 等）内嵌进 DLL，面板经 /plugins/{id}/{version}/ 动态加载 -->
+    <!-- 前端构建产物（Frontend/dist/mslx-plugin-entry.js 等）内嵌进 DLL，面板经 /plugins/{id}/{version}/ 动态加载 -->
     <EmbeddedResource Include="Frontend/dist/**/*" Condition="Exists('Frontend/dist')" />
   </ItemGroup>
 
