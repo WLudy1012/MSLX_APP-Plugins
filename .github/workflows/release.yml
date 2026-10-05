@@ -82,6 +82,7 @@ jobs:
           git push cnb HEAD:refs/heads/main
           if ($LASTEXITCODE -ne 0) { throw '推送源码到 CNB main 失败。' }
           if ($env:GITHUB_REF_TYPE -eq 'tag') {
-            git push cnb "refs/tags/$env:GITHUB_REF_NAME:refs/tags/$env:GITHUB_REF_NAME"
+            $tagRef = "refs/tags/$env:GITHUB_REF_NAME"
+            git push cnb ("{0}:{0}" -f $tagRef)
             if ($LASTEXITCODE -ne 0) { throw '推送发布 tag 到 CNB 失败。' }
           }
