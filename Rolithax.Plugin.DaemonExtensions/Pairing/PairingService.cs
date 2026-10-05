@@ -11,7 +11,7 @@ namespace Rolithax.Plugin.DaemonExtensions.Pairing;
 /// <summary>
 /// 扫码配对核心服务：
 /// - 配对码：一次性、TTL 2 分钟、仅内存保存，HMAC-SHA256 签名防篡改；
-/// - 兑换：按 IP 失败计数 + 临时锁定，成功即消费配对码；
+/// - 兑换：按 IP 失败计数 + 临时锁定，创建用户成功后消费配对码；
 /// - 设备：兑换后创建**独立受限用户**（随设备记录可撤销、可过期），API Key 只存前缀；
 /// - 审计：所有关键操作写 Daemon 日志（密钥绝不落日志）。
 /// </summary>
@@ -56,6 +56,7 @@ public sealed class PairingService
     }
 
     private readonly ConcurrentDictionary<string, PairingCodeEntry> _codes = new(StringComparer.OrdinalIgnoreCase);
+    private readonly ConcurrentDictionary<string, byte> _redeemingCodes = new(StringComparer.OrdinalIgnoreCase);
     private readonly ConcurrentDictionary<string, IpState> _ipStates = new();
     private readonly ConcurrentDictionary<string, Queue<DateTime>> _codeIssued = new();
     private readonly object _storeLock = new();
@@ -221,8 +222,8 @@ public sealed class PairingService
             return (410, "配对码已过期，请在服务端重新生成", null);
         }
 
-        // 4) 消费一次性配对码（TryRemove 原子消费，杜绝重放）
-        if (!_codes.TryRemove(payload.Code, out var entry))
+        // 4) 校验配对码；待创建用户成功后再消费
+        if (!_codes.TryGetValue(payload.Code, out var entry))
         {
             RegisterFailure(clientIp);
             Log.Warn($"[Pairing] 兑换失败（{clientIp}）：配对码不存在或已被使用");
@@ -230,6 +231,7 @@ public sealed class PairingService
         }
         if (entry.ExpiresAt < now - 5)
         {
+            _codes.TryRemove(payload.Code, out _);
             RegisterFailure(clientIp);
             return (410, "配对码已过期，请在服务端重新生成", null);
         }
@@ -240,9 +242,20 @@ public sealed class PairingService
             return (400, "配对载荷与签发记录不一致", null);
         }
 
-        // 5) 供给受限用户
+        if (!_redeemingCodes.TryAdd(payload.Code, 0))
+        {
+            return (409, "配对码正在处理中，请稍后重试", null);
+        }
+
+        UserInfo? createdUser = null;
         try
         {
+            if (!_codes.TryGetValue(payload.Code, out var currentEntry) || !ReferenceEquals(entry, currentEntry))
+            {
+                RegisterFailure(clientIp);
+                return (410, "配对码不存在或已被使用", null);
+            }
+
             var deviceId = "d" + RandomString(10);
             var username = $"pair_{deviceId}";
             var apiKey = Base64Url(RandomNumberGenerator.GetBytes(24));
@@ -260,13 +273,19 @@ public sealed class PairingService
                 Avatar = string.Empty,
             };
 
-            ReplaceSameFingerprint(fingerprint, clientIp);
-
             if (!global::MSLX.SDK.MSLX.Config.Users.CreateUser(user))
             {
                 Log.Error($"[Pairing] 创建配对用户失败：{username}");
                 return (500, "服务端创建配对用户失败", null);
             }
+            createdUser = user;
+
+            if (!_codes.TryRemove(payload.Code, out _))
+            {
+                return (410, "配对码已过期或已被使用，请重新生成", null);
+            }
+
+            ReplaceSameFingerprint(fingerprint, clientIp);
 
             var record = new DeviceRecord
             {
@@ -283,6 +302,7 @@ public sealed class PairingService
                 CreatedIp = clientIp,
             };
             UpsertDevice(record);
+            createdUser = null;
 
             ClearFailures(clientIp);
             Log.Info($"[Pairing] 设备配对成功：{deviceName}（{deviceId}, role={role}, 过期 {Iso(expiresAt)}）");
@@ -302,6 +322,22 @@ public sealed class PairingService
         {
             Log.Error($"[Pairing] 兑换处理异常：{ex.Message}", ex);
             return (500, "服务端处理异常", null);
+        }
+        finally
+        {
+            try
+            {
+                if (createdUser != null &&
+                    !global::MSLX.SDK.MSLX.Config.Users.DeleteUser(createdUser.Id))
+                {
+                    Log.Error($"[Pairing] 清理未完成配对用户失败：{createdUser.Id}");
+                }
+            }
+            catch (Exception cleanupException)
+            {
+                Log.Error($"[Pairing] 清理未完成配对用户失败：{cleanupException.Message}", cleanupException);
+            }
+            _redeemingCodes.TryRemove(payload.Code, out _);
         }
     }
 
